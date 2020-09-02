@@ -13,23 +13,23 @@ jobs:
     steps:
       - run: |
           echo "New version type: ${{ github.event.inputs.type }}"
-      - name: Branch Protection Bot - Temporarily disable "include administrators" branch protectionBranch Protection Bot
+      - name: Branch Protection Bot - Temporarily disable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@1.0.5
         if: always()
-        with:
+        with: # TODO: make sure Branch Protection Bot does changes on master branch
           access-token: ${{ secrets.ACCESS_TOKEN }}
           enforce_admins: false
 
-      - name: Config git
-        run: |
-          git config --local user.email "62586190+process-analytics-bot@users.noreply.github.com"
-          git config --local user.name "process-analytics-bot"
-      - name: Setup checkout
-        uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
+      - name: Setup checkout
+        uses: actions/checkout@v2
+      - name: Config git
+        run: |
+          git config --local user.email "62586190+process-analytics-bot@users.noreply.github.com"
+          git config --local user.name "process-analytics-bot"
       - name: Checkout master
         run: git checkout master && git pull --tags
       - name: Bump Version
@@ -37,9 +37,9 @@ jobs:
       - name: Push Version
         run: git push && git push --tags
 
-      - name: Branch Protection Bot - Temporarily disable "include administrators" branch protectionBranch Protection Bot
+      - name: Branch Protection Bot - Reenable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@1.0.5
         if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
-        with:
+        with: # TODO: make sure Branch Protection Bot does changes on master branch
           access-token: ${{ secrets.ACCESS_TOKEN }}
           enforce_admins: true
