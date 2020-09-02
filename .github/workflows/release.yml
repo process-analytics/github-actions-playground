@@ -8,25 +8,37 @@ on:
         required: true
         default: 'patch'
 jobs:
-  printInputs:
-    runs-on: ubuntu-latest
+  bumpVersion:
+    runs-on: ubuntu-20.04
     steps:
       - run: |
           echo "New version type: ${{ github.event.inputs.type }}"
-      - name: Temporarily disable "include administrators" branch protection
-        uses: benjefferies/branch-protection-bot@v1
+      - name: Branch Protection Bot - Temporarily disable "include administrators" branch protectionBranch Protection Bot
+        uses: benjefferies/branch-protection-bot@1.0.5
         if: always()
         with:
           access-token: ${{ secrets.ACCESS_TOKEN }}
           enforce_admins: false
 
-#      - name: Deploy
-#        run: |
-#          mvn release:prepare -B
-#          mvn release:perform -B
+      - name: Config git
+        run: |
+          git config --local user.email "62586190+process-analytics-bot@users.noreply.github.com"
+          git config --local user.name "process-analytics-bot"
+      - name: Setup checkout
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Checkout master
+        run: git checkout master && git pull --tags
+      - name: Bump Version
+        run: npm version ${{ github.event.inputs.type }} --message "[RELEASE] %s"
+      - name: Push Version
+        run: git push && git push --tags
 
-      - name: Enable "include administrators" branch protection
-        uses: benjefferies/branch-protection-bot@v1
+      - name: Branch Protection Bot - Temporarily disable "include administrators" branch protectionBranch Protection Bot
+        uses: benjefferies/branch-protection-bot@1.0.5
         if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
         with:
           access-token: ${{ secrets.ACCESS_TOKEN }}
