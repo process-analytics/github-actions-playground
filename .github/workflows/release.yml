@@ -8,7 +8,7 @@ on:
         required: true
         default: 'patch'
 jobs:
-  printInputs:
+  bumpVersion:
     runs-on: ubuntu-latest
     steps:
       - run: |
