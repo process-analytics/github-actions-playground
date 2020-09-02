@@ -1,0 +1,15 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: 'New version type [new-version | major | minor | patch]'
+        required: true
+        default: 'patch'
+jobs:
+  printInputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "New version type: ${{ github.event.inputs.type }}"
