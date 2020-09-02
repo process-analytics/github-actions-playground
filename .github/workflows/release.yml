@@ -26,6 +26,8 @@ jobs:
           node-version: 12.x
       - name: Setup checkout
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Config git
         run: |
           git config --local user.email "62586190+process-analytics-bot@users.noreply.github.com"
