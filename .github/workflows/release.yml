@@ -13,3 +13,21 @@ jobs:
     steps:
       - run: |
           echo "New version type: ${{ github.event.inputs.type }}"
+      - name: Temporarily disable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@v1
+        if: always()
+        with:
+          access-token: ${{ secrets.ACCESS_TOKEN }}
+          enforce_admins: false
+
+#      - name: Deploy
+#        run: |
+#          mvn release:prepare -B
+#          mvn release:perform -B
+
+      - name: Enable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@v1
+        if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
+        with:
+          access-token: ${{ secrets.ACCESS_TOKEN }}
+          enforce_admins: true
