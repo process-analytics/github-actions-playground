@@ -16,9 +16,10 @@ jobs:
       - name: Branch Protection Bot - Temporarily disable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@1.0.5
         if: always()
-        with: # TODO: make sure Branch Protection Bot does changes on master branch
+        with:
           access-token: ${{ secrets.ACCESS_TOKEN }}
           enforce_admins: false
+          branch: master
 
       - name: Setup node
         uses: actions/setup-node@v1
@@ -42,6 +43,7 @@ jobs:
       - name: Branch Protection Bot - Reenable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@1.0.5
         if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
-        with: # TODO: make sure Branch Protection Bot does changes on master branch
+        with:
           access-token: ${{ secrets.ACCESS_TOKEN }}
           enforce_admins: true
+          branch: master
