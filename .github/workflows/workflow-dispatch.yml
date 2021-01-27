@@ -1,0 +1,21 @@
+name: Workflow Dispatch branch detection
+on:
+  workflow_dispatch:
+
+jobs:
+  detection:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get event.name
+        run: echo "Event name: ${{ github.event.name }}"
+      - name: Get event.ref
+        run: echo "Event ref: ${{ github.event.ref }}"
+
+  conditional_run:
+    # only when 'on push to master'
+    if: github.event_name == 'push' &&  github.event.ref == 'refs/heads/master'
+    runs-on: ubuntu-20.04
+    needs: detection
+    steps:
+      - name: Message
+        run: echo "I have triggered"
