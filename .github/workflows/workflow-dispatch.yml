@@ -6,8 +6,10 @@ jobs:
   detection:
     runs-on: ubuntu-20.04
     steps:
+      - name: Get ref
+        run: echo "Ref: ${{ github.ref }}"
       - name: Get event_name
-        run: echo "Event name: ${{ github.event_name }}"
+        run: echo "Event name: github.event_name"
       - name: Get event.ref
         run: echo "Event ref: ${{ github.event.ref }}"
 
@@ -18,4 +20,4 @@ jobs:
     needs: detection
     steps:
       - name: Message
-        run: echo "I have triggered"
+        run: echo "I have been triggered"
