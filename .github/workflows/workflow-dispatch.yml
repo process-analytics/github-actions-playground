@@ -10,8 +10,8 @@ jobs:
         run: echo "Ref $GITHUB_REF"
       - name: Get event_name by env var
         run: echo "Event name $GITHUB_EVENT_NAME"
-      - name: Get event.ref
-        run: echo "Event ref ${{ github.event.ref }}"
+      - name: Get ref
+        run: echo "Ref ${{ github.ref }}"
       - name: Get event_name
         run: echo "Event name ${{ github.event_name }}"
       - name: Get event.ref
