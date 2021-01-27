@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Get ref
-        run: echo "Ref: ${{ github.ref }}"
+        run: echo "Ref: $GITHUB_REF"
       - name: Get event_name
-        run: echo "Event name: github.event_name"
-      - name: Get event.ref
-        run: echo "Event ref: ${{ github.event.ref }}"
+        run: echo "Event name: $GITHUB_EVENT_NAME"
+#      - name: Get event.ref
+#        run: echo "Event ref: ${{ github.event.ref }}"
 
   conditional_run:
     # only when 'on push to master'
