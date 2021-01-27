@@ -6,8 +6,8 @@ jobs:
   detection:
     runs-on: ubuntu-20.04
     steps:
-      - name: Get event.name
-        run: echo "Event name: ${{ github.event.name }}"
+      - name: Get event_name
+        run: echo "Event name: ${{ github.event_name }}"
       - name: Get event.ref
         run: echo "Event ref: ${{ github.event.ref }}"
 
