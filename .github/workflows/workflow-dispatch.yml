@@ -18,11 +18,18 @@ jobs:
         run: echo "Event ref ${{ github.event.ref }}"
 
 
-  conditional_run:
-    # only when 'on push to master'
-    if: github.event_name == 'push' &&  github.event.ref == 'refs/heads/master'
+  conditional_run_master_branch:
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch' ) && github.event.ref == 'refs/heads/master'
     runs-on: ubuntu-20.04
     needs: detection
     steps:
       - name: Message
-        run: echo "I have been triggered"
+        run: echo "I have been triggered because run from master branch"
+
+  conditional_run_other_branch:
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch' ) && github.event.ref != 'refs/heads/master'
+    runs-on: ubuntu-20.04
+    needs: detection
+    steps:
+      - name: Message
+        run: echo "I have been triggered because run from non-master branch"
