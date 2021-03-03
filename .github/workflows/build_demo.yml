@@ -1,0 +1,34 @@
+name: Build Demo
+on:
+  push:
+    tags:
+      -  v*
+
+jobs:
+  build_demo_archive:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v*}
+      - name: Build Demo
+        run: echo ${{ steps.get_version.outputs.VERSION }}
+      - name: Upload Demo
+        uses: actions/upload-artifact@v2
+        with:
+          name: demo-${{github.sha}}
+          path: LICENSE
+      - name: Repository Dispatch
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository: process-analytics/github-actions-playground
+          event-type: update_bpmn_visualization_version
+          client-payload: '{
+              "build_demo_repo": "${{ github.repository }}",
+              "build_demo_workflow_id": "build_demo.yml",
+              "demo_sha": "${{ github.sha }}",
+              "version": "${{ steps.get_version.outputs.VERSION }}"
+            }'
