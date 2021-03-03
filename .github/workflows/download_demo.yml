@@ -18,6 +18,7 @@ jobs:
       VERSION: ${{ github.event.client_payload.version }} || ${{ github.event.inputs.version }}
       SHA: ${{ github.event.client_payload.sha }} || ${{ github.event.inputs.sha }}
     steps:
+      - uses: actions/checkout@v2
       - name: Update examples
         run: echo "Examples updated with version ${{ env.VERSION }}"
       - name: Download Demo
@@ -29,3 +30,17 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: path/to/artifact
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+          with:
+            commit-message: "Commit & Push changes"
+            committer: "GitHub <noreply@github.com>"
+            author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+            branch: "infra/update_bpmn_visualization_to_${{ env.VERSION }}"
+            delete-branch: true
+            base: "master"
+            title: "[INFRA] Update BPMN Visualization version to ${{ env.VERSION }}"
+            body: "https://cdn.statically.io/gh/process-analytics/bpmn-visualization-examples/infra/update_bpmn_visualization_to_${{ env.VERSION }}/examples/index.html"
+            labels: "enhancement"
+            reviewers: "csouchet"
+            draft: true

@@ -10,6 +10,7 @@ jobs:
   build_demo_archive:
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v2
       - name: Build Demo
       - name: Upload Demo
         uses: actions/upload-artifact@v2
