@@ -1,0 +1,25 @@
+name: Build Demo
+on:
+  push:
+    branches:
+      - master
+    tags:
+      -  v*
+
+jobs:
+  build_demo_archive:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Build Demo
+      - name: Upload Demo
+        uses: actions/upload-artifact@v2
+        with:
+          name: demo-${{github.sha}}
+          path: LICENSE
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: process-analytics/github-actions-playground
+          event-type: demo_built
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "version": ${{ github.ref/refs\/tags\// }}}'

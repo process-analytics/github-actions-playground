@@ -1,0 +1,31 @@
+name: Update BPMN Visualization version
+on:
+  repository_dispatch:
+    types: [demo_built]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+      sha:
+        description: 'Demo SHA'
+        required: true
+
+jobs:
+  updateVersion:
+    runs-on: ubuntu-20.04
+    env:
+      VERSION: ${{ github.event.client_payload.version }} || ${{ github.event.inputs.version }}
+      SHA: ${{ github.event.client_payload.sha }} || ${{ github.event.inputs.sha }}
+    steps:
+      - name: Update examples
+        run: echo "Examples updated with version ${{ env.VERSION }}"
+      - name: Download Demo
+        uses: actions/download-artifact@v2
+          with:
+            name: demo-${{ env.SHA }}
+            path: path/to/artifact
+        run: echo "Demo with version ${{ env.VERSION }}"
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: path/to/artifact
