@@ -1,0 +1,59 @@
+name: Update BPMN Visualization version
+on:
+  repository_dispatch:
+    types: [update_bpmn_visualization_version]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+      build_demo_repo:
+        description: 'The repository where the demo artifact is stored'
+        default: "process-analytics/github-actions-playground"
+      build_demo_workflow_id:
+        description: 'The workflow identifier where the demo artifact is stored'
+        default: "build_demo.yml"
+      demo_sha:
+        description: 'SHA from the demo artifact name'
+        required: true
+
+jobs:
+  updateVersion:
+    runs-on: ubuntu-20.04
+    env:
+      VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
+      DEMO_SHA: ${{ github.event.client_payload.demo_sha || github.event.inputs.demo_sha }}
+      BUILD_DEMO_WORKFLOW_ID: ${{ github.event.client_payload.build_demo_workflow_id || github.event.inputs.build_demo_workflow_id }}
+      BUILD_DEMO_REPO: ${{ github.event.client_payload.build_demo_repo || github.event.inputs.build_demo_repo }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update examples
+        run: echo "Examples updated with version ${{ env.VERSION }}"
+      - name: Delete old Demo
+        run: rm -rf README.md
+      - name: Download Demo ${{ env.VERSION }}
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{ secrets.DEMO_TOKEN }}
+          repo: ${{ env.BUILD_DEMO_REPO }}
+          workflow: ${{ env.BUILD_DEMO_WORKFLOW_ID }}
+          workflow_conclusion: success
+          name: demo-${{ env.DEMO_SHA }}
+          path: path/to/artifact
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: path/to/artifact
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+            commit-message: "Commit & Push changes"
+            committer: "GitHub <noreply@github.com>"
+            author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+            branch: "infra/update_bpmn_visualization_to_${{ env.VERSION }}"
+            delete-branch: true
+            base: "master"
+            title: "[INFRA] Update BPMN Visualization version to ${{ env.VERSION }}"
+            body: "https://cdn.statically.io/gh/process-analytics/bpmn-visualization-examples/infra/update_bpmn_visualization_to_${{ env.VERSION }}/examples/index.html"
+            labels: "enhancement"
+            reviewers: "csouchet"
+            draft: true
