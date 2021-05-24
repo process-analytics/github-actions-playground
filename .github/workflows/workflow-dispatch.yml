@@ -1,0 +1,35 @@
+name: Workflow Dispatch branch detection
+on:
+  workflow_dispatch:
+
+jobs:
+  detection:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get ref by env var
+        run: echo "Ref $GITHUB_REF"
+      - name: Get event_name by env var
+        run: echo "Event name $GITHUB_EVENT_NAME"
+      - name: Get ref
+        run: echo "Ref ${{ github.ref }}"
+      - name: Get event_name
+        run: echo "Event name ${{ github.event_name }}"
+      - name: Get event.ref
+        run: echo "Event ref ${{ github.event.ref }}"
+
+
+  conditional_run_master_branch:
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch' ) && github.event.ref == 'refs/heads/master'
+    runs-on: ubuntu-20.04
+    needs: detection
+    steps:
+      - name: Message
+        run: echo "I have been triggered because run from master branch"
+
+  conditional_run_other_branch:
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch' ) && github.event.ref != 'refs/heads/master'
+    runs-on: ubuntu-20.04
+    needs: detection
+    steps:
+      - name: Message
+        run: echo "I have been triggered because run from non-master branch"
