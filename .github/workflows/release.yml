@@ -17,7 +17,7 @@ jobs:
         uses: benjefferies/branch-protection-bot@1.0.5
         if: always()
         with:
-          access-token: ${{ secrets.ACCESS_TOKEN }}
+          access-token: ${{ secrets.GH_RELEASE_TOKEN }}
           enforce_admins: false
           branch: master
 
@@ -45,6 +45,6 @@ jobs:
         uses: benjefferies/branch-protection-bot@1.0.5
         if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
         with:
-          access-token: ${{ secrets.ACCESS_TOKEN }}
+          access-token: ${{ secrets.GH_RELEASE_TOKEN }}
           enforce_admins: true
           branch: master
