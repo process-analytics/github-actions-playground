@@ -1,0 +1,11 @@
+name: Manage Surge Deployments
+on:
+  workflow_dispatch:
+
+jobs:
+  list_deployments:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: List deployments
+        run: |
+          npx surge list --token ${{ secrets.SURGE_TOKEN }}
