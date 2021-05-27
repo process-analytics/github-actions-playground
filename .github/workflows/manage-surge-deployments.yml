@@ -1,16 +1,19 @@
 name: Manage Surge Deployments
 on:
   workflow_dispatch:
-#    inputs:
-#      type:
-#        description: 'New version type [new-version | major | minor | patch]'
-#        required: true
-#        default: 'patch'
+    inputs:
+      use-default-surge-account:
+        description: 'If true, use the surge-preview default account'
+        required: true
+        default: 'false'
 
 jobs:
   list_deployments:
     runs-on: ubuntu-20.04
     steps:
+      - name: Select deployment account
+        run: |
+          echo "Use default surge account? ${{ github.event.inputs.use-default-surge-account }}"
       - name: List deployments
         run: |
           npx surge list --token ${{ secrets.SURGE_TOKEN }}
