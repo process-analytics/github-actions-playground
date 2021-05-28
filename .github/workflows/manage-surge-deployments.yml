@@ -2,18 +2,24 @@ name: Manage Surge Deployments
 on:
   workflow_dispatch:
     inputs:
-      use-default-surge-account:
-        description: 'If true, use the surge-preview default account'
+      teardown:
+        description: 'If true, perform a deployment teardown. Otherwise, list deployments'
         required: true
         default: 'false'
 
 jobs:
   list_deployments:
+    if: ${{ github.event.inputs.teardown }} != 'true'
     runs-on: ubuntu-20.04
     steps:
-      - name: Select deployment account
-        run: |
-          echo "Use default surge account? ${{ github.event.inputs.use-default-surge-account }}"
       - name: List deployments
         run: |
           npx surge list --token ${{ secrets.SURGE_TOKEN }}
+
+  teardown_deployments:
+    if: ${{ github.event.inputs.teardown }} = 'true'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Teardown deployments
+        run: |
+          echo "Simulate"
