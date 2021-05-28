@@ -2,6 +2,4 @@
 
 Let's play with GitHub Actions!
 
-We use this repository to test and configure GitHub Workflows prior their real usage in repositories of this orgnanization.
-
-Very useful!!!!
+We use this repository to test and configure GitHub Workflows prior their real usage in repositories of this organization.
