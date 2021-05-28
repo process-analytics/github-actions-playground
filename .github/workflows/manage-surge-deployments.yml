@@ -5,8 +5,8 @@ on:
       teardown:
         description: 'If true, perform a deployment teardown. Otherwise, list deployments'
         required: false
-      deployment-urls:
-        description: 'Urls of the deployments (separated by a space) to teardown.'
+      deployment-url:
+        description: 'Url of the deployment to teardown.'
         required: false
 
 jobs:
@@ -24,4 +24,4 @@ jobs:
     steps:
       - name: Teardown deployments
         run: |
-          npx surge --token ${{ secrets.SURGE_TOKEN }} teardown ${{ github.event.inputs.deployment-urls }}
+          npx surge --token ${{ secrets.SURGE_TOKEN }} teardown ${{ github.event.inputs.deployment-url }}
