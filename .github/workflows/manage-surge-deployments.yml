@@ -9,7 +9,7 @@ on:
 
 jobs:
   list_deployments:
-    if: ${{ github.event.inputs.teardown }} != 'true'
+    if: github.event.inputs.teardown != 'true'
     runs-on: ubuntu-20.04
     steps:
       - name: List deployments
@@ -17,7 +17,7 @@ jobs:
           npx surge list --token ${{ secrets.SURGE_TOKEN }}
 
   teardown_deployments:
-    if: ${{ github.event.inputs.teardown }} == 'true'
+    if: github.event.inputs.teardown == 'true'
     runs-on: ubuntu-20.04
     steps:
       - name: Teardown deployments
