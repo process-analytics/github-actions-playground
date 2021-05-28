@@ -5,7 +5,6 @@ on:
       teardown:
         description: 'If true, perform a deployment teardown. Otherwise, list deployments'
         required: false
-        default: 'false'
 
 jobs:
   list_deployments:
