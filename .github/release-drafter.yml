@@ -1,0 +1,43 @@
+name-template: '$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+prerelease: false
+categories:
+  - title: 🚀 Improvements
+    labels:
+      - enhancement
+  - title: 🐛 Bug Fixes
+    labels:
+      - bug
+  - title: 📝 Documentation
+    label: documentation
+  - title: 👻 Maintenance
+    labels:
+      - infra:build
+      - infra:refactoring
+      - infra:repo
+      - chore
+      - internal
+  - title: 📦 Dependency updates
+    labels:
+      - dependencies
+exclude-labels:
+  - invalid
+  - no-changelog
+  - skip-changelog
+  - reverted
+  - wontfix
+
+template: |
+  **TODO: add a short description about the release content - important for url preview**
+  This new release focuses on .... **or something similar**
+
+  **TODO: review the contributors list (remove ALL bots and avoid duplicates)**
+  Thanks to all the contributors of this release 🌈: $CONTRIBUTORS
+
+  # Highlights
+
+  **TODO: add screenshots and user oriented info**
+
+  # What's Changed
+  $CHANGES
+
