@@ -6,7 +6,17 @@ We use this repository to test and configure GitHub Workflows prior their real u
 
 ## Non exhaustive list
 
-- [Generate Documentation API](.github/workflows/generate-documentation-api.yml): generate a TypeDoc API documentation and push to github-pages
+- [execute job on secrets availability](.github/workflows/execute-depending-on-secrets-availability.yml): use in surge deployments to avoid trying to create deployments for external contributors and dependabot (surge token secret not available)
+- [fill github draft releases](.github/workflows/fill-gh-draft-release.yml): experiment the release-drafter configuration (used in bpmn-visualization)
+- [Generate Documentation API](.github/workflows/generate-documentation-api.yml): generate a TypeDoc API documentation and push to github-pages (for bpmn-visualization)
+- [release](.github/workflows/release.yml): run npm version and push branch/tag on a branch with restricted rules (used in bpmn-visualization)
+- [workflow dispatch](.github/workflows/workflow-dispatch.yml): run job depending on if the workflow is triggered manually, by pull request, on push
+
+### Release simulation
+
+[Build a fake demo](.github/workflows/build_demo.yml) and [download the demo](.github/workflows/download_demo.yml) as done by `bpmn-visualization` and `bpmn-visualization-examples`
+- create an artifact attached to a workflow run and send a `repository_dispatch` event
+- receive the event and download the artifact attached to the previous workflow run
 
 ### Surge deployments
 
