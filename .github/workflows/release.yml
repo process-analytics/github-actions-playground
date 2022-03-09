@@ -22,9 +22,9 @@ jobs:
           branch: master
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 12.x
+          node-version: '16'
       - name: Setup checkout
         uses: actions/checkout@v2
         with:
