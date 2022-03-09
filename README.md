@@ -22,3 +22,7 @@ We use this repository to test and configure GitHub Workflows prior their real u
 
 - [Manage Surge Deployments](.github/workflows/manage-surge-deployments.yml): list all surge deployments or let remove a surge domain. Can be used for real maintenance as domains are not always dropped on PR closed (missing events?)
 - [Teardown old Surge deployments](.github/workflows/teardown-inactive-surge-deployments.yml): remove deployments older than one month (on demand or every week)
+
+## Extra
+
+- [Dependabot configuration](.github/dependabot.yml): as configured in repository using dependabot to update dependencies
