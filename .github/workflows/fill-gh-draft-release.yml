@@ -1,6 +1,7 @@
 name: Fill GitHub Draft Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
