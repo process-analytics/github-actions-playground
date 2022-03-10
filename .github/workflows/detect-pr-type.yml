@@ -1,4 +1,4 @@
-name: Generate Demo Preview
+name: Detect PR Type
 
 on:
   pull_request:
