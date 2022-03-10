@@ -6,6 +6,7 @@ We use this repository to test and configure GitHub Workflows prior their real u
 
 ## Non exhaustive list
 
+- [detect PR type (opened, closed, ...)](.github/workflows/detect-pr-type.yml): log if the PR is closed. To use for surge-preview: don't failOnError when closing PR. Pull Requests created by dependabot don't deploy to surge, but when a contributor is merging the PR, the teardown fails as there is no deployment.
 - [execute job on secrets availability](.github/workflows/execute-depending-on-secrets-availability.yml): use in surge deployments to avoid trying to create deployments for external contributors and dependabot (surge token secret not available)
 - [fill github draft releases](.github/workflows/fill-gh-draft-release.yml): experiment the release-drafter configuration (used in bpmn-visualization)
 - [Generate Documentation API](.github/workflows/generate-documentation-api.yml): generate a TypeDoc API documentation and push to github-pages (for bpmn-visualization)
