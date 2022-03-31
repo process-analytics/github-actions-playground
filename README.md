@@ -17,7 +17,7 @@ We use this repository to test and configure GitHub Workflows prior their real u
 
 [Build a fake demo](.github/workflows/build_demo.yml) and [download the demo](.github/workflows/download_demo.yml) as done by `bpmn-visualization` and `bpmn-visualization-examples`
 - create an artifact attached to a workflow run and send a `repository_dispatch` event
-- receive the event and download the artifact attached to the previous workflow run
+- receive the event and download the artifact attached to the previous workflow run, then create a Pull Request
 
 ### Surge deployments
 
