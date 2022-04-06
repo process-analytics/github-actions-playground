@@ -14,6 +14,11 @@ on:
       - 'src/api/public/api.ts'
       - '.github/workflows/generate-documentation-api.yml'
 
+permissions:
+  # To create or update releases
+  # https://docs.github.com/en/rest/reference/permissions-required-for-github-apps#permission-on-contents
+  contents: write
+
 jobs:
   generate_doc_api:
     runs-on: ubuntu-20.04
