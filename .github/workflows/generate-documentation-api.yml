@@ -45,7 +45,7 @@ jobs:
     needs: generate_doc_api
     steps:
       - name: Download
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: documentation-api-${{github.sha}}
       - name: Push to gh-pages
