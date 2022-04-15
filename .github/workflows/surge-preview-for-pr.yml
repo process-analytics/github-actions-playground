@@ -25,7 +25,7 @@ jobs:
           echo "is_SURGE_TOKEN_set: ${{ env.SURGE_TOKEN != '' }}"
           echo "::set-output name=is_SURGE_TOKEN_set::${{ env.SURGE_TOKEN != '' }}"
 
-  demo_preview:
+  demo_preview:  # the id is used by surge to generate the surge url
     needs: [check_secrets]
     if: needs.check_secrets.outputs.is_SURGE_TOKEN_set == 'true'
     runs-on: ubuntu-20.04
