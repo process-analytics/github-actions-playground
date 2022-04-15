@@ -33,6 +33,8 @@ jobs:
       - name: Publish Demo preview
         id: publish_demo_preview
         uses: afc163/surge-preview@v1
+        env:
+          PR_NUMBER: ${{ github.event.number }}
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -41,4 +43,4 @@ jobs:
           teardown: 'true'
           build: |
             mkdir site
-            echo "this is a test" > site/index.html
+            echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/index.html
