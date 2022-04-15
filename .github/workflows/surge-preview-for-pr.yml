@@ -7,7 +7,8 @@ on:
     branches:
       - master
 
-# TODO GH_TOKEN permissions:
+permissions:
+  pull-requests: write
 
 jobs:
   # see also ./execute-depending-on-secrets-availability.yml
