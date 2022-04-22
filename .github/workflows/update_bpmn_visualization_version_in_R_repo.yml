@@ -19,7 +19,7 @@ jobs:
         id: lookupOldBPMNVisuVersion
         uses: mikefarah/yq@v4.24.5
         with:
-          cmd: yq eval '.dependencies[] | select(.name == "bpmn-visualization") | { .version }' inst/htmlwidgets/bpmnVisualization.yaml
+          cmd: yq '.dependencies[] | select(.name == "bpmn-visualization") | .version' inst/htmlwidgets/bpmnVisualization.yaml
       - run: echo "OLD_VERSION=${{ steps.lookupOldBPMNVisuVersion.outputs.result }}" >> $GITHUB_ENV
       - name: Delete old BPMN Visualization version
         run: rm inst/htmlwidgets/lib/bpmn-visualization/bpmn-visualization.min.js
