@@ -26,7 +26,7 @@ jobs:
       - name: Download BPMN Visualization ${{ env.VERSION }}
         uses: carlosperate/download-file-action@v1
         with:
-          file-url: 'https://cdn.jsdelivr.net/npm/bpmn-visualization@${{ env.VERSION }}/dist/bpmn-visualization.min.js'
+          file-url: 'https://cdn.jsdelivr.net/npm/bpmn-visualization@0.23.1/dist/bpmn-visualization.min.js'
           location: 'inst/htmlwidgets/lib/bpmn-visualization'
       - name: Update BPMN Visualization version in YAML file
         run: |
