@@ -1,0 +1,51 @@
+name: Update BPMN Visualization version in R repo
+on:
+  repository_dispatch:
+    types: [ update_bpmn_visualization_version ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+
+jobs:
+  updateVersion:
+    runs-on: ubuntu-20.04
+    env:
+      VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get old BPMN Visualization version
+        id: lookupOldBPMNVisuVersion
+        uses: mikefarah/yq@v4.24.5
+        with:
+          cmd: yq eval '.dependencies[] | select(.name == "bpmn-visualization") | { .version }' inst/htmlwidgets/bpmnVisualization.yaml
+      - run: echo "OLD_VERSION=${{ steps.lookupOldBPMNVisuVersion.outputs.result }}" >> $GITHUB_ENV
+      - name: Delete old BPMN Visualization version
+        run: rm inst/htmlwidgets/lib/bpmn-visualization/bpmn-visualization.min.js
+      - name: Download BPMN Visualization ${{ env.VERSION }}
+        uses: carlosperate/download-file-action@v1
+        with:
+          file-url: 'https://cdn.jsdelivr.net/npm/bpmn-visualization@${{ env.VERSION }}/dist/bpmn-visualization.min.js'
+          location: 'inst/htmlwidgets/lib/bpmn-visualization'
+      - name: Update BPMN Visualization version in YAML file
+        run:
+          sed -i -E "s/version:
+            \".*\"/version: \"${{ env.VERSION }}\"/" inst/htmlwidgets/bpmnVisualization.yaml
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: inst/htmlwidgets
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4.0.2
+        with:
+          token: ${{ secrets.GH_RELEASE_TOKEN }}
+          commit-message: "[INFRA] Bump BPMN Visualization version from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
+          committer: "process-analytics-bot <62586190+process-analytics-bot@users.noreply.github.com>"
+          author: "process-analytics-bot <62586190+process-analytics-bot@users.noreply.github.com>"
+          branch: "infra/bump_bpmn_visualization_from_${{ env.OLD_VERSION }}_to_${{ env.VERSION }}"
+          delete-branch: true
+          base: "master"
+          title: "[INFRA] Bump BPMN Visualization version from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
+          labels: "dependencies"
+          team-reviewers: pa-collaborators
+          draft: true
