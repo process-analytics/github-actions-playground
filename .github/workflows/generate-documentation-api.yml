@@ -33,7 +33,7 @@ jobs:
       - name: Build docs
         run: npm run api-doc
       - name: Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: documentation-api-${{github.sha}}
           path: build/docs/api
