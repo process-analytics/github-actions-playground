@@ -41,6 +41,6 @@ jobs:
           teardown: 'true'
           build: |
             mkdir site
-            echo "This is a preview site for <b>PR #${{ github.event.pull_request.number }}</b>" > site/index.html
+            echo "This is a preview site for 'PR #${{ github.event.pull_request.number }}'" > site/index.html
             ls -lh site
             cat site/index.html
