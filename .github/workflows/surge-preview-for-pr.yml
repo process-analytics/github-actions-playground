@@ -36,9 +36,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           mkdir site
-          echo "This is a preview site for 'PR #${PR_NUMBER}'" > site/index.html
-          ls -lh site
-          cat site/index.html
+          echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/index.html
       - name: Publish Demo preview
         id: publish_demo_preview
         uses: afc163/surge-preview@v1
