@@ -19,7 +19,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: wednesday
+      day: sunday
     open-pull-requests-limit: 2
     rebase-strategy: "disabled"    
     commit-message:
