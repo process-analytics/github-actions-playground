@@ -12,9 +12,11 @@ inputs:
     default: ''
   BUILD_DEMO_WORKFLOW_ID:
     description: 'The identifier of the workflow which is used to build the demo'
+    required: false
     default: ''
   ARTIFACT_NAME:
     description: 'The name of the demo artifact'
+    required: false
     default: ''
 
 runs:
