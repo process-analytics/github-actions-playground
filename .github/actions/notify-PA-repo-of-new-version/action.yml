@@ -13,6 +13,9 @@ inputs:
   BUILD_DEMO_WORKFLOW_ID:
     description: 'The identifier of the workflow which is used to build the demo'
     default: ''
+  ARTIFACT_NAME:
+    description: 'The name of the demo artifact'
+    default: ''
 
 runs:
   using: "composite"
@@ -23,7 +26,7 @@ runs:
     - name: Set CLIENT_PAYLOAD
       shell: bash
       run: |
-        if [[ ${{ env.BUILD_DEMO_WORKFLOW_ID }} == '' ]]; then
+        if [[ ${{ env.BUILD_DEMO_WORKFLOW_ID }} == '' && ${{ env.ARTIFACT_NAME }} == '' ]]; then
             echo 'CLIENT_PAYLOAD={
               "version": ${{ env.VERSION }}
             }' >> $GITHUB_ENV
@@ -32,7 +35,7 @@ runs:
               "version": ${{ env.VERSION }}, 
               "build_demo_repo": ${{ github.repository }},
               "build_demo_workflow_id": ${{ env.BUILD_DEMO_WORKFLOW_ID }},
-              "artifact_name": "demo-${{ github.sha }}"
+              "artifact_name": ${{ env.ARTIFACT_NAME }}
             }' >> $GITHUB_ENV
         fi
     - name: Send Repository Dispatch event
