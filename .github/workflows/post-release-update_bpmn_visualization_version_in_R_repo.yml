@@ -47,6 +47,7 @@ jobs:
           delete-branch: true
           base: "master"
           title: "[INFRA] Bump BPMN Visualization version from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
+          body: "Perform what we have to do to update bpmn-visualization-js in the bpmn-visualization-R package" 
           labels: "dependencies"
           team-reviewers: pa-collaborators
           draft: true
