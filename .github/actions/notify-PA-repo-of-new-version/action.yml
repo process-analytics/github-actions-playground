@@ -28,7 +28,7 @@ runs:
     - name: Set CLIENT_PAYLOAD
       shell: bash
       run: |
-        if [[ ${{ env.BUILD_DEMO_WORKFLOW_ID }} == '' && ${{ env.ARTIFACT_NAME }} == '' ]]; then
+        if [[ ${{ inputs.BUILD_DEMO_WORKFLOW_ID }} == '' && ${{ inputs.ARTIFACT_NAME }} == '' ]]; then
             echo 'CLIENT_PAYLOAD={
               "version": ${{ env.VERSION }}
             }' >> $GITHUB_ENV
@@ -36,8 +36,8 @@ runs:
             echo 'CLIENT_PAYLOAD={
               "version": ${{ env.VERSION }}, 
               "build_demo_repo": ${{ github.repository }},
-              "build_demo_workflow_id": ${{ env.BUILD_DEMO_WORKFLOW_ID }},
-              "artifact_name": ${{ env.ARTIFACT_NAME }}
+              "build_demo_workflow_id": ${{ inputs.BUILD_DEMO_WORKFLOW_ID }},
+              "artifact_name": ${{ inputs.ARTIFACT_NAME }}
             }' >> $GITHUB_ENV
         fi
     - name: Send Repository Dispatch event
