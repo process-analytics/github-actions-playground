@@ -14,7 +14,7 @@ jobs:
     env:
       VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get old BPMN Visualization version
         id: lookupOldBPMNVisuVersion
         uses: mikefarah/yq@v4.24.5
@@ -26,6 +26,8 @@ jobs:
       - name: Download BPMN Visualization ${{ env.VERSION }}
         uses: carlosperate/download-file-action@v1
         with:
+          # Use a hard coded version as the release version in this repository doesn't follow bpmn-visualization release versions
+          # This ensures we can download the js file
           file-url: 'https://cdn.jsdelivr.net/npm/bpmn-visualization@0.23.1/dist/bpmn-visualization.min.js'
           location: 'inst/htmlwidgets/lib/bpmn-visualization'
       - name: Update BPMN Visualization version in YAML file

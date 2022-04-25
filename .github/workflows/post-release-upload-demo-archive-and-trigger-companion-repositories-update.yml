@@ -1,4 +1,4 @@
-name: Upload Demo Archive & Trigger Examples Repository Update
+name: Upload Demo Archive & Trigger Companion Repositories Update
 
 on:
   push:
@@ -25,14 +25,14 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v*}
       - name: Send Repository Dispatch event
-        uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
           repository: process-analytics/github-actions-playground
           event-type: update_bpmn_visualization_version
           client-payload: '{
               "build_demo_repo": "${{ github.repository }}",
-              "build_demo_workflow_id": "upload-demo-archive-and-trigger-examples-repository-update.yml",
+              "build_demo_workflow_id": "post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml",
               "artifact_name": "demo-${{ github.sha }}",
               "version": "${{ steps.get_version.outputs.VERSION }}"
             }'
