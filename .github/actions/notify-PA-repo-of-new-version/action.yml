@@ -38,7 +38,7 @@ runs:
             \"build_demo_repo\": \"${{ github.repository }}\",
             \"build_demo_workflow_id\": \"${{ inputs.BUILD_DEMO_WORKFLOW_ID }}\",
             \"artifact_name\": \"${{ inputs.ARTIFACT_NAME }}\"
-          }' >> $GITHUB_ENV
+          }'" >> $GITHUB_ENV
         fi
     - name: Send Repository Dispatch event
       uses: peter-evans/repository-dispatch@v2
