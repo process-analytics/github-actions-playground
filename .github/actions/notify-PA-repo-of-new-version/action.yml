@@ -2,33 +2,43 @@ name: 'Notify PA repository of new BPMN visualization version'
 description: 'You can customize the parameters to link to the event and the repository to notify.
 To use on tag branch.'
 inputs:
+  TOKEN:
+    description: 'Token to dispatch on the repository'
+    required: true
+    default: ''
   PA_REPOSITORY:
     description: 'The name of the repository on the process-analytics organization to notify'
     required: true
     default: ''
-  CUSTOM_PARAMETERS:
-    description: 'The custom parameters to link to the event to notify, with format: 
-    <, "parameter1": "value1">'
-    required: true
-    default: ''
-  TOKEN:
-    description: 'Token to dispatch on the repository'
-    required: true
+  BUILD_DEMO_WORKFLOW_ID:
+    description: 'The identifier of the workflow which is used to build the demo'
     default: ''
 
 runs:
   using: "composite"
   steps:
-    - id: get_version
-      name: Get the version
+    - name: Set env VERSION
       shell: bash
-      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v*}
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v*}" >> $GITHUB_ENV
+    - name: Set env CLIENT_PAYLOAD
+      shell: bash
+      run: |
+        if [[ ${{ env.BUILD_DEMO_WORKFLOW_ID }} == '' ]]; then
+            echo 'CLIENT_PAYLOAD={
+              "version": ${{ env.VERSION }}
+            }' >> $GITHUB_ENV
+        else
+            echo 'CLIENT_PAYLOAD={
+              "version": ${{ env.VERSION }}, 
+              "build_demo_repo": ${{ github.repository }},
+              "build_demo_workflow_id": ${{ env.BUILD_DEMO_WORKFLOW_ID }},
+              "artifact_name": "demo-${{ github.sha }}"
+            }' >> $GITHUB_ENV
+        fi
     - name: Send Repository Dispatch event
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ inputs.TOKEN }}
         repository: process-analytics/${{ inputs.PA_REPOSITORY }}
         event-type: update_bpmn_visualization_version
-        client-payload: '{
-          "version": "${{ steps.get_version.outputs.VERSION }}"${{ inputs.CUSTOM_PARAMETERS }}
-        }'
+        client-payload: "${{ env.CLIENT_PAYLOAD }}"
