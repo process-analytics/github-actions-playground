@@ -22,10 +22,10 @@ jobs:
           name: demo-${{github.sha}}
           path: LICENSE
       - name: Notify Companion Repositories of new BPMN visualization version
-          uses: ./.github/actions/notify-PA-repo-of-new-version
-          with:
-            PA_REPOSITORY: 'github-actions-playground'
-            CUSTOM_PARAMETERS: ', "build_demo_repo": "${{ github.repository }}",
-              "build_demo_workflow_id": "post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml",
-              "artifact_name": "demo-${{ github.sha }}"'
-            TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+        uses: ./.github/actions/notify-PA-repo-of-new-version
+        with:
+          PA_REPOSITORY: 'github-actions-playground'
+          CUSTOM_PARAMETERS: ', "build_demo_repo": "${{ github.repository }}",
+            "build_demo_workflow_id": "post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml",
+            "artifact_name": "demo-${{ github.sha }}"'
+          TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
