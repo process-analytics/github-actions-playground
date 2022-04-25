@@ -9,7 +9,7 @@ jobs:
   teardown_old_deployments:
     runs-on: ubuntu-20.04
     steps:
-      - name: Teardown surge deployements created more than 1 month ago
+      - name: Teardown surge deployments created more than 1 month ago
         uses: adrianjost/actions-surge.sh-teardown@v1.0.3
         with:
           regex: '[1-9]+ month.? ago'
