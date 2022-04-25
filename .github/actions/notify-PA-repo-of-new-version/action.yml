@@ -17,10 +17,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set env VERSION
+    - name: Set VERSION
       shell: bash
       run: echo "VERSION=${GITHUB_REF#refs/tags/v*}" >> $GITHUB_ENV
-    - name: Set env CLIENT_PAYLOAD
+    - name: Set CLIENT_PAYLOAD
       shell: bash
       run: |
         if [[ ${{ env.BUILD_DEMO_WORKFLOW_ID }} == '' ]]; then
