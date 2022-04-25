@@ -19,8 +19,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Get the version
-      id: get_version
+    - id: get_version
+      name: Get the version
+      shell: bash
       run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v*}
     - name: Send Repository Dispatch event
       uses: peter-evans/repository-dispatch@v2
