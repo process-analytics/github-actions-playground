@@ -28,18 +28,20 @@ runs:
     - name: Set CLIENT_PAYLOAD
       shell: bash
       run: |
+        export content=''
         if [[ ${{ inputs.BUILD_DEMO_WORKFLOW_ID }} == '' && ${{ inputs.ARTIFACT_NAME }} == '' ]]; then
-          echo "CLIENT_PAYLOAD='{
-            \"version\": \"${{ env.VERSION }}\"
-          }'" >> $GITHUB_ENV
+          content='{
+            "version": ${{ env.VERSION }}
+          }'
         else
-          echo "CLIENT_PAYLOAD='{
-            \"version\": \"${{ env.VERSION }}\",
-            \"build_demo_repo\": \"${{ github.repository }}\",
-            \"build_demo_workflow_id\": \"${{ inputs.BUILD_DEMO_WORKFLOW_ID }}\",
-            \"artifact_name\": \"${{ inputs.ARTIFACT_NAME }}\"
-          }'" >> $GITHUB_ENV
+          content='{
+            "version": ${{ env.VERSION }},
+            "build_demo_repo": ${{ github.repository }},
+            "build_demo_workflow_id": ${{ inputs.BUILD_DEMO_WORKFLOW_ID }},
+            "artifact_name": ${{ inputs.ARTIFACT_NAME }}
+          }'
         fi
+        echo 'CLIENT_PAYLOAD="$content"' >> $GITHUB_ENV
     - name: Send Repository Dispatch event
       uses: peter-evans/repository-dispatch@v2
       with:
