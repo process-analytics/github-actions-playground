@@ -27,6 +27,4 @@ jobs:
         uses: ./.github/actions/notify-PA-repo-of-new-version
         with:
           PA_REPOSITORY: 'github-actions-playground'
-          BUILD_DEMO_WORKFLOW_ID: "post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml"
-          ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
           TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
