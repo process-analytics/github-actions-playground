@@ -1,0 +1,25 @@
+name: Notify Companion Repositories of new BPMN visualization version
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, closed ]
+    branches:
+      - master
+  workflow_run:
+    workflows: [Upload Demo Archive & Trigger Companion Repositories Update]
+    types:
+      - completed
+  workflow_dispatch:
+
+
+jobs:
+  notify:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        name: Setup node
+      - name: Notify Companion Repositories of new BPMN visualization version
+        uses: ./.github/actions/notify-PA-repo-of-new-version
+        with:
+          PA_REPOSITORY: 'github-actions-playground'
+          TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
