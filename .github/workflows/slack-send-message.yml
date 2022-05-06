@@ -1,0 +1,53 @@
+name: Slack send message
+on:
+  workflow_dispatch:
+    inputs:
+      channel-or-user:
+        description: 'Send a message to a channel or a user (prefer usage of id instead of name).'
+        default: 'CSF7TG6N5'
+        type: string
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Send message to Slack
+        uses: slackapi/slack-github-action@v1.19.0
+        with:
+          channel-id: ${{ github.event.inputs.channel-or-user }}
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": ":mega: This is a test from the ${{github.repository}} repository",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "- available <https://github.com/${{github.repository}}/releases|Releases> :heavy_check_mark: \n - Check packages published on <https://www.npmjs.com/package/bpmn-visualization|NPM> :heavy_check_mark:"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "See the next steps <https://github.com/${{github.repository}}/blob/master/docs/contributors/maintainers.md#github-issues-milestones-and-projects-update|here> :arrow_left:"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
