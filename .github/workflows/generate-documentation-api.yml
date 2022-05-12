@@ -5,14 +5,20 @@ on:
     branches:
       - master
     paths:
-      - 'src/api/public/api.ts'
       - '.github/workflows/generate-documentation-api.yml'
+      - 'src/**/*.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'typedoc.json'
   pull_request:
     branches:
       - master
     paths:
-      - 'src/api/public/api.ts'
       - '.github/workflows/generate-documentation-api.yml'
+      - 'src/**/*.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'typedoc.json'
 
 permissions:
   # To create or update releases
