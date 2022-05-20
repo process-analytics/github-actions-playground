@@ -1,4 +1,4 @@
-name: Workflow Dispatch branch detection
+name: Workflow concurrency
 on:
   workflow_dispatch:
   # TODO remove when setup
