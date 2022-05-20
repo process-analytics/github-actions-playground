@@ -17,7 +17,7 @@ jobs:
       - name: Build Demo
         run: echo 'Done'
       - name: Set ARTIFACT_NAME
-        run: echo "ARTIFACT_NAME='demo-${{github.sha}}'" >> $GITHUB_ENV
+        run: echo "ARTIFACT_NAME=demo-${{github.sha}}" >> $GITHUB_ENV
       - name: Upload Demo
         uses: actions/upload-artifact@v3
         with:
@@ -28,5 +28,5 @@ jobs:
         with:
           PA_REPOSITORY: 'github-actions-playground'
           BUILD_DEMO_WORKFLOW_ID: "post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml"
-          ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
+          ARTIFACT_NAME: '${{ env.ARTIFACT_NAME }}'
           TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
