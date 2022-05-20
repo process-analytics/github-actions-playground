@@ -15,15 +15,27 @@ jobs:
       WAIT_TIME: 40
     steps:
       - name: Simulate slow processing 1.1
-        run: sleep ${WAIT_TIME}
+        run: |
+          echo Waiting for ${WAIT_TIME} seconds 
+          sleep ${WAIT_TIME}
+          echo Awake!
       - name: Simulate slow processing 1.2
-        run: sleep ${WAIT_TIME}
+        run: |
+          echo Waiting for ${WAIT_TIME} seconds 
+          sleep ${WAIT_TIME}
+          echo Awake!
   slow2:
     runs-on: ubuntu-22.04
     env:
       WAIT_TIME: 50
     steps:
       - name: Simulate slow processing 2.1
-        run: sleep ${WAIT_TIME}
+        run: |
+          echo Waiting for ${WAIT_TIME} seconds 
+          sleep ${WAIT_TIME}
+          echo Awake!
       - name: Simulate slow processing 2.2
-        run: sleep ${WAIT_TIME}
+        run: |
+          echo Waiting for ${WAIT_TIME} seconds 
+          sleep ${WAIT_TIME}
+          echo Awake!
