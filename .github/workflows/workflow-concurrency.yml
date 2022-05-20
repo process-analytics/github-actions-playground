@@ -1,0 +1,39 @@
+name: Workflow concurrency
+on:
+  workflow_dispatch:
+
+# define concurrency setting for this workflow only
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-only-cancel-in-progress-jobs-or-runs-for-the-current-workflow
+concurrency: ${{ github.workflow }}
+
+jobs:
+  slow1:
+    runs-on: ubuntu-20.04
+    env:
+      WAIT_TIME: 40
+    steps:
+      - name: Simulate slow processing 1.1
+        run: |
+          echo Waiting for ${WAIT_TIME} seconds 
+          sleep ${WAIT_TIME}
+          echo Awake!
+      - name: Simulate slow processing 1.2
+        run: |
+          echo Waiting for ${WAIT_TIME} seconds 
+          sleep ${WAIT_TIME}
+          echo Awake!
+  slow2:
+    runs-on: ubuntu-22.04
+    env:
+      WAIT_TIME: 50
+    steps:
+      - name: Simulate slow processing 2.1
+        run: |
+          echo Waiting for ${WAIT_TIME} seconds 
+          sleep ${WAIT_TIME}
+          echo Awake!
+      - name: Simulate slow processing 2.2
+        run: |
+          echo Waiting for ${WAIT_TIME} seconds 
+          sleep ${WAIT_TIME}
+          echo Awake!
