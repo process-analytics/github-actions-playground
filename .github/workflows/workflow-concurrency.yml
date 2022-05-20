@@ -1,8 +1,6 @@
 name: Workflow concurrency
 on:
   workflow_dispatch:
-  # TODO remove when setup
-  pull_request:
 
 # define concurrency setting for this workflow only
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-only-cancel-in-progress-jobs-or-runs-for-the-current-workflow
