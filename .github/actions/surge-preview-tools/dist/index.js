@@ -9049,7 +9049,7 @@ function executeCmd(command) {
   //   });
   // });
   const result = execSync(command);
-  return stripAnsi(result.stdout).trim()
+  return stripAnsi(result).trim()
 }
 
 // Adapted here to pass the surge token
