@@ -14,6 +14,8 @@ jobs:
   demo_preview:  # the id is used by surge to generate the surge url
     runs-on: ubuntu-20.04
     steps:
+      # only required to access to the local github actions
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/surge-preview-tools
         id: surge-preview-tools
         with:
