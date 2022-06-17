@@ -9049,14 +9049,16 @@ function executeCmd(command) {
   //   });
   // });
   const result = execSync(command);
-  return stripAnsi(result).trim()
+  return stripAnsi(result.toString()).trim();
 }
 
 // Adapted here to pass the surge token
 function getDeploys(surgeToken) {
   const surgeListOutput = executeCmd(`npx surge list --token ${surgeToken}`);
-  const lines = stripAnsi(surgeListOutput)
-    .trim()
+  const lines =
+    // stripAnsi(surgeListOutput)
+    // .trim()
+  surgeListOutput
     .split("\n")
     .map(l => l.trim().replace(/ {3,}/g, "  "));
   return lines.map(line => {
