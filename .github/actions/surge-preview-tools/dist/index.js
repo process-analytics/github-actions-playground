@@ -8830,19 +8830,19 @@ module.exports = eval("require")("encoding");
 
 /***/ }),
 
+/***/ 8266:
+/***/ ((module) => {
+
+module.exports = eval("require")("lib/surge");
+
+
+/***/ }),
+
 /***/ 9491:
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("assert");
-
-/***/ }),
-
-/***/ 2081:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("child_process");
 
 /***/ }),
 
@@ -8950,42 +8950,6 @@ module.exports = require("zlib");
 
 /***/ }),
 
-/***/ 8770:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-// ESM COMPAT FLAG
-__nccwpck_require__.r(__webpack_exports__);
-
-// EXPORTS
-__nccwpck_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ stripAnsi)
-});
-
-;// CONCATENATED MODULE: ./node_modules/ansi-regex/index.js
-function ansiRegex({onlyFirst = false} = {}) {
-	const pattern = [
-	    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
-	].join('|');
-
-	return new RegExp(pattern, onlyFirst ? undefined : 'g');
-}
-
-;// CONCATENATED MODULE: ./node_modules/strip-ansi/index.js
-
-
-function stripAnsi(string) {
-	if (typeof string !== 'string') {
-		throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
-	}
-
-	return string.replace(ansiRegex(), '');
-}
-
-
-/***/ }),
-
 /***/ 2020:
 /***/ ((module) => {
 
@@ -9027,34 +8991,6 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
@@ -9065,6 +9001,7 @@ var __webpack_exports__ = {};
 (() => {
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
+const getDeploys = __nccwpck_require__(8266);
 
 try {
   // default value
@@ -9096,53 +9033,12 @@ try {
 
     const isDomainExist = domains.find(domain => domain === url);
     core.info(`Domain exist? ${isDomainExist}`);
+    core.setOutput('domain-already-exist', isDomainExist);
   }
 } catch (error) {
   core.setFailed(error.message);
 }
 
-// The following is taken from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
-// released under the MIT license
-// TODO move to a dedicated file
-
-const stripAnsi = __nccwpck_require__(8770);
-// const { exec } = require("child_process");
-const { execSync } = __nccwpck_require__(2081);
-
-function executeCmd(command) {
-  // return new Promise((resolve, reject) => {
-  //   exec(command, function(error, stdout) {
-  //     error
-  //       ? reject(error)
-  //       : resolve(stripAnsi(stdout).trim());
-  //   });
-  // });
-    const result = execSync(command);
-    return stripAnsi(result.stdout).trim()
-}
-
-// Adapted here to pass the surge token
-function getDeploys(surgeToken) {
-  const surgeListOutput = executeCmd(`npx surge list --token ${surgeToken}`);
-  const lines = stripAnsi(surgeListOutput)
-    .trim()
-    .split("\n")
-    .map(l => l.trim().replace(/ {3,}/g, "  "));
-  return lines.map(line => {
-    const deploy = line.split("  ").map(a => a.trim());
-    const [id, domain] = deploy[0].split(" ");
-    const [, timestamp, provider, host, plan] = deploy;
-    return {
-      id,
-      domain,
-      timestamp,
-      provider,
-      host,
-      plan,
-      line
-    };
-  });
-}
 
 })();
 
