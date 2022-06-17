@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "description": "",
   "scripts": {
-    "build": "ncc build index.js --license licenses.txt"
+    "build": "ncc build index.js"
   },
   "dependencies": {
     "@actions/core": "~1.9.0",
