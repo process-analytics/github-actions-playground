@@ -6,17 +6,9 @@ const github = require('@actions/github');
 // TODO move to a dedicated file
 // TODO use stripAnsi 7 move to ESM https://github.com/chalk/strip-ansi/releases/tag/v7.0.0
 const stripAnsi = require("strip-ansi");
-// const { exec } = require("child_process");
 const { execSync } = require("child_process");
 
 function executeCmd(command) {
-  // return new Promise((resolve, reject) => {
-  //   exec(command, function(error, stdout) {
-  //     error
-  //       ? reject(error)
-  //       : resolve(stripAnsi(stdout).trim());
-  //   });
-  // });
   const result = execSync(command);
   return stripAnsi(result.toString()).trim();
 }
@@ -25,8 +17,6 @@ function executeCmd(command) {
 function getDeploys(surgeToken) {
   const surgeListOutput = executeCmd(`npx surge list --token ${surgeToken}`);
   const lines =
-    // stripAnsi(surgeListOutput)
-    // .trim()
   surgeListOutput
     .split("\n")
     .map(l => l.trim().replace(/ {3,}/g, "  "));
@@ -76,7 +66,7 @@ try {
     core.debug(domains);
     core.endGroup();
 
-    const isDomainExist = domains.find(domain => domain === url);
+    const isDomainExist = domains.includes(url);
     core.info(`Domain exist? ${isDomainExist}`);
     core.setOutput('domain-already-exist', isDomainExist);
   }
