@@ -20,18 +20,18 @@ try {
   }
   // TODO on close PR, the deployment must exist
   // if(payload.action === 'closed') {
-  // else {
-  //   core.setSecret(surgeToken);
-  //   const deploys = await getDeploys(surgeToken);
-  //   const domains = deploys.map(deploy => deploy.domain);
-  //   core.startGroup('List Surge domains');
-  //   core.info(`Number of domains: ${domains.length}`);
-  //   core.debug(domains);
-  //   core.endGroup();
-  //
-  //   const isDomainExist = domains.find(domain => domain === url);
-  //   core.info(`Domain exist? ${isDomainExist}`);
-  // }
+  else {
+    core.setSecret(surgeToken);
+    const deploys = getDeploys(surgeToken);
+    const domains = deploys.map(deploy => deploy.domain);
+    core.startGroup('List Surge domains');
+    core.info(`Number of domains: ${domains.length}`);
+    core.debug(domains);
+    core.endGroup();
+
+    const isDomainExist = domains.find(domain => domain === url);
+    core.info(`Domain exist? ${isDomainExist}`);
+  }
 } catch (error) {
   core.setFailed(error.message);
 }
@@ -41,21 +41,24 @@ try {
 // TODO move to a dedicated file
 
 const stripAnsi = require("strip-ansi");
-const { exec } = require("child_process");
+// const { exec } = require("child_process");
+const { execSync } = require("child_process");
 
 function executeCmd(command) {
-  return new Promise((resolve, reject) => {
-    exec(command, function(error, stdout) {
-      error
-        ? reject(error)
-        : resolve(stripAnsi(stdout).trim());
-    });
-  });
+  // return new Promise((resolve, reject) => {
+  //   exec(command, function(error, stdout) {
+  //     error
+  //       ? reject(error)
+  //       : resolve(stripAnsi(stdout).trim());
+  //   });
+  // });
+    const result = execSync(command);
+    return stripAnsi(result.stdout).trim()
 }
 
 // Adapted here to pass the surge token
-async function getDeploys(surgeToken) {
-  const surgeListOutput = await executeCmd(`npx surge list --token ${surgeToken}`);
+function getDeploys(surgeToken) {
+  const surgeListOutput = executeCmd(`npx surge list --token ${surgeToken}`);
   const lines = stripAnsi(surgeListOutput)
     .trim()
     .split("\n")
