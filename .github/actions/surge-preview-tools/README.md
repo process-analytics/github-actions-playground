@@ -1,4 +1,4 @@
-# surge-preview extension action
+# surge-preview-tools action
 
 Companion of the [surge-preview action](https://github.com/afc163/surge-preview).
 
