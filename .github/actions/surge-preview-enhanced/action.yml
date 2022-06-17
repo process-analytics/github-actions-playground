@@ -1,0 +1,28 @@
+name: Surge Preview enhanced
+description: TODO
+
+inputs:
+  surge-token:
+    description: 'TODO'
+    required: true
+
+outputs:
+  should-run:
+    value: ''
+    description: 'TODO'
+
+# outputs:
+#  random-number:
+#    description: "Random number"
+#    value: ${{ steps.random-number-generator.outputs.random-id }}
+#runs:
+#  using: "composite"
+#  steps:
+#    - id: random-number-generator
+#      run: echo "::set-output name=random-id::$(echo $RANDOM)"
+#      shell: bash
+
+
+runs:
+  using: 'node16'
+  main: 'index.js'
