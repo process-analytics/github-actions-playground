@@ -1,22 +1,20 @@
-
-
-// the token must be set
-// on close PR, the deployment must exist
-
-
-
 const core = require('@actions/core');
 const github = require('@actions/github');
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
+  // Compute the 'preview url', as built by the surge-preview action
+  const repoOwner = github.context.repo.owner.replace(/\./g, '-');
+  const repoName = github.context.repo.repo.replace(/\./g, '-');
+  const url = `${repoOwner}-${repoName}-${github.context.job}-pr-${github.context.payload.number}.surge.sh`;
+  core.setOutput('preview-url', url);
+
+  // the token must be set
+  const surgeToken = core.getInput('surge-token');
+  if (!surgeToken) {
+    core.setOutput("should-run", false);
+    return;
+  }
+  // on close PR, the deployment must exist
 } catch (error) {
   core.setFailed(error.message);
 }

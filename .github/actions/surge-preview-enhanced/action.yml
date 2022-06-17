@@ -3,26 +3,15 @@ description: TODO
 
 inputs:
   surge-token:
-    description: 'TODO'
-    required: true
+    description: 'surge.sh token'
+    required: false
 
 outputs:
   should-run:
-    value: ''
     description: 'TODO'
-
-# outputs:
-#  random-number:
-#    description: "Random number"
-#    value: ${{ steps.random-number-generator.outputs.random-id }}
-#runs:
-#  using: "composite"
-#  steps:
-#    - id: random-number-generator
-#      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-#      shell: bash
-
+  preview-url:
+    description: 'The url for the related PR preview, as computed by the surge-preview action'
 
 runs:
   using: 'node16'
-  main: 'index.js'
+  main: 'dist/index.js'

@@ -1,8 +1,21 @@
+# surge-preview extension action
 
+Companion of the [surge-preview action](https://github.com/afc163/surge-preview).
+
+Help to detect if the surge-preview action should be run
+- surge token provided
+- detect if the deployment already exist. Avoid teardown error when the deployment doesn't exist
+
+Limitations
+- Use in Pull Request only
+
+## Documentation 
+
+**TODO**
 
 ## Build
 
-
+`npm run build` then commit the dist folder
 
 ## Resources
 
