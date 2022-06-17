@@ -39,8 +39,7 @@ try {
   //   core.info(`Domain exist? ${isDomainExist}`);
   //   core.setOutput('domain-already-exist', isDomainExist);
   // }
-// } catch (error: unknown) {
-} catch (error) {
+} catch (error: unknown) {
   // @ts-ignore
   core.setFailed(error?.message);
 }
