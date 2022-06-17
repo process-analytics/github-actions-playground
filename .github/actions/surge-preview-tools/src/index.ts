@@ -3,7 +3,7 @@
 
 import core from '@actions/core';
 import github from '@actions/github';
-// import {getDeploys} from "./surge";
+import {getDeploys} from "./surge";
 
 
 try {
@@ -25,20 +25,20 @@ try {
   }
   // TODO on close PR, the deployment must exist
   // if(payload.action === 'closed') {
-  // else {
-  //   core.setSecret(surgeToken);
-  //   core.startGroup('List Surge domains');
-  //   const deploys = getDeploys(surgeToken);
-  //   const domains = deploys.map(deploy => deploy.domain);
-  //   core.info(`Number of domains: ${domains.length}`);
-  //   domains.forEach(domain => core.debug(domain));
-  //   core.endGroup();
-  //
-  //   // TODO use includes
-  //   const isDomainExist = domains.indexOf(url) > 0;
-  //   core.info(`Domain exist? ${isDomainExist}`);
-  //   core.setOutput('domain-already-exist', isDomainExist);
-  // }
+  else {
+    core.setSecret(surgeToken);
+    core.startGroup('List Surge domains');
+    const deploys = getDeploys(surgeToken);
+    const domains = deploys.map(deploy => deploy.domain);
+    core.info(`Number of domains: ${domains.length}`);
+    domains.forEach(domain => core.debug(domain));
+    core.endGroup();
+
+    // TODO use includes
+    const isDomainExist = domains.indexOf(url) > 0;
+    core.info(`Domain exist? ${isDomainExist}`);
+    core.setOutput('domain-already-exist', isDomainExist);
+  }
 } catch (error: unknown) {
   // @ts-ignore
   core.setFailed(error?.message);
