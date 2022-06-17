@@ -1,60 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 4822:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-// const core = require('@actions/core');
-// const github = require('@actions/github');
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core_1 = __importDefault(__nccwpck_require__(2186));
-const github_1 = __importDefault(__nccwpck_require__(5438));
-// import {getDeploys} from "./surge";
-try {
-    // default value
-    core_1.default.setOutput("should-run", true);
-    const payload = github_1.default.context.payload;
-    // Compute the 'preview url', as built by the surge-preview action
-    const repoOwner = github_1.default.context.repo.owner.replace(/\./g, '-');
-    const repoName = github_1.default.context.repo.repo.replace(/\./g, '-');
-    const url = `${repoOwner}-${repoName}-${github_1.default.context.job}-pr-${payload.number}.surge.sh`;
-    core_1.default.setOutput('preview-url', url);
-    core_1.default.info(`Computed preview url: ${url}`);
-    // the token must be set
-    const surgeToken = core_1.default.getInput('surge-token');
-    if (!surgeToken) {
-        core_1.default.setOutput("should-run", false);
-    }
-    // TODO on close PR, the deployment must exist
-    // if(payload.action === 'closed') {
-    // else {
-    //   core.setSecret(surgeToken);
-    //   core.startGroup('List Surge domains');
-    //   const deploys = getDeploys(surgeToken);
-    //   const domains = deploys.map(deploy => deploy.domain);
-    //   core.info(`Number of domains: ${domains.length}`);
-    //   domains.forEach(domain => core.debug(domain));
-    //   core.endGroup();
-    //
-    //   // TODO use includes
-    //   const isDomainExist = domains.indexOf(url) > 0;
-    //   core.info(`Domain exist? ${isDomainExist}`);
-    //   core.setOutput('domain-already-exist', isDomainExist);
-    // }
-}
-catch (error) {
-    // @ts-ignore
-    core_1.default.setFailed(error === null || error === void 0 ? void 0 : error.message);
-}
-
-
-/***/ }),
-
 /***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -9037,17 +8983,110 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(4822);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5438);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
+// const core = require('@actions/core');
+// const github = require('@actions/github');
+
+
+
+// import {getDeploys} from "./surge";
+
+
+try {
+  // default value
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput("should-run", true);
+
+  const payload = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.payload);
+  // Compute the 'preview url', as built by the surge-preview action
+  const repoOwner = _actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.owner.replace(/\./g, '-');
+  const repoName = _actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo.replace(/\./g, '-');
+  const url = `${repoOwner}-${repoName}-${(_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.job)}-pr-${payload.number}.surge.sh`;
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('preview-url', url);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`Computed preview url: ${url}`);
+
+  // the token must be set
+  const surgeToken = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('surge-token');
+  if (!surgeToken) {
+    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput("should-run", false);
+  }
+  // TODO on close PR, the deployment must exist
+  // if(payload.action === 'closed') {
+  // else {
+  //   core.setSecret(surgeToken);
+  //   core.startGroup('List Surge domains');
+  //   const deploys = getDeploys(surgeToken);
+  //   const domains = deploys.map(deploy => deploy.domain);
+  //   core.info(`Number of domains: ${domains.length}`);
+  //   domains.forEach(domain => core.debug(domain));
+  //   core.endGroup();
+  //
+  //   // TODO use includes
+  //   const isDomainExist = domains.indexOf(url) > 0;
+  //   core.info(`Domain exist? ${isDomainExist}`);
+  //   core.setOutput('domain-already-exist', isDomainExist);
+  // }
+// } catch (error: unknown) {
+} catch (error) {
+  // @ts-ignore
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setFailed(error?.message);
+}
+
+
+})();
+
+module.exports = __webpack_exports__;
 /******/ })()
 ;
