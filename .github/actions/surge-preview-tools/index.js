@@ -4,6 +4,7 @@ const github = require('@actions/github');
 // The following is adapted from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
 // released under the MIT license
 // TODO move to a dedicated file
+// TODO use stripAnsi 7 move to ESM https://github.com/chalk/strip-ansi/releases/tag/v7.0.0
 const stripAnsi = require("strip-ansi");
 // const { exec } = require("child_process");
 const { execSync } = require("child_process");
@@ -66,9 +67,9 @@ try {
   // if(payload.action === 'closed') {
   else {
     core.setSecret(surgeToken);
+    core.startGroup('List Surge domains');
     const deploys = getDeploys(surgeToken);
     const domains = deploys.map(deploy => deploy.domain);
-    core.startGroup('List Surge domains');
     core.info(`Number of domains: ${domains.length}`);
     core.debug(domains);
     core.endGroup();
