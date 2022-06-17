@@ -22,7 +22,7 @@ jobs:
           surge-token: ${{ secrets.SURGE_TOKEN }}
       - name: Echo surge preview tools output
         run: |
-          echo "domain-already-exist: ${{ steps.surge-preview-tools.outputs.domain-already-exist }}" 
+          echo "domain-exist: ${{ steps.surge-preview-tools.outputs.domain-exist }}" 
           echo "preview-url: ${{ steps.surge-preview-tools.outputs.preview-url }}" 
           echo "should-run: ${{ steps.surge-preview-tools.outputs.should-run }}"
 # TEMP disable

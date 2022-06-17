@@ -7,7 +7,7 @@ inputs:
     required: false
 
 outputs:
-  domain-already-exist:
+  domain-exist:
     description: 'true if the domain related to the preview-url exists. false otherwise'
   preview-url:
     description: 'The url for the related PR preview, as computed by the surge-preview action'

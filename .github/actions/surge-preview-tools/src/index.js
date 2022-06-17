@@ -67,8 +67,8 @@ try {
     core.endGroup();
 
     const isDomainExist = domains.includes(url);
-    core.info(`Domain exist? ${isDomainExist}`);
-    core.setOutput('domain-already-exist', isDomainExist);
+    core.info(`surge domain exist? ${isDomainExist}`);
+    core.setOutput('domain-exist', isDomainExist);
   }
 } catch (error) {
   core.setFailed(error.message);
