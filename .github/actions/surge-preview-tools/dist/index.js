@@ -8822,87 +8822,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 3078:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-// ESM COMPAT FLAG
-__nccwpck_require__.r(__webpack_exports__);
-
-;// CONCATENATED MODULE: ./node_modules/ansi-regex/index.js
-function ansiRegex({onlyFirst = false} = {}) {
-	const pattern = [
-	    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
-	].join('|');
-
-	return new RegExp(pattern, onlyFirst ? undefined : 'g');
-}
-
-;// CONCATENATED MODULE: ./node_modules/strip-ansi/index.js
-
-
-function stripAnsi(string) {
-	if (typeof string !== 'string') {
-		throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
-	}
-
-	return string.replace(ansiRegex(), '');
-}
-
-;// CONCATENATED MODULE: external "node:child_process"
-const external_node_child_process_namespaceObject = require("node:child_process");
-;// CONCATENATED MODULE: ./src/surge-utils.js
-// The following is adapted from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
-// released under the MIT license
-
-
-
-const surgeCli = 'npx surge';
-
-function executeCmd(command) {
-  const result = (0,external_node_child_process_namespaceObject.execSync)(command);
-  return stripAnsi(result.toString()).trim();
-}
-
-const checkLogin = (surgeToken) => {
-  try {
-  executeCmd(`${surgeCli} list --token ${surgeToken}`);
-  return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-// Adapted here to pass the surge token
-function getDeploys(surgeToken) {
-  const surgeListOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
-  const lines =
-    surgeListOutput
-      .split("\n")
-      .map(l => l.trim().replace(/ {3,}/g, "  "));
-  return lines.map(line => {
-    const deploy = line.split("  ").map(a => a.trim());
-    const [id, domain] = deploy[0].split(" ");
-    const [, timestamp, provider, host, plan] = deploy;
-    return {
-      id,
-      domain,
-      timestamp,
-      provider,
-      host,
-      plan,
-      line
-    };
-  });
-}
-
-exports.getDeploys = getDeploys;
-exports.checkLogin = checkLogin;
-
-
-/***/ }),
-
 /***/ 2877:
 /***/ ((module) => {
 
@@ -9113,51 +9032,124 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
+// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5438);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
+
+// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(2186);
+var core_default = /*#__PURE__*/__nccwpck_require__.n(core);
+// EXTERNAL MODULE: ./node_modules/@actions/github/lib/github.js
+var github = __nccwpck_require__(5438);
+var github_default = /*#__PURE__*/__nccwpck_require__.n(github);
+;// CONCATENATED MODULE: ./node_modules/ansi-regex/index.js
+function ansiRegex({onlyFirst = false} = {}) {
+	const pattern = [
+	    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+	].join('|');
+
+	return new RegExp(pattern, onlyFirst ? undefined : 'g');
+}
+
+;// CONCATENATED MODULE: ./node_modules/strip-ansi/index.js
+
+
+function stripAnsi(string) {
+	if (typeof string !== 'string') {
+		throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
+	}
+
+	return string.replace(ansiRegex(), '');
+}
+
+;// CONCATENATED MODULE: external "node:child_process"
+const external_node_child_process_namespaceObject = require("node:child_process");
+;// CONCATENATED MODULE: ./src/surge-utils.js
+// The following is adapted from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
+// released under the MIT license
 
 
 
-const {checkLogin, getDeploys} = __nccwpck_require__(3078);
+const surgeCli = 'npx surge';
+
+const executeCmd = command => {
+  const result = (0,external_node_child_process_namespaceObject.execSync)(command);
+  return stripAnsi(result.toString()).trim();
+};
+
+const checkLogin = (surgeToken) => {
+  try {
+    executeCmd(`${surgeCli} list --token ${surgeToken}`);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+// Adapted here to pass the surge token
+const getDeploys = surgeToken => {
+  const surgeListOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
+  const lines =
+    surgeListOutput
+      .split("\n")
+      .map(l => l.trim().replace(/ {3,}/g, "  "));
+  return lines.map(line => {
+    const deploy = line.split("  ").map(a => a.trim());
+    const [id, domain] = deploy[0].split(" ");
+    const [, timestamp, provider, host, plan] = deploy;
+    return {
+      id,
+      domain,
+      timestamp,
+      provider,
+      host,
+      plan,
+      line
+    };
+  });
+};
+
+
+;// CONCATENATED MODULE: ./src/index.js
+
+
+
 
 try {
-  const payload = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.payload);
+  const payload = (github_default()).context.payload;
   // Compute the 'preview url', as built by the surge-preview action
-  const repoOwner = _actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.owner.replace(/\./g, '-');
-  const repoName = _actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo.replace(/\./g, '-');
-  const url = `${repoOwner}-${repoName}-${(_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.job)}-pr-${payload.number}.surge.sh`;
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('preview-url', url);
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`Computed preview url: ${url}`);
+  const repoOwner = github_default().context.repo.owner.replace(/\./g, '-');
+  const repoName = github_default().context.repo.repo.replace(/\./g, '-');
+  const url = `${repoOwner}-${repoName}-${(github_default()).context.job}-pr-${payload.number}.surge.sh`;
+  core_default().setOutput('preview-url', url);
+  core_default().info(`Computed preview url: ${url}`);
 
   // the token must be set
-  const surgeToken = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('surge-token');
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setSecret(surgeToken);
+  const surgeToken = core_default().getInput('surge-token');
+  core_default().setSecret(surgeToken);
   const isSurgeTokenValid = checkLogin(surgeToken);
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`surge token valid? ${isSurgeTokenValid}`)
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput("surge-token-valid", isSurgeTokenValid);
+  core_default().info(`surge token valid? ${isSurgeTokenValid}`)
+  core_default().setOutput("surge-token-valid", isSurgeTokenValid);
 
   let isDomainExist = false;
   if (isSurgeTokenValid) {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().startGroup('List Surge domains');
+    core_default().startGroup('List Surge domains');
     const deploys = getDeploys(surgeToken);
     const domains = deploys.map(deploy => deploy.domain);
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`Number of domains: ${domains.length}`);
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().debug(domains);
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().endGroup();
+    core_default().info(`Number of domains: ${domains.length}`);
+    core_default().debug(domains);
+    core_default().endGroup();
 
     isDomainExist = domains.includes(url);
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`surge domain exist? ${isDomainExist}`);
+    core_default().info(`surge domain exist? ${isDomainExist}`);
   }
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('domain-exist', isDomainExist);
+  core_default().setOutput('domain-exist', isDomainExist);
 
   const canRunSurgeCommand = isSurgeTokenValid && (payload.action !== 'closed' || (payload.action === 'closed' && isDomainExist));
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`can run surge command? ${canRunSurgeCommand}`)
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput("can-run-surge-command", canRunSurgeCommand);
+  core_default().info(`can run surge command? ${canRunSurgeCommand}`)
+  core_default().setOutput("can-run-surge-command", canRunSurgeCommand);
 } catch (error) {
-  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setFailed(error.message);
+  core_default().setFailed(error.message);
 }
 
 
