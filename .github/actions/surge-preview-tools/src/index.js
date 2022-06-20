@@ -1,5 +1,6 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+import core from "@actions/core";
+import github from "@actions/github";
+
 const {checkLogin, getDeploys} = require("./surge-utils");
 
 try {

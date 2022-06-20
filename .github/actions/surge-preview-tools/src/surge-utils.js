@@ -1,8 +1,7 @@
 // The following is adapted from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
 // released under the MIT license
-// TODO use stripAnsi 7 move to ESM https://github.com/chalk/strip-ansi/releases/tag/v7.0.0
-const stripAnsi = require("strip-ansi");
-const { execSync } = require("child_process");
+import stripAnsi from "strip-ansi";
+import {execSync} from 'node:child_process'
 
 const surgeCli = 'npx surge';
 
