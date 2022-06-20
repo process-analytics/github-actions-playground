@@ -44,6 +44,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dist: site
           failOnError: true
-          teardown: ${{ steps.surge-preview-tools.outputs.domain-exist }}
+          teardown: true
           build: |
             ls -lh site
