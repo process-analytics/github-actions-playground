@@ -5,22 +5,22 @@ import {execSync} from 'node:child_process'
 
 const surgeCli = 'npx surge';
 
-const executeCmd = command => {
+function executeCmd(command) {
   const result = execSync(command);
   return stripAnsi(result.toString()).trim();
-};
+}
 
-export const checkLogin = (surgeToken) => {
+const checkLogin = (surgeToken) => {
   try {
-    executeCmd(`${surgeCli} list --token ${surgeToken}`);
-    return true;
+  executeCmd(`${surgeCli} list --token ${surgeToken}`);
+  return true;
   } catch (e) {
     return false;
   }
-};
+}
 
 // Adapted here to pass the surge token
-export const getDeploys = surgeToken => {
+function getDeploys(surgeToken) {
   const surgeListOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
   const lines =
     surgeListOutput
@@ -40,5 +40,7 @@ export const getDeploys = surgeToken => {
       line
     };
   });
-};
+}
 
+exports.getDeploys = getDeploys;
+exports.checkLogin = checkLogin;
