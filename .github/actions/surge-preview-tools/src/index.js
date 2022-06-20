@@ -18,6 +18,7 @@ try {
   core.info(`surge token valid? ${isSurgeTokenValid}`)
   core.setOutput("surge-token-valid", isSurgeTokenValid);
 
+  let isDomainExist = false;
   if (isSurgeTokenValid) {
     core.startGroup('List Surge domains');
     const deploys = getDeploys(surgeToken);
@@ -26,15 +27,12 @@ try {
     core.debug(domains);
     core.endGroup();
 
-    const isDomainExist = domains.includes(url);
+    isDomainExist = domains.includes(url);
     core.info(`surge domain exist? ${isDomainExist}`);
-    core.setOutput('domain-exist', isDomainExist);
   }
+  core.setOutput('domain-exist', isDomainExist);
 
-  // TODO on close PR, the deployment must exist
-  // if(payload.action === 'closed') {
-  // default value
-  let canRunSurgeCommand = true;
+  const canRunSurgeCommand = isSurgeTokenValid && (payload.action !== 'closed' || (payload.action === 'closed' && isDomainExist));
   core.info(`can run surge command? ${canRunSurgeCommand}`)
   core.setOutput("can-run-surge-command", canRunSurgeCommand);
 } catch (error) {
