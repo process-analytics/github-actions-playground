@@ -8853,7 +8853,7 @@ function wrappy (fn, cb) {
 /***/ }),
 
 /***/ 3232:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 // The following is adapted from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
 // released under the MIT license
@@ -8861,14 +8861,22 @@ function wrappy (fn, cb) {
 const stripAnsi = __nccwpck_require__(5591);
 const { execSync } = __nccwpck_require__(2081);
 
+const surgeCli = 'npx surge';
+
 function executeCmd(command) {
   const result = execSync(command);
   return stripAnsi(result.toString()).trim();
 }
 
+const checkLogin = (surgeToken) => {
+  const surgeLoginOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
+  console.info('surge login:', surgeLoginOutput);
+  return true;
+}
+
 // Adapted here to pass the surge token
 function getDeploys(surgeToken) {
-  const surgeListOutput = executeCmd(`npx surge list --token ${surgeToken}`);
+  const surgeListOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
   const lines =
     surgeListOutput
       .split("\n")
@@ -8889,7 +8897,8 @@ function getDeploys(surgeToken) {
   });
 }
 
-module.exports = getDeploys;
+exports.getDeploys = getDeploys;
+exports.checkLogin = checkLogin;
 
 
 /***/ }),
@@ -9073,12 +9082,9 @@ var __webpack_exports__ = {};
 (() => {
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
-const getDeploys = __nccwpck_require__(3232);
+const {checkLogin, getDeploys} = __nccwpck_require__(3232);
 
 try {
-  // default value
-  let canRunSurgeCommand = true;
-
   const payload = github.context.payload;
   // Compute the 'preview url', as built by the surge-preview action
   const repoOwner = github.context.repo.owner.replace(/\./g, '-');
@@ -9089,13 +9095,13 @@ try {
 
   // the token must be set
   const surgeToken = core.getInput('surge-token');
-  if (!surgeToken) {
-    canRunSurgeCommand = false;
-  }
-  // TODO on close PR, the deployment must exist
-  // if(payload.action === 'closed') {
-  else {
-    core.setSecret(surgeToken);
+  core.setSecret(surgeToken);
+  const isSurgeTokenValid = checkLogin(surgeToken);
+  core.info(`surge token valid? ${isSurgeTokenValid}`)
+  core.setOutput("surge-token-valid", isSurgeTokenValid);
+
+  let isDomainExist = false;
+  if (isSurgeTokenValid) {
     core.startGroup('List Surge domains');
     const deploys = getDeploys(surgeToken);
     const domains = deploys.map(deploy => deploy.domain);
@@ -9103,10 +9109,12 @@ try {
     core.debug(domains);
     core.endGroup();
 
-    const isDomainExist = domains.includes(url);
+    isDomainExist = domains.includes(url);
     core.info(`surge domain exist? ${isDomainExist}`);
-    core.setOutput('domain-exist', isDomainExist);
   }
+  core.setOutput('domain-exist', isDomainExist);
+
+  const canRunSurgeCommand = isSurgeTokenValid && (payload.action !== 'closed' || (payload.action === 'closed' && isDomainExist));
   core.info(`can run surge command? ${canRunSurgeCommand}`)
   core.setOutput("can-run-surge-command", canRunSurgeCommand);
 } catch (error) {
