@@ -4309,24 +4309,6 @@ exports.request = request;
 
 /***/ }),
 
-/***/ 5063:
-/***/ ((module) => {
-
-"use strict";
-
-
-module.exports = ({onlyFirst = false} = {}) => {
-	const pattern = [
-		'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
-	].join('|');
-
-	return new RegExp(pattern, onlyFirst ? undefined : 'g');
-};
-
-
-/***/ }),
-
 /***/ 3682:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -6328,18 +6310,6 @@ function onceStrict (fn) {
   f.called = false
   return f
 }
-
-
-/***/ }),
-
-/***/ 5591:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-"use strict";
-
-const ansiRegex = __nccwpck_require__(5063);
-
-module.exports = string => typeof string === 'string' ? string.replace(ansiRegex(), '') : string;
 
 
 /***/ }),
@@ -8852,60 +8822,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 3232:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-// The following is adapted from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
-// released under the MIT license
-// TODO use stripAnsi 7 move to ESM https://github.com/chalk/strip-ansi/releases/tag/v7.0.0
-const stripAnsi = __nccwpck_require__(5591);
-const { execSync } = __nccwpck_require__(2081);
-
-const surgeCli = 'npx surge';
-
-function executeCmd(command) {
-  const result = execSync(command);
-  return stripAnsi(result.toString()).trim();
-}
-
-const checkLogin = (surgeToken) => {
-  try {
-  executeCmd(`${surgeCli} list --token ${surgeToken}`);
-  return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-// Adapted here to pass the surge token
-function getDeploys(surgeToken) {
-  const surgeListOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
-  const lines =
-    surgeListOutput
-      .split("\n")
-      .map(l => l.trim().replace(/ {3,}/g, "  "));
-  return lines.map(line => {
-    const deploy = line.split("  ").map(a => a.trim());
-    const [id, domain] = deploy[0].split(" ");
-    const [, timestamp, provider, host, plan] = deploy;
-    return {
-      id,
-      domain,
-      timestamp,
-      provider,
-      host,
-      plan,
-      line
-    };
-  });
-}
-
-exports.getDeploys = getDeploys;
-exports.checkLogin = checkLogin;
-
-
-/***/ }),
-
 /***/ 2877:
 /***/ ((module) => {
 
@@ -8919,14 +8835,6 @@ module.exports = eval("require")("encoding");
 
 "use strict";
 module.exports = require("assert");
-
-/***/ }),
-
-/***/ 2081:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("child_process");
 
 /***/ }),
 
@@ -9075,17 +8983,106 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
-const core = __nccwpck_require__(2186);
-const github = __nccwpck_require__(5438);
-const {checkLogin, getDeploys} = __nccwpck_require__(3232);
+"use strict";
+// ESM COMPAT FLAG
+__nccwpck_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(2186);
+// EXTERNAL MODULE: ./node_modules/@actions/github/lib/github.js
+var github = __nccwpck_require__(5438);
+;// CONCATENATED MODULE: ./node_modules/ansi-regex/index.js
+function ansiRegex({onlyFirst = false} = {}) {
+	const pattern = [
+	    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+	].join('|');
+
+	return new RegExp(pattern, onlyFirst ? undefined : 'g');
+}
+
+;// CONCATENATED MODULE: ./node_modules/strip-ansi/index.js
+
+
+function stripAnsi(string) {
+	if (typeof string !== 'string') {
+		throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
+	}
+
+	return string.replace(ansiRegex(), '');
+}
+
+;// CONCATENATED MODULE: external "node:child_process"
+const external_node_child_process_namespaceObject = require("node:child_process");
+;// CONCATENATED MODULE: ./src/surge-utils.js
+// The following is adapted from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
+// released under the MIT license
+
+
+
+const surgeCli = 'npx surge';
+
+const executeCmd = command => {
+  const result = (0,external_node_child_process_namespaceObject.execSync)(command);
+  return stripAnsi(result.toString()).trim();
+};
+
+const checkLogin = (surgeToken) => {
+  try {
+    executeCmd(`${surgeCli} list --token ${surgeToken}`);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+// Adapted here to pass the surge token
+const getDeploys = surgeToken => {
+  const surgeListOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
+  const lines =
+    surgeListOutput
+      .split("\n")
+      .map(l => l.trim().replace(/ {3,}/g, "  "));
+  return lines.map(line => {
+    const deploy = line.split("  ").map(a => a.trim());
+    const [id, domain] = deploy[0].split(" ");
+    const [, timestamp, provider, host, plan] = deploy;
+    return {
+      id,
+      domain,
+      timestamp,
+      provider,
+      host,
+      plan,
+      line
+    };
+  });
+};
+
+
+;// CONCATENATED MODULE: ./src/index.js
+
+
+
 
 try {
   const payload = github.context.payload;
