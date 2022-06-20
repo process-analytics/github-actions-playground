@@ -1,7 +1,6 @@
 import core from "@actions/core";
 import github from "@actions/github";
-
-const {checkLogin, getDeploys} = require("./surge-utils");
+import {checkLogin, getDeploys} from "./surge-utils"
 
 try {
   const payload = github.context.payload;
