@@ -9,11 +9,44 @@ Help to detect if the surge-preview action should be run
 Limitations
 - Use in Pull Request only
 
-## Documentation 
+## Usage 
 
-**TODO**
+See [action.yml](./action.yml) for inputs and outputs.
 
-see [action.yml](./action.yml)
+Example
+```yaml
+steps:
+  - uses: ./.github/actions/surge-preview-tools # 
+    id: surge-preview-tools
+    with:
+      surge-token: ${{ secrets.SURGE_TOKEN }}
+  - name: Echo surge preview tools output
+    run: |
+      echo "can-run-surge-command: ${{ steps.surge-preview-tools.outputs.can-run-surge-command }}"
+      echo "domain-exist: ${{ steps.surge-preview-tools.outputs.domain-exist }}" 
+      echo "preview-url: ${{ steps.surge-preview-tools.outputs.preview-url }}" 
+      echo "surge-token-valid: ${{ steps.surge-preview-tools.outputs.surge-token-valid }}"
+  - name: Build fake demo
+    if: ${{ github.event.action != 'closed' }}
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    run: |
+      mkdir site
+      echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/index.html
+  - name: Publish Demo preview
+    if: steps.surge-preview-tools.outputs.can-run-surge-command == 'true'
+    id: publish_demo_preview
+    uses: afc163/surge-preview@v1
+    with:
+      surge_token: ${{ secrets.SURGE_TOKEN }}
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      dist: site
+      failOnError: true
+      teardown: true
+      build: |
+        ls -lh site
+```
+
 
 ## Build
 
