@@ -7,14 +7,14 @@ try {
   // Compute the 'preview url', as built by the surge-preview action
   const repoOwner = github.context.repo.owner.replace(/\./g, '-');
   const repoName = github.context.repo.repo.replace(/\./g, '-');
-  const url = `${repoOwner}-${repoName}-${github.context.job}-pr-${payload.number}.surge.sh`;
+  const url = `https://${repoOwner}-${repoName}-${github.context.job}-pr-${payload.number}.surge.sh`;
   core.setOutput('preview-url', url);
   core.info(`Computed preview url: ${url}`);
 
   // the token must be set
   const surgeToken = core.getInput('surge-token');
   core.setSecret(surgeToken);
-  const isSurgeTokenValid = checkLogin(surgeToken);
+  const isSurgeTokenValid = surgeToken && checkLogin(surgeToken);
   core.info(`surge token valid? ${isSurgeTokenValid}`)
   core.setOutput("surge-token-valid", isSurgeTokenValid);
 
