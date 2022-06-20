@@ -19,7 +19,7 @@ jobs:
       - uses: ./.github/actions/surge-preview-tools
         id: surge-preview-tools
         with:
-          surge-token: ${{ secrets.SURGE_TOKEN }}
+          surge-token: ${{ secrets.SURGE_TOKEN_UNKNOWN }}
       - name: Echo surge preview tools output
         run: |
           echo "can-run-surge-command: ${{ steps.surge-preview-tools.outputs.can-run-surge-command }}"
