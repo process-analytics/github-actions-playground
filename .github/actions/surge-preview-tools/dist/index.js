@@ -9096,7 +9096,7 @@ try {
   // the token must be set
   const surgeToken = core.getInput('surge-token');
   core.setSecret(surgeToken);
-  const isSurgeTokenValid = surgeToken && checkLogin(surgeToken);
+  const isSurgeTokenValid = checkLogin(surgeToken);
   core.info(`surge token valid? ${isSurgeTokenValid}`)
   core.setOutput("surge-token-valid", isSurgeTokenValid);
 
