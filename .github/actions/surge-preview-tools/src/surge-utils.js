@@ -12,9 +12,14 @@ function executeCmd(command) {
 }
 
 const checkLogin = (surgeToken) => {
+  try {
   const surgeLoginOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
   console.info('surge login:', surgeLoginOutput);
   return true;
+  } catch (e) {
+    console.info(e.message);
+    return false;
+  }
 }
 
 // Adapted here to pass the surge token
