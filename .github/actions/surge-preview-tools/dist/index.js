@@ -4309,24 +4309,6 @@ exports.request = request;
 
 /***/ }),
 
-/***/ 5063:
-/***/ ((module) => {
-
-"use strict";
-
-
-module.exports = ({onlyFirst = false} = {}) => {
-	const pattern = [
-		'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
-	].join('|');
-
-	return new RegExp(pattern, onlyFirst ? undefined : 'g');
-};
-
-
-/***/ }),
-
 /***/ 3682:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -6328,18 +6310,6 @@ function onceStrict (fn) {
   f.called = false
   return f
 }
-
-
-/***/ }),
-
-/***/ 5591:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-"use strict";
-
-const ansiRegex = __nccwpck_require__(5063);
-
-module.exports = string => typeof string === 'string' ? string.replace(ansiRegex(), '') : string;
 
 
 /***/ }),
@@ -8852,19 +8822,46 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 3232:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+/***/ 3078:
+/***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
 
+"use strict";
+// ESM COMPAT FLAG
+__nccwpck_require__.r(__webpack_exports__);
+
+;// CONCATENATED MODULE: ./node_modules/ansi-regex/index.js
+function ansiRegex({onlyFirst = false} = {}) {
+	const pattern = [
+	    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+	].join('|');
+
+	return new RegExp(pattern, onlyFirst ? undefined : 'g');
+}
+
+;// CONCATENATED MODULE: ./node_modules/strip-ansi/index.js
+
+
+function stripAnsi(string) {
+	if (typeof string !== 'string') {
+		throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
+	}
+
+	return string.replace(ansiRegex(), '');
+}
+
+;// CONCATENATED MODULE: external "node:child_process"
+const external_node_child_process_namespaceObject = require("node:child_process");
+;// CONCATENATED MODULE: ./src/surge-utils.js
 // The following is adapted from https://github.com/adrianjost/actions-surge.sh-teardown/blob/fc7c144291330755517b28a873139fcc11327cd8/index.js#L17
 // released under the MIT license
-// TODO use stripAnsi 7 move to ESM https://github.com/chalk/strip-ansi/releases/tag/v7.0.0
-const stripAnsi = __nccwpck_require__(5591);
-const { execSync } = __nccwpck_require__(2081);
+
+
 
 const surgeCli = 'npx surge';
 
 function executeCmd(command) {
-  const result = execSync(command);
+  const result = (0,external_node_child_process_namespaceObject.execSync)(command);
   return stripAnsi(result.toString()).trim();
 }
 
@@ -8919,14 +8916,6 @@ module.exports = eval("require")("encoding");
 
 "use strict";
 module.exports = require("assert");
-
-/***/ }),
-
-/***/ 2081:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("child_process");
 
 /***/ }),
 
@@ -9075,53 +9064,100 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
-const core = __nccwpck_require__(2186);
-const github = __nccwpck_require__(5438);
-const {checkLogin, getDeploys} = __nccwpck_require__(3232);
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5438);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const {checkLogin, getDeploys} = __nccwpck_require__(3078);
 
 try {
-  const payload = github.context.payload;
+  const payload = (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.payload);
   // Compute the 'preview url', as built by the surge-preview action
-  const repoOwner = github.context.repo.owner.replace(/\./g, '-');
-  const repoName = github.context.repo.repo.replace(/\./g, '-');
-  const url = `${repoOwner}-${repoName}-${github.context.job}-pr-${payload.number}.surge.sh`;
-  core.setOutput('preview-url', url);
-  core.info(`Computed preview url: ${url}`);
+  const repoOwner = _actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.owner.replace(/\./g, '-');
+  const repoName = _actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo.replace(/\./g, '-');
+  const url = `${repoOwner}-${repoName}-${(_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.job)}-pr-${payload.number}.surge.sh`;
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('preview-url', url);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`Computed preview url: ${url}`);
 
   // the token must be set
-  const surgeToken = core.getInput('surge-token');
-  core.setSecret(surgeToken);
+  const surgeToken = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('surge-token');
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setSecret(surgeToken);
   const isSurgeTokenValid = checkLogin(surgeToken);
-  core.info(`surge token valid? ${isSurgeTokenValid}`)
-  core.setOutput("surge-token-valid", isSurgeTokenValid);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`surge token valid? ${isSurgeTokenValid}`)
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput("surge-token-valid", isSurgeTokenValid);
 
   let isDomainExist = false;
   if (isSurgeTokenValid) {
-    core.startGroup('List Surge domains');
+    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().startGroup('List Surge domains');
     const deploys = getDeploys(surgeToken);
     const domains = deploys.map(deploy => deploy.domain);
-    core.info(`Number of domains: ${domains.length}`);
-    core.debug(domains);
-    core.endGroup();
+    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`Number of domains: ${domains.length}`);
+    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().debug(domains);
+    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().endGroup();
 
     isDomainExist = domains.includes(url);
-    core.info(`surge domain exist? ${isDomainExist}`);
+    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`surge domain exist? ${isDomainExist}`);
   }
-  core.setOutput('domain-exist', isDomainExist);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('domain-exist', isDomainExist);
 
   const canRunSurgeCommand = isSurgeTokenValid && (payload.action !== 'closed' || (payload.action === 'closed' && isDomainExist));
-  core.info(`can run surge command? ${canRunSurgeCommand}`)
-  core.setOutput("can-run-surge-command", canRunSurgeCommand);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(`can run surge command? ${canRunSurgeCommand}`)
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput("can-run-surge-command", canRunSurgeCommand);
 } catch (error) {
-  core.setFailed(error.message);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setFailed(error.message);
 }
 
 
