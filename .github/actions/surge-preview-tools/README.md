@@ -16,7 +16,7 @@ See [action.yml](./action.yml) for inputs and outputs.
 Example
 ```yaml
 steps:
-  - uses: ./.github/actions/surge-preview-tools # 
+  - uses: process-analytics/github-actions-playground/.github/actions/surge-preview-tools/@TAGNAME
     id: surge-preview-tools
     with:
       surge-token: ${{ secrets.SURGE_TOKEN }}
