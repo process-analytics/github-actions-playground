@@ -11,25 +11,21 @@ permissions:
   pull-requests: write
 
 jobs:
-  # see also ./execute-depending-on-secrets-availability.yml
-  check_secrets:
-    runs-on: ubuntu-20.04
-    outputs:
-      is_SURGE_TOKEN_set: ${{ steps.secret_availability.outputs.is_SURGE_TOKEN_set }}
-    steps:
-      - name: Compute secrets availability
-        id: secret_availability
-        env:
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-        run: |
-          echo "is_SURGE_TOKEN_set: ${{ env.SURGE_TOKEN != '' }}"
-          echo "::set-output name=is_SURGE_TOKEN_set::${{ env.SURGE_TOKEN != '' }}"
-
   demo_preview:  # the id is used by surge to generate the surge url
-    needs: [check_secrets]
-    if: needs.check_secrets.outputs.is_SURGE_TOKEN_set == 'true'
     runs-on: ubuntu-20.04
     steps:
+      # only required to access to the local github actions
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/surge-preview-tools
+        id: surge-preview-tools
+        with:
+          surge-token: ${{ secrets.SURGE_TOKEN }}
+      - name: Echo surge preview tools output
+        run: |
+          echo "can-run-surge-command: ${{ steps.surge-preview-tools.outputs.can-run-surge-command }}"
+          echo "domain-exist: ${{ steps.surge-preview-tools.outputs.domain-exist }}" 
+          echo "preview-url: ${{ steps.surge-preview-tools.outputs.preview-url }}" 
+          echo "surge-token-valid: ${{ steps.surge-preview-tools.outputs.surge-token-valid }}"
       - name: Build fake demo
         if: ${{ github.event.action != 'closed' }}
         env:
@@ -38,6 +34,7 @@ jobs:
           mkdir site
           echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/index.html
       - name: Publish Demo preview
+        if: steps.surge-preview-tools.outputs.can-run-surge-command == 'true'
         id: publish_demo_preview
         uses: afc163/surge-preview@v1
         with:
@@ -45,6 +42,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dist: site
           failOnError: true
-          teardown: 'true'
+          teardown: true
           build: |
             ls -lh site
