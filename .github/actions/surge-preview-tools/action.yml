@@ -10,9 +10,13 @@ outputs:
   can-run-surge-command:
     description: 'true if the provided surge-token allows to run surge command'
   domain-exist:
-    description: 'true if the domain related to the preview-url exists. false otherwise'
+    description: >
+      `true` if the domain related to the preview-url exists.
+      `false` otherwise, in particular the domain was created with another login.
   preview-url:
     description: 'The url for the related PR preview, as computed by the surge-preview action'
+  surge-token-valid:
+    description: 'true if the surge token allow login'
 
 runs:
   using: 'node16'

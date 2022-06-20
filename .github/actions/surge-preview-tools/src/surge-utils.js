@@ -4,14 +4,22 @@
 const stripAnsi = require("strip-ansi");
 const { execSync } = require("child_process");
 
+const surgeCli = 'npx surge';
+
 function executeCmd(command) {
   const result = execSync(command);
   return stripAnsi(result.toString()).trim();
 }
 
+const checkLogin = (surgeToken) => {
+  const surgeLoginOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
+  console.info('surge login:', surgeLoginOutput);
+  return true;
+}
+
 // Adapted here to pass the surge token
 function getDeploys(surgeToken) {
-  const surgeListOutput = executeCmd(`npx surge list --token ${surgeToken}`);
+  const surgeListOutput = executeCmd(`${surgeCli} list --token ${surgeToken}`);
   const lines =
     surgeListOutput
       .split("\n")
@@ -32,4 +40,5 @@ function getDeploys(surgeToken) {
   });
 }
 
-module.exports = getDeploys;
+exports.getDeploys = getDeploys;
+exports.checkLogin = checkLogin;

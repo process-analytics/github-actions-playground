@@ -1,11 +1,8 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const getDeploys = require("./surge-utils");
+const {checkLogin, getDeploys} = require("./surge-utils");
 
 try {
-  // default value
-  let canRunSurgeCommand = true;
-
   const payload = github.context.payload;
   // Compute the 'preview url', as built by the surge-preview action
   const repoOwner = github.context.repo.owner.replace(/\./g, '-');
@@ -16,13 +13,12 @@ try {
 
   // the token must be set
   const surgeToken = core.getInput('surge-token');
-  if (!surgeToken) {
-    canRunSurgeCommand = false;
-  }
-  // TODO on close PR, the deployment must exist
-  // if(payload.action === 'closed') {
-  else {
-    core.setSecret(surgeToken);
+  core.setSecret(surgeToken);
+  const isSurgeTokenValid = checkLogin(surgeToken);
+  core.info(`surge token valid? ${isSurgeTokenValid}`)
+  core.setOutput("surge-token-valid", isSurgeTokenValid);
+
+  if (isSurgeTokenValid) {
     core.startGroup('List Surge domains');
     const deploys = getDeploys(surgeToken);
     const domains = deploys.map(deploy => deploy.domain);
@@ -34,6 +30,11 @@ try {
     core.info(`surge domain exist? ${isDomainExist}`);
     core.setOutput('domain-exist', isDomainExist);
   }
+
+  // TODO on close PR, the deployment must exist
+  // if(payload.action === 'closed') {
+  // default value
+  let canRunSurgeCommand = true;
   core.info(`can run surge command? ${canRunSurgeCommand}`)
   core.setOutput("can-run-surge-command", canRunSurgeCommand);
 } catch (error) {
