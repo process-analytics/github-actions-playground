@@ -7,9 +7,10 @@ try {
   // Compute the 'preview url', as built by the surge-preview action
   const repoOwner = github.context.repo.owner.replace(/\./g, '-');
   const repoName = github.context.repo.repo.replace(/\./g, '-');
-  const url = `https://${repoOwner}-${repoName}-${github.context.job}-pr-${payload.number}.surge.sh`;
-  core.setOutput('preview-url', url);
-  core.info(`Computed preview url: ${url}`);
+  const domain = `${repoOwner}-${repoName}-${github.context.job}-pr-${payload.number}.surge.sh`;
+  const previewUrl = `https://${domain}`;
+  core.setOutput('preview-url', previewUrl);
+  core.info(`Computed preview url: ${previewUrl}`);
 
   // the token must be set
   const surgeToken = core.getInput('surge-token');
@@ -27,7 +28,8 @@ try {
     core.debug(domains);
     core.endGroup();
 
-    isDomainExist = domains.includes(url);
+    core.info(`Checking if surge domain exist. Domain: ${domain}`);
+    isDomainExist = domains.includes(domain);
     core.info(`surge domain exist? ${isDomainExist}`);
   }
   core.setOutput('domain-exist', isDomainExist);
