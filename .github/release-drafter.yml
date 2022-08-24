@@ -12,21 +12,16 @@ categories:
     label: documentation
   - title: 👻 Maintenance
     labels:
-      - infra:build
-      - infra:refactoring
-      - infra:repo
       - chore
-      - internal
+      - refactoring
   - title: 📦 Dependency updates
     collapse-after: 2
     labels:
       - dependencies
 exclude-labels:
   - invalid
-  - no-changelog
   - skip-changelog
   - reverted
-  - wontfix
 # Exclude specific usernames from the generated $CONTRIBUTORS variable.
 # https://github.com/release-drafter/release-drafter/tree/master#exclude-contributors
 exclude-contributors:
