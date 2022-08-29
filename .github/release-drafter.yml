@@ -26,6 +26,8 @@ exclude-contributors:
   - 'dependabot'
   - 'dependabot[bot]'
 template: |
+  EXTRA: this will be removed in the final configuration!
+  
   **TODO: add a short description about the release content - important for url preview**
   This new release focuses on .... **or something similar**
   This new version brings improvements to ...
