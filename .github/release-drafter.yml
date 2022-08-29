@@ -35,7 +35,7 @@ template: |
   **TODO: review the contributors list (remove ALL bots and avoid duplicates)**
   Thanks to all the contributors of this release 🌈: $CONTRIBUTORS
 
-  **TODO: add milestone id when publishing**
+  **TODO: use the right milestone id and ensure the version is the right one**
   See [milestone $NEXT_PATCH_VERSION](https://github.com/$OWNER/$REPOSITORY/milestone/x?closed=1) to get the list of issues covered by this release.
 
   **TODO: check previous and next tag in the "full changelog" link in the "What's changed section"**
