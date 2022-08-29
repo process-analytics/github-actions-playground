@@ -9,7 +9,7 @@ updates:
     versioning-strategy: increase
     rebase-strategy: "disabled"
     commit-message:
-      prefix: "[INFRA] prod -"
+      prefix: "[INFRA] deps -"
       prefix-development: "[INFRA] dev -"
     labels:
       - dependencies
