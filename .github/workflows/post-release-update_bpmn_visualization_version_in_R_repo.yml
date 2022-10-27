@@ -24,7 +24,7 @@ jobs:
       - name: Delete old BPMN Visualization version
         run: rm inst/htmlwidgets/lib/bpmn-visualization/bpmn-visualization.min.js
       - name: Download BPMN Visualization ${{ env.VERSION }}
-        uses: carlosperate/download-file-action@v1
+        uses: carlosperate/download-file-action@v2
         with:
           # Use a hard coded version as the release version in this repository doesn't follow bpmn-visualization release versions
           # This ensures we can download the js file
