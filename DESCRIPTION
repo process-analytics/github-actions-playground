@@ -1,0 +1,22 @@
+Package: bpmnVisualization
+Type: Package
+Title: Visualize Process Execution Data on BPMN (Business Process Model and Notation) Diagrams
+Version: 0.2.1
+Authors@R: c(person("Celine", "Souchet", role = c("aut", "cre"), email = "process.analytics.dev+CRAN@gmail.com"),
+             person("Thomas", "Bouffard", role = "aut"))
+Description: To visualize the execution data of the processes on BPMN diagrams, using overlays, style customization and interactions, with BPMN Visualization.
+License: Apache License (== 2)
+Copyright: Bonitasoft S.A.
+URL: https://github.com/process-analytics/bpmn-visualization-R
+BugReports: https://github.com/process-analytics/bpmn-visualization-R/issues
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.2
+Imports:
+    htmlwidgets,
+    rlang,
+    xml2
+Suggests:
+    shiny,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

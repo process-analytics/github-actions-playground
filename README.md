@@ -38,3 +38,13 @@ The event is received by the repository which triggers workflows (simulate what 
 ## Extra
 
 - [Dependabot configuration](.github/dependabot.yml): as configured in repository using dependabot to update dependencies
+
+
+## Test to update the readme of https://github.com/process-analytics/bpmn-visualization-R
+
+#### Install _BPMN Visualization - R Package_ from GitHub
+
+To install a dedicated version (available versions can be found in the [GitHub releases page](https://github.com/process-analytics/bpmn-visualization-R/releases)), run:
+```r
+devtools::install_github("process-analytics/bpmn-visualization-R@v0.2.1")
+```
