@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       type:
-        description: 'New version type [new-version | major | minor | patch]'
+        description: 'New version type [major | minor | patch]'
         required: true
         default: 'patch'
 jobs:
@@ -43,13 +43,12 @@ jobs:
 
       - name: Generate new version
         id: next_version
-        uses: pr-mpt/actions-semver-aliases@v1
+        uses: leovs09/semver-release-action@v1
         with:
+          bump: ${{ env.type }}
           version: ${{ env.CURRENT_VERSION }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          major: false
-          minor: false
-          patch: true
+          github_token: ${{ secrets.GH_RELEASE_TOKEN }}
+          dry_run: true
 
       - name: Update README.md
         run: |-
