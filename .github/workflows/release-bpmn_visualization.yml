@@ -1,4 +1,4 @@
-name: Release
+name: Release of bpmn-visualization
 
 on:
   workflow_dispatch:
