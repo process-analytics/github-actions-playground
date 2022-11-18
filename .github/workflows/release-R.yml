@@ -67,7 +67,7 @@ jobs:
 
       - name: Tag ${{ steps.next_version.outputs.version }}
         run: |
-          git tag -a ${{ steps.next_version.outputs.version }} -m "[RELEASE] ${{ steps.next_version.outputs.version }}"
+          git tag -a v${{ steps.next_version.outputs.version }} -m "[RELEASE] ${{ steps.next_version.outputs.version }}"
 
       - name: Push Version
         run: git push && git push --tags
