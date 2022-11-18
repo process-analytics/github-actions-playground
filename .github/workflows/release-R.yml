@@ -41,33 +41,24 @@ jobs:
           VER=$(grep Version DESCRIPTION | cut -d ': ' -f 2)
           echo "CURRENT_VERSION=$VER" >> $GITHUB_ENV
 
-      - name: Generate new version
-        id: next_version
-        uses: leovs09/semver-release-action@v1
+      - name: Update ${{ env.CURRENT_VERSION }} with the release version
+        uses: ./.github/actions/update-new-version
         with:
-          bump: ${{ env.type }}
-          version: ${{ env.CURRENT_VERSION }}
-          github_token: ${{ secrets.GH_RELEASE_TOKEN }}
-          dry_run: true
+          UPDATE_TYPE: ${{ env.type }}
+          CURRENT_VERSION: ${{ env.CURRENT_VERSION }}
+          OUTPUT_NAME: 'RELEASE_VERSION'
 
-      - name: Update README.md
-        run: |-
-          sed -i -E 's/${{ env.CURRENT_VERSION }}/${{ steps.next_version.outputs.version }}/g' README.md
-
-      - name: Update DESCRIPTION
-        run: |-
-          sed -i -E 's/Version: "(.*)"/Version: "${{ steps.next_version.outputs.version }}"/g' DESCRIPTION
-
-      - name: Commit
+      - name: Tag ${{ env.RELEASE_VERSION }}
         run: |
-          git add README.md
-          git add DESCRIPTION
-          git commit -m "[RELEASE] Prepare version for release"
-          git push
+          git tag -a v${{ env.RELEASE_VERSION }} -m "[RELEASE] ${{ env.RELEASE_VERSION }}"
 
-      - name: Tag ${{ steps.next_version.outputs.version }}
-        run: |
-          git tag -a v${{ steps.next_version.outputs.version }} -m "[RELEASE] ${{ steps.next_version.outputs.version }}"
+      - name: Update ${{ env.RELEASE_VERSION }} with the development version
+        uses: ./.github/actions/update-new-version
+        with:
+          UPDATE_TYPE: 'prepatch'
+          CURRENT_VERSION: ${{ env.RELEASE_VERSION }}
+          OUTPUT_NAME: 'DEV_VERSION'
+          NEXT_VERSION_COMMIT_TYPE: 'development'
 
       - name: Push Version
         run: git push && git push --tags
