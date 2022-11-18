@@ -13,6 +13,7 @@ jobs:
     steps:
       - run: |
           echo "New version type: ${{ github.event.inputs.type }}"
+
       - name: Branch Protection Bot - Temporarily disable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@1.0.7
         if: always()
@@ -25,24 +26,49 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
+
       - name: Config git
         run: |
           git config --local user.email "62586190+process-analytics-bot@users.noreply.github.com"
           git config --local user.name "process-analytics-bot"
           git config pull.rebase true
+
       - name: Checkout master
-        run: git checkout master && git pull --tags
+        run: git checkout master && git pull --tag
 
-        Update readme.md
-        update DESCRIPTION
+      - name: Read version from DESCRIPTION and set version variables
+        run: |
+          VER=$(grep Version DESCRIPTION | cut -d ': ' -f 2)
+          echo "CURRENT_VERSION=$VER" >> $GITHUB_ENV
 
+      - name: Generate new version
+        id: next_version
+        uses: pr-mpt/actions-semver-aliases@v1
+        with:
+          version: ${{ env.CURRENT_VERSION }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          major: false
+          minor: false
+          patch: true
 
-      - name: Bump Version
-        run: npm version ${{ github.event.inputs.type }} --message "[RELEASE] %s"
+      - name: Update README.md
+        run: |-
+          sed -i -E 's/${{ env.CURRENT_VERSION }}/${{ steps.next_version.outputs.version }}/g' README.md
 
+      - name: Update DESCRIPTION
+        run: |-
+          sed -i -E 's/Version: "(.*)"/Version: "${{ steps.next_version.outputs.version }}"/g' DESCRIPTION
 
-Tag
+      - name: Commit
+        run: |
+          git add README.md
+          git add DESCRIPTION
+          git commit -m "[RELEASE] Prepare version for release"
+          git push
 
+      - name: Tag ${{ steps.next_version.outputs.version }}
+        run: |
+          git tag -a ${{ steps.next_version.outputs.version }} -m "[RELEASE] ${{ steps.next_version.outputs.version }}"
 
       - name: Push Version
         run: git push && git push --tags
