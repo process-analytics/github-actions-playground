@@ -38,7 +38,7 @@ jobs:
 
       - name: Read version from DESCRIPTION and set version variables
         run: |
-          VER=$(grep Version DESCRIPTION | cut -d ': ' -f 2)
+          VER=$(grep Version DESCRIPTION | sed 's/Version: \(.*\).9000/\1/g'
           echo "CURRENT_VERSION=$VER" >> $GITHUB_ENV
 
       - name: Generate new version
