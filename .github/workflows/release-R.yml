@@ -46,7 +46,7 @@ jobs:
         uses: zwaldowski/semver-release-action@v3
         with:
           dry_run: true
-          bump: ${{ env.type }}
+          bump: ${{ inputs.type }}
           prefix: v
           github_token: ${{ secrets.GH_RELEASE_TOKEN }}
 
