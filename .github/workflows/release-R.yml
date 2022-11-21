@@ -43,7 +43,7 @@ jobs:
 
       - name: Generate new version
         id: release_version
-        uses: leovs09/semver-release-action@v2
+        uses: leovs09/semver-release-action@v3
         with:
           dry_run: true
           bump: ${{ env.type }}
