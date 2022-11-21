@@ -62,7 +62,7 @@ jobs:
         run: |
           git add README.md
           git add DESCRIPTION
-          git commit -m "[RELEASE] Prepare version for release"
+          git commit -m "[RELEASE] Set the release version to ${{ steps.release_version.outputs.version }}"
           git push
 
       - name: Tag ${{ steps.release_version.outputs.version }}
@@ -78,8 +78,8 @@ jobs:
 
       - name: Commit
         run: |
-          git add DESCRIPTION with the development version
-          git commit -m "[RELEASE] Prepare version for development"
+          git add DESCRIPTION
+          git commit -m "[RELEASE] Set the development version to ${{ steps.release_version.outputs.version }}.9000"
           git push
 
       - name: Branch Protection Bot - Reenable "include administrators" branch protection
