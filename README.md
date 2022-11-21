@@ -46,9 +46,9 @@ The [Release of R package](.github/workflows/release-R.yml) workflow update the 
 - [Dependabot configuration](.github/dependabot.yml): as configured in repository using dependabot to update dependencies
 
 
-## Test to update the readme of https://github.com/process-analytics/bpmn-visualization-R
+## Test to update the README of https://github.com/process-analytics/bpmn-visualization-R
 
-The following simulates the content of the `README.md` file of [bpmn-visualization-R](https://github.com/process-analytics/bpmn-visualization-R) repository.
+The following simulates the content of the `README.md` file of [bpmn-visualization-R](https://github.com/process-analytics/bpmn-visualization-R) repository. This content is updated automatically during the release process.
 
 #### Install _BPMN Visualization - R Package_ from GitHub
 
