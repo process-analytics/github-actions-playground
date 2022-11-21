@@ -41,7 +41,7 @@ jobs:
           VER=$(grep Version DESCRIPTION | sed 's/Version: \(.*\).9000/\1/g')
           echo "CURRENT_VERSION=$VER" >> $GITHUB_ENV
 
-      - name: Generate new version from tag
+      - name: Generate new version
         id: release_version
         uses: zwaldowski/semver-release-action@v3
         with:
@@ -50,41 +50,36 @@ jobs:
           prefix: v
           github_token: ${{ secrets.GH_RELEASE_TOKEN }}
 
-      - name: Get release version
-        run: |
-          VER=$(echo steps.release_version.outputs.version | sed 's/v\(.*\)/\1/g')
-          echo "RELEASE_VERSION=$VER" >> $GITHUB_ENV
-
       - name: Update README.md with the release version
         run: |-
-          sed -i -E 's/${{ env.CURRENT_VERSION }}/${{ env.RELEASE_VERSION }}/g' README.md
+          sed -i -E 's/${{ env.CURRENT_VERSION }}/${{ steps.release_version.outputs.version }}/g' README.md
 
       - name: Update DESCRIPTION with the release version
         run: |-
-          sed -i -E 's/Version: "(.*)"/Version: "${{ env.RELEASE_VERSION }}"/g' DESCRIPTION
+          sed -i -E 's/Version: "(.*)"/Version: "${{ steps.release_version.outputs.version }}"/g' DESCRIPTION
 
       - name: Commit with the release version
         run: |
           git add README.md
           git add DESCRIPTION
-          git commit -m "[RELEASE] Set the release version to ${{ env.RELEASE_VERSION }}"
+          git commit -m "[RELEASE] Set the release version to ${{ steps.release_version.outputs.version }}"
           git push
 
       - name: Tag ${{ steps.release_version.outputs.version }}
         run: |
-          git tag -a v${{ env.RELEASE_VERSION }} -m "[RELEASE] ${{ env.RELEASE_VERSION }}"
+          git tag -a ${{ steps.release_version.outputs.version_tag }} -m "[RELEASE] ${{ steps.release_version.outputs.version }}"
 
       - name: Push Version
         run: git push && git push --tags
 
       - name: Update DESCRIPTION with the development version
         run: |-
-          sed -i -E 's/Version: "(.*)"/Version: "${{ env.RELEASE_VERSION }}.9000"/g' DESCRIPTION
+          sed -i -E 's/Version: "(.*)"/Version: "${{ steps.release_version.outputs.version }}.9000"/g' DESCRIPTION
 
       - name: Commit with the development version
         run: |
           git add DESCRIPTION
-          git commit -m "[RELEASE] Set the development version to ${{ env.RELEASE_VERSION }}.9000"
+          git commit -m "[RELEASE] Set the development version to ${{ steps.release_version.outputs.version }}.9000"
           git push
 
       - name: Branch Protection Bot - Reenable "include administrators" branch protection
