@@ -43,12 +43,12 @@ jobs:
 
       - name: Generate new version
         id: release_version
-        uses: leovs09/semver-release-action@v1
+        uses: leovs09/semver-release-action@v2
         with:
+          dry_run: true
           bump: ${{ env.type }}
           version: ${{ env.CURRENT_VERSION }}
           github_token: ${{ secrets.GH_RELEASE_TOKEN }}
-          dry_run: true
 
       - name: Update README.md with the release version
         run: |-
