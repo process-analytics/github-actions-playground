@@ -58,7 +58,7 @@ jobs:
         run: |-
           sed -i -E 's/Version: "(.*)"/Version: "${{ steps.release_version.outputs.version }}"/g' DESCRIPTION
 
-      - name: Commit
+      - name: Commit with the release version
         run: |
           git add README.md
           git add DESCRIPTION
@@ -72,11 +72,11 @@ jobs:
       - name: Push Version
         run: git push && git push --tags
 
-      - name: Update DESCRIPTION
+      - name: Update DESCRIPTION with the development version
         run: |-
           sed -i -E 's/Version: "(.*)"/Version: "${{ steps.release_version.outputs.version }}.9000"/g' DESCRIPTION
 
-      - name: Commit
+      - name: Commit with the development version
         run: |
           git add DESCRIPTION
           git commit -m "[RELEASE] Set the development version to ${{ steps.release_version.outputs.version }}.9000"
