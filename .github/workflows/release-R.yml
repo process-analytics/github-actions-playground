@@ -36,27 +36,20 @@ jobs:
       - name: Checkout master
         run: git checkout master && git pull --tag
 
-      - name: Read version from DESCRIPTION and set version variables
-        run: |
-          VER=$(grep Version DESCRIPTION | sed 's/Version: \(.*\).9000/\1/g')
-          echo "CURRENT_VERSION=$VER" >> $GITHUB_ENV
-
       - name: Generate new version
         id: release_version
-        uses: leovs09/semver-release-action@v3
+        uses: zwaldowski/semver-release-action@v3
         with:
           dry_run: true
-          bump: ${{ env.type }}
-          version: ${{ env.CURRENT_VERSION }}
+          bump: ${{ inputs.type }}
+          prefix: v
           github_token: ${{ secrets.GH_RELEASE_TOKEN }}
 
-      - name: Update README.md with the release version
-        run: |-
-          sed -i -E 's/${{ env.CURRENT_VERSION }}/${{ steps.release_version.outputs.version }}/g' README.md
-
-      - name: Update DESCRIPTION with the release version
-        run: |-
-          sed -i -E 's/Version: "(.*)"/Version: "${{ steps.release_version.outputs.version }}"/g' DESCRIPTION
+      - name: Update with the release version
+        run: |
+          CURRENT_VERSION=$(grep Version DESCRIPTION | sed 's/Version: \(.*\).9000/\1/g')
+          sed -i -E "s/$CURRENT_VERSION/${{ steps.release_version.outputs.version }}/g" README.md
+          sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}/g' DESCRIPTION
 
       - name: Commit with the release version
         run: |
@@ -67,14 +60,12 @@ jobs:
 
       - name: Tag ${{ steps.release_version.outputs.version }}
         run: |
-          git tag -a v${{ steps.release_version.outputs.version }} -m "[RELEASE] ${{ steps.release_version.outputs.version }}"
+          git tag -a ${{ steps.release_version.outputs.version_tag }} -m "[RELEASE] ${{ steps.release_version.outputs.version }}"
+          git push && git push --tags
 
-      - name: Push Version
-        run: git push && git push --tags
-
-      - name: Update DESCRIPTION with the development version
+      - name: Update with the development version
         run: |-
-          sed -i -E 's/Version: "(.*)"/Version: "${{ steps.release_version.outputs.version }}.9000"/g' DESCRIPTION
+          sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}.9000/g' DESCRIPTION
 
       - name: Commit with the development version
         run: |
