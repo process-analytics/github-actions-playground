@@ -56,7 +56,7 @@ jobs:
 
       - name: Update DESCRIPTION with the release version
         run: |-
-          sed -i -E 's/Version: "(.*)"/Version: "${{ steps.release_version.outputs.version }}"/g' DESCRIPTION
+          sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}/g' DESCRIPTION
 
       - name: Commit with the release version
         run: |
@@ -74,7 +74,7 @@ jobs:
 
       - name: Update DESCRIPTION with the development version
         run: |-
-          sed -i -E 's/Version: "(.*)"/Version: "${{ steps.release_version.outputs.version }}.9000"/g' DESCRIPTION
+          sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}.9000/g' DESCRIPTION
 
       - name: Commit with the development version
         run: |
