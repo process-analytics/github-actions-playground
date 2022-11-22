@@ -46,9 +46,9 @@ jobs:
           github_token: ${{ secrets.GH_RELEASE_TOKEN }}
 
       - name: Update with the release version
-        run: |-
+        run: |
           CURRENT_VERSION=$(grep Version DESCRIPTION | sed 's/Version: \(.*\).9000/\1/g')
-          sed -i -E 's/${{ CURRENT_VERSION }}/${{ steps.release_version.outputs.version }}/g' README.md
+          sed -i -E "s/$CURRENT_VERSION/${{ steps.release_version.outputs.version }}/g" README.md
           sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}/g' DESCRIPTION
 
       - name: Commit with the release version
