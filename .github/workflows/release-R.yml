@@ -34,7 +34,7 @@ jobs:
           git config pull.rebase true
 
       - name: Checkout master
-        run: git checkout fix_workflow_to_tag_and_files_update_in_R_package && git pull --tag
+        run: git checkout master && git pull --tag
 
       - name: Generate new version
         id: release_version
