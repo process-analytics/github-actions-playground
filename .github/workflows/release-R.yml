@@ -36,11 +36,6 @@ jobs:
       - name: Checkout master
         run: git checkout fix_workflow_to_tag_and_files_update_in_R_package && git pull --tag
 
-      - name: Read version from DESCRIPTION and set version variables
-        run: |
-          VER=$(grep Version DESCRIPTION | sed 's/Version: \(.*\).9000/\1/g')
-          echo "CURRENT_VERSION=$VER" >> $GITHUB_ENV
-
       - name: Generate new version
         id: release_version
         uses: zwaldowski/semver-release-action@v3
@@ -50,12 +45,10 @@ jobs:
           prefix: v
           github_token: ${{ secrets.GH_RELEASE_TOKEN }}
 
-      - name: Update README.md with the release version
+      - name: Update with the release version
         run: |-
-          sed -i -E 's/${{ env.CURRENT_VERSION }}/${{ steps.release_version.outputs.version }}/g' README.md
-
-      - name: Update DESCRIPTION with the release version
-        run: |-
+          CURRENT_VERSION=$(grep Version DESCRIPTION | sed 's/Version: \(.*\).9000/\1/g')
+          sed -i -E 's/${{ CURRENT_VERSION }}/${{ steps.release_version.outputs.version }}/g' README.md
           sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}/g' DESCRIPTION
 
       - name: Commit with the release version
@@ -68,11 +61,9 @@ jobs:
       - name: Tag ${{ steps.release_version.outputs.version }}
         run: |
           git tag -a ${{ steps.release_version.outputs.version_tag }} -m "[RELEASE] ${{ steps.release_version.outputs.version }}"
+          git push && git push --tags
 
-      - name: Push Version
-        run: git push && git push --tags
-
-      - name: Update DESCRIPTION with the development version
+      - name: Update with the development version
         run: |-
           sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}.9000/g' DESCRIPTION
 
