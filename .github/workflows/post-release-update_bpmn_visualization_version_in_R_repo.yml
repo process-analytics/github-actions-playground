@@ -10,7 +10,7 @@ on:
 
 jobs:
   updateVersion:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
     steps:
@@ -47,7 +47,7 @@ jobs:
           delete-branch: true
           base: "master"
           title: "[INFRA] Bump BPMN Visualization version from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
-          body: "Perform what we have to do to update bpmn-visualization-js in the bpmn-visualization-R package" 
+          body: "Perform what we have to do to update bpmn-visualization-js in the bpmn-visualization-R package"
           labels: "dependencies"
           team-reviewers: pa-collaborators
           draft: true
