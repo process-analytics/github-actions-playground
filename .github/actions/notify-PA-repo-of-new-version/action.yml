@@ -18,13 +18,19 @@ inputs:
     description: 'The name of the demo artifact'
     required: false
     default: ''
+  VERSION:
+    description: 'The new version'
+    required: true
 
 runs:
   using: "composite"
   steps:
     - name: Set VERSION
       shell: bash
-      run: echo "VERSION=${GITHUB_REF#refs/tags/v*}" >> $GITHUB_ENV
+      # in bpmn-visualization-js repo
+      # run: echo "VERSION=${GITHUB_REF#refs/tags/v*}" >> $GITHUB_ENV
+      # use the action inputs in the playground
+      run: echo "VERSION=${{ inputs.VERSION }}" >> $GITHUB_ENV
     - name: Set CLIENT_PAYLOAD
       shell: bash
       run: |

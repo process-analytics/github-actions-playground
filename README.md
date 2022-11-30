@@ -25,7 +25,10 @@ Simulate `bpmn-visualization` release, assets generation and companion repositor
 
 The [Release of bpmn-visualization](.github/workflows/release-bpmn_visualization.yml) workflow runs `npm version` and pushes branch/tag on a branch with restricted rules (used in bpmn-visualization).
 
-Then, on git tag creation, a [dedicated workflow](.github/workflows/post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml) builds a fake demo, attaches it as an artifact and sends a `repository_dispatch` event to simulate notification of companion repositories as done in `bpmn-visualization`.
+Then, you can run a [dedicated workflow](.github/workflows/post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml) builds a fake demo, attaches it as an artifact
+and sends a `repository_dispatch` event to simulate notification of companion repositories as done in `bpmn-visualization`.
+
+**NOTE**: in the bpmn-visualization repository, this workflow is triggered automatically.
 
 The event is received by the repository which triggers workflows (simulate what happen in companion repositories)
 - [bpmn-visualization-examples repository](.github/workflows/post-release-update_bpmn_visualization_version_in_Examples_repo.yml): download the artifact attached to the previous workflow run, then create a Pull Request

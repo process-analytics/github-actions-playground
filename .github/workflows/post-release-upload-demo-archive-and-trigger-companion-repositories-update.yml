@@ -1,9 +1,11 @@
 name: Upload Demo Archive & Trigger Companion Repositories Update
 
 on:
-  push:
-    tags:
-      -  v*
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
 
 jobs:
   upload_demo_archive:
@@ -30,3 +32,4 @@ jobs:
           BUILD_DEMO_WORKFLOW_ID: "post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml"
           ARTIFACT_NAME: '${{ env.ARTIFACT_NAME }}'
           TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+          VERSION: ${{ inputs.version }}
