@@ -6,13 +6,13 @@ on:
         description: 'Send a message to a channel or a user (prefer usage of id instead of name).'
         # C042KNPSN7N is a test channel
         # CSF7TG6N5 is the production channel
-        default: 'C042KNPSN7N' 
+        default: 'C042KNPSN7N'
         type: string
         required: true
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Send message to Slack
         uses: slackapi/slack-github-action@v1.23.0

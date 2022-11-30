@@ -4,7 +4,7 @@ on:
 
 jobs:
   detection:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Get ref by env var
         run: echo "Ref $GITHUB_REF"
@@ -20,7 +20,7 @@ jobs:
 
   conditional_run_master_branch:
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch' ) && github.event.ref == 'refs/heads/master'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: detection
     steps:
       - name: Message
@@ -28,7 +28,7 @@ jobs:
 
   conditional_run_other_branch:
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch' ) && github.event.ref != 'refs/heads/master'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: detection
     steps:
       - name: Message
