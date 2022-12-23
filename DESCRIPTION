@@ -1,7 +1,7 @@
 Package: bpmnVisualization
 Type: Package
 Title: Visualize Process Execution Data on BPMN (Business Process Model and Notation) Diagrams
-Version: 3.0.5
+Version: 3.0.5.9000
 Authors@R: c(person("Celine", "Souchet", role = c("aut", "cre"), email = "process.analytics.dev+CRAN@gmail.com"),
              person("Thomas", "Bouffard", role = "aut"))
 Description: To visualize the execution data of the processes on BPMN diagrams, using overlays, style customization and interactions, with BPMN Visualization.
