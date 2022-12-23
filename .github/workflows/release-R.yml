@@ -1,0 +1,82 @@
+name: Release of R package
+
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: 'New version type [major | minor | patch]'
+        required: true
+        default: 'patch'
+jobs:
+  bumpVersion:
+    runs-on: ubuntu-20.04
+    steps:
+      - run: |
+          echo "New version type: ${{ github.event.inputs.type }}"
+
+      - name: Branch Protection Bot - Temporarily disable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@1.0.7
+        if: always()
+        with:
+          access_token: ${{ secrets.GH_RELEASE_TOKEN }}
+          enforce_admins: false
+          branch: main
+
+      - name: Setup checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_RELEASE_TOKEN }}
+
+      - name: Config git
+        run: |
+          git config --local user.email "62586190+process-analytics-bot@users.noreply.github.com"
+          git config --local user.name "process-analytics-bot"
+          git config pull.rebase true
+
+      - name: Checkout main
+        run: git checkout main && git pull --tag
+
+      - name: Generate new version
+        id: release_version
+        uses: zwaldowski/semver-release-action@v3
+        with:
+          dry_run: true
+          bump: ${{ inputs.type }}
+          prefix: v
+          github_token: ${{ secrets.GH_RELEASE_TOKEN }}
+
+      - name: Update with the release version
+        run: |
+          CURRENT_VERSION=$(grep Version DESCRIPTION | sed 's/Version: \(.*\).9000/\1/g')
+          sed -i -E "s/$CURRENT_VERSION/${{ steps.release_version.outputs.version }}/g" README.md
+          sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}/g' DESCRIPTION
+
+      - name: Commit with the release version
+        run: |
+          git add README.md
+          git add DESCRIPTION
+          git commit -m "[RELEASE] Set the release version to ${{ steps.release_version.outputs.version }}"
+          git push
+
+      - name: Tag ${{ steps.release_version.outputs.version }}
+        run: |
+          git tag -a ${{ steps.release_version.outputs.version_tag }} -m "[RELEASE] ${{ steps.release_version.outputs.version }}"
+          git push && git push --tags
+
+      - name: Update with the development version
+        run: |-
+          sed -i -E 's/Version: .*/Version: ${{ steps.release_version.outputs.version }}.9000/g' DESCRIPTION
+
+      - name: Commit with the development version
+        run: |
+          git add DESCRIPTION
+          git commit -m "[RELEASE] Set the development version to ${{ steps.release_version.outputs.version }}.9000"
+          git push
+
+      - name: Branch Protection Bot - Reenable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@1.0.7
+        if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
+        with:
+          access_token: ${{ secrets.GH_RELEASE_TOKEN }}
+          enforce_admins: true
+          branch: main

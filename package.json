@@ -1,0 +1,23 @@
+{
+  "name": "github-actions-playground",
+  "version": "2.2.0",
+  "description": "Repository for GH Actions tests",
+  "main": "index.js",
+  "scripts": {
+    "api-doc": "typedoc src/api/public/api.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/process-analytics/github-actions-playground.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/process-analytics/github-actions-playground/issues"
+  },
+  "devDependencies": {
+    "typedoc": "~0.23.21",
+    "typescript": "~4.9.3"
+  }
+}

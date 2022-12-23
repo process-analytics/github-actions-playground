@@ -1,0 +1,40 @@
+name: List installed packages and tools
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 1 * * *'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/list-installed-packages-and-tools.yml'
+
+jobs:
+  windows_env:
+    runs-on: windows-2019
+    steps:
+      # The 1st powershell run is very slow, use this one to warm the process
+      # Next powershell calls will execute right away
+      - name: Ping
+        run: echo "I am alive"
+      - name: List installed browsers (64 bits)
+        shell: powershell
+        run: Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where { $_.DisplayName -like "*Chrome*" -or $_.DisplayName -like "*Edge*"} | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
+      - name: List installed browsers (32/64 bits)
+        shell: powershell
+        run: Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where { $_.DisplayName -like "*Chrome*" -or $_.DisplayName -like "*Edge*"} | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
+      - name: List all installed software (64 bits)
+        shell: powershell
+        run: Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
+      - name: List all installed software (32/64 bits)
+        shell: powershell
+        run: Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
+
+  ubuntu_env:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check Chrome
+        run: apt show google-chrome-stable
+      - name: List all software
+        run: apt list

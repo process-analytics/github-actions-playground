@@ -1,0 +1,65 @@
+name: Generate Documentation API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/generate-documentation-api.yml'
+      - 'src/**/*.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'typedoc.json'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/generate-documentation-api.yml'
+      - 'src/**/*.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'typedoc.json'
+
+permissions:
+  # To create or update releases
+  # https://docs.github.com/en/rest/reference/permissions-required-for-github-apps#permission-on-contents
+  contents: write
+
+jobs:
+  generate_doc_api:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build docs
+        run: npm run api-doc
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation-api-${{github.sha}}
+          path: build/docs/api
+
+  push_doc_api_to_gh_pages:
+    # only when 'on push to main'
+    if: github.event_name == 'push' &&  github.event.ref == 'refs/heads/main'
+    runs-on: ubuntu-20.04
+    needs: generate_doc_api
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v3
+        with:
+          name: documentation-api-${{github.sha}}
+      - name: Push to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          destination_dir: ./api/
+          keep_files: true
+          user_name: 'process-analytics-bot'
+          user_email: '62586190+process-analytics-bot@users.noreply.github.com'

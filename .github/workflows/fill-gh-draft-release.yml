@@ -1,0 +1,22 @@
+name: Fill GitHub Draft Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  # To create or update releases
+  # https://docs.github.com/en/rest/reference/permissions-required-for-github-apps#permission-on-contents
+  contents: write
+
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-20.04
+    steps:
+      # Drafts your next Release notes as Pull Requests are merged into "main"
+      # The configuration file is shared in https://github.com/process-analytics/.github/
+      - uses: release-drafter/release-drafter@v5.21.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
