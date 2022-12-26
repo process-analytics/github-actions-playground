@@ -24,7 +24,7 @@ jobs:
             ${{ github.event.inputs.description }}
         
             #bpmnvisualization #bpmn #visualization #typescript #opensource
-            https://github.com/${{ GITHUB_REPOSITORY }}/releases/tag/v${{ github.event.inputs.version }}
+            ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ github.event.inputs.version }}
         env:
           CONSUMER_API_KEY: ${{ secrets.TWITTER_CONSUMER_API_KEY }}
           CONSUMER_API_SECRET_KEY: ${{ secrets.TWITTER_CONSUMER_API_SECRET_KEY }}
@@ -45,4 +45,4 @@ jobs:
             
             ${{ github.event.inputs.description }}
             
-            https://github.com/${{ GITHUB_REPOSITORY }}/releases/tag/v${{ github.event.inputs.version }}
+            ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ github.event.inputs.version }}
