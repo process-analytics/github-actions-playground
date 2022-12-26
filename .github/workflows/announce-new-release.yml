@@ -43,7 +43,7 @@ jobs:
           title: New version of `software` is ready!
           url: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ github.event.inputs.version }}
           description: |
-            📣 test {version} is out! 🎉
+            📣 test ${{ github.event.inputs.version }} is out! 🎉
             
             ${{ github.event.inputs.description }}
           color: #AFEEEE
