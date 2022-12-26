@@ -46,4 +46,4 @@ jobs:
             📣 test ${{ github.event.inputs.version }} is out! 🎉
             
             ${{ github.event.inputs.description }}
-          color: #AFEEEE
+          color: 0xAFEEEE
