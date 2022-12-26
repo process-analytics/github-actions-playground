@@ -12,8 +12,8 @@ on:
         required: true
 
 jobs:
-  runs-on: ubuntu-22.04
   tweet:
+    runs-on: ubuntu-22.04
     steps:
       - name: Tweet
         uses: snow-actions/tweet@v1.4.0
@@ -32,6 +32,7 @@ jobs:
           ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
 
   send-message-on-discord:
+    runs-on: ubuntu-22.04
     steps:
       - name: Send a message on Discord
         uses: sarisia/actions-status-discord@v1
