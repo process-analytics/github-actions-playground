@@ -41,9 +41,9 @@ jobs:
           nodetail: true
           notimestamp: true
           title: New version of `software` is ready!
+          url: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ github.event.inputs.version }}
           description: |
             📣 test {version} is out! 🎉
             
             ${{ github.event.inputs.description }}
-            
-            ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ github.event.inputs.version }}
+          color: #AFEEEE
