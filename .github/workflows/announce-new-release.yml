@@ -39,6 +39,7 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           nodetail: true
+          notimestamp: true
           title: New version of `software` is ready!
           description: |
             📣 test {version} is out! 🎉
