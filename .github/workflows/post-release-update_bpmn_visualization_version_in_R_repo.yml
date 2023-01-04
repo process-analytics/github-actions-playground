@@ -19,7 +19,7 @@ jobs:
         id: lookupOldBPMNVisuVersion
         uses: mikefarah/yq@v4.30.6
         with:
-          cmd: yq '.dependencies[] | select(.name == "bpmn-visualization") | .version' inst/htmlwidgets/bpmnVisualization.yaml
+          cmd: yq '.dependencies[] | select(.name == "bpmn-visualization") | .version' inst/htmlwidgets/bpmnVisualizationR.yaml
       - run: echo "OLD_VERSION=${{ steps.lookupOldBPMNVisuVersion.outputs.result }}" >> $GITHUB_ENV
       - name: Delete the old bpmn-visualization
         run: rm inst/htmlwidgets/lib/bpmn-visualization/bpmn-visualization.min.js
@@ -32,7 +32,7 @@ jobs:
           location: 'inst/htmlwidgets/lib/bpmn-visualization'
       - name: Update the bpmn-visualization version in the YAML file
         run: |
-          sed -i -E 's/version: ".*"/version: "${{ env.VERSION }}"/' inst/htmlwidgets/bpmnVisualization.yaml
+          sed -i -E 's/version: ".*"/version: "${{ env.VERSION }}"/' inst/htmlwidgets/bpmnVisualizationR.yaml
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: inst/htmlwidgets
