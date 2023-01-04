@@ -1,4 +1,4 @@
-name: Update BPMN Visualization version in R repo
+name: Update the version of the bpmn-visualization TypeScript library in R repo
 on:
   repository_dispatch:
     types: [ update_bpmn_visualization_version ]
@@ -15,22 +15,22 @@ jobs:
       VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
     steps:
       - uses: actions/checkout@v3
-      - name: Get old BPMN Visualization version
+      - name: Get the old version of bpmn-visualization
         id: lookupOldBPMNVisuVersion
         uses: mikefarah/yq@v4.30.6
         with:
           cmd: yq '.dependencies[] | select(.name == "bpmn-visualization") | .version' inst/htmlwidgets/bpmnVisualization.yaml
       - run: echo "OLD_VERSION=${{ steps.lookupOldBPMNVisuVersion.outputs.result }}" >> $GITHUB_ENV
-      - name: Delete old BPMN Visualization version
+      - name: Delete the old bpmn-visualization
         run: rm inst/htmlwidgets/lib/bpmn-visualization/bpmn-visualization.min.js
-      - name: Download BPMN Visualization ${{ env.VERSION }}
+      - name: Download bpmn-visualization@${{ env.VERSION }}
         uses: carlosperate/download-file-action@v2
         with:
           # Use a hard coded version as the release version in this repository doesn't follow bpmn-visualization release versions
           # This ensures we can download the js file
           file-url: 'https://cdn.jsdelivr.net/npm/bpmn-visualization@0.23.1/dist/bpmn-visualization.min.js'
           location: 'inst/htmlwidgets/lib/bpmn-visualization'
-      - name: Update BPMN Visualization version in YAML file
+      - name: Update the bpmn-visualization version in the YAML file
         run: |
           sed -i -E 's/version: ".*"/version: "${{ env.VERSION }}"/' inst/htmlwidgets/bpmnVisualization.yaml
       - name: Display structure of downloaded files
@@ -40,14 +40,14 @@ jobs:
         uses: peter-evans/create-pull-request@v4.2.3
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
-          commit-message: "[INFRA] Bump BPMN Visualization version from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
+          commit-message: "[INFRA] Bump bpmn-visualization from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
           committer: "process-analytics-bot <62586190+process-analytics-bot@users.noreply.github.com>"
           author: "process-analytics-bot <62586190+process-analytics-bot@users.noreply.github.com>"
           branch: "infra/bump_bpmn_visualization_from_${{ env.OLD_VERSION }}_to_${{ env.VERSION }}"
           delete-branch: true
           base: "master"
-          title: "[INFRA] Bump BPMN Visualization version from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
-          body: "Perform what we have to do to update bpmn-visualization-js in the bpmn-visualization-R package"
+          title: "[INFRA] Bump bpmn-visualization from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
+          body: "Perform what we have to do to update bpmn-visualization-js in the bpmn-visualization-R package. bpmn-visualization is updated from https://cdn.jsdelivr.net/npm/bpmn-visualization@${{ env.VERSION }}/dist/bpmn-visualization.min.js."
           labels: "dependencies"
           team-reviewers: pa-collaborators
           draft: true
