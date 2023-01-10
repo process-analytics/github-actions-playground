@@ -58,7 +58,7 @@ The [Release of bpmnVisualizationR package](.github/workflows/release-R.yml) wor
 
 The following simulates the content of the `README.md` file of [bpmn-visualization-R](https://github.com/process-analytics/bpmn-visualization-R) repository. This content is updated automatically during the release process.
 
-#### Install _BPMN Visualization - R Package_ from GitHub
+#### Install _bpmnVisualizationR_ from GitHub
 
 To install a dedicated version (available versions can be found in the [GitHub releases page](https://github.com/process-analytics/bpmn-visualization-R/releases)), run:
 ```r
