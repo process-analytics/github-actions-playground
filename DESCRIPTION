@@ -7,7 +7,7 @@ Authors@R: c(person("Celine", "Souchet", role = c("aut", "cre"), email = "proces
 Description: To visualize the execution data of the processes on BPMN (Business Process Model and Notation) diagrams, using overlays, style customization and interactions, with the bpmn-visualization TypeScript library.
 License: Apache License (== 2)
 Copyright: Bonitasoft S.A.
-URL: https://process-analytics.github.io/bpmn-visualization-R, https://github.com/process-analytics/bpmn-visualization-R
+URL: https://process-analytics.github.io/bpmn-visualization-R/, https://github.com/process-analytics/bpmn-visualization-R
 BugReports: https://github.com/process-analytics/bpmn-visualization-R/issues
 Encoding: UTF-8
 LazyData: true
