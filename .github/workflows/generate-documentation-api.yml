@@ -61,5 +61,5 @@ jobs:
           publish_dir: ./
           destination_dir: ./api/
           keep_files: true
-          user_name: 'process-analytics-bot'
-          user_email: '62586190+process-analytics-bot@users.noreply.github.com'
+          user_name: ${{ vars.PA_BOT_NAME }}
+          user_email: ${{ vars.PA_BOT_EMAIL }}

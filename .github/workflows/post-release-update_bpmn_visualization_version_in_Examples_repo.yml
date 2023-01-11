@@ -51,8 +51,8 @@ jobs:
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
           commit-message: "[INFRA] Update bpmn-visualization version to ${{ env.VERSION }}"
-          committer: "process-analytics-bot <62586190+process-analytics-bot@users.noreply.github.com>"
-          author: "process-analytics-bot <62586190+process-analytics-bot@users.noreply.github.com>"
+          committer: "${{ vars.PA_BOT_NAME }} <${{ vars.PA_BOT_EMAIL }}>"
+          author: "${{ vars.PA_BOT_NAME }} <${{ vars.PA_BOT_EMAIL }}>"
           branch: "infra/update_bpmn_visualization_to_${{ env.VERSION }}"
           delete-branch: true
           base: "master"
