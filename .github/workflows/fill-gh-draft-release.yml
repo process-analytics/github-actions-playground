@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   update_release_draft:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "main"
       # The configuration file is shared in https://github.com/process-analytics/.github/

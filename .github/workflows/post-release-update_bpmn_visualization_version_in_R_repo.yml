@@ -10,7 +10,7 @@ on:
 
 jobs:
   updateVersion:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     env:
       VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
     steps:

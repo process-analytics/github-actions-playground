@@ -27,7 +27,7 @@ permissions:
 
 jobs:
   generate_doc_api:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - uses: actions/checkout@v3
       - name: Setup node
@@ -47,7 +47,7 @@ jobs:
   push_doc_api_to_gh_pages:
     # only when 'on push to master'
     if: github.event_name == 'push' &&  github.event.ref == 'refs/heads/master'
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     needs: generate_doc_api
     steps:
       - name: Download
