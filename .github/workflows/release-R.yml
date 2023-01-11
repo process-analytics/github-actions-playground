@@ -34,7 +34,7 @@ jobs:
           git config pull.rebase true
 
       - name: Checkout master
-        run: git checkout master && git pull --tag
+        run: git checkout master && git pull --tags
 
       - name: Generate new version
         id: release_version
@@ -56,12 +56,10 @@ jobs:
           git add README.md
           git add DESCRIPTION
           git commit -m "[RELEASE] Set the release version to ${{ steps.release_version.outputs.version }}"
-          git push
 
       - name: Tag ${{ steps.release_version.outputs.version }}
         run: |
           git tag -a ${{ steps.release_version.outputs.version_tag }} -m "[RELEASE] ${{ steps.release_version.outputs.version }}"
-          git push && git push --tags
 
       - name: Update with the development version
         run: |-
@@ -71,7 +69,10 @@ jobs:
         run: |
           git add DESCRIPTION
           git commit -m "[RELEASE] Set the development version to ${{ steps.release_version.outputs.version }}.9000"
-          git push
+
+      - name: Push commits and tags
+        run: |
+          git push && git push --tags
 
       - name: Branch Protection Bot - Reenable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@1.0.7
