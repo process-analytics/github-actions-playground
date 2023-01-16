@@ -13,7 +13,7 @@ on:
 
 jobs:
   tweet:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: Tweet
         uses: snow-actions/tweet@v1.4.0
@@ -32,7 +32,7 @@ jobs:
           ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
 
   send-message-on-discord:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: Send a message on Discord
         uses: sarisia/actions-status-discord@v1

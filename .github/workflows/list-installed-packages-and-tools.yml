@@ -12,7 +12,7 @@ on:
 
 jobs:
   windows_env:
-    runs-on: windows-2019
+    runs-on: ${{ vars.RUNNER_WINDOWS }}
     steps:
       # The 1st powershell run is very slow, use this one to warm the process
       # Next powershell calls will execute right away
@@ -32,7 +32,7 @@ jobs:
         run: Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
 
   ubuntu_env:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: Check Chrome
         run: apt show google-chrome-stable

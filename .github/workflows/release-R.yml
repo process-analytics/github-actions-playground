@@ -9,7 +9,7 @@ on:
         default: 'patch'
 jobs:
   bumpVersion:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - run: |
           echo "New version type: ${{ github.event.inputs.type }}"
@@ -29,8 +29,8 @@ jobs:
 
       - name: Config git
         run: |
-          git config --local user.email "62586190+process-analytics-bot@users.noreply.github.com"
-          git config --local user.name "process-analytics-bot"
+          git config --local user.email "${{ vars.PA_BOT_EMAIL }}"
+          git config --local user.name "${{ vars.PA_BOT_NAME }}"
           git config pull.rebase true
 
       - name: Checkout master

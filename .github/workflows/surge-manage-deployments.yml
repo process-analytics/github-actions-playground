@@ -14,7 +14,7 @@ on:
 jobs:
   list_deployments:
     if: github.event.inputs.teardown != 'true'
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: List deployments
         run: |
@@ -22,7 +22,7 @@ jobs:
 
   teardown_deployments:
     if: github.event.inputs.teardown == 'true'
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: Teardown deployments
         run: |

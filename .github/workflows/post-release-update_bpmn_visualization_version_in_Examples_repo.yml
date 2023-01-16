@@ -22,7 +22,7 @@ on:
 
 jobs:
   updateVersion:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     env:
       VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
       ARTIFACT_NAME: ${{ github.event.client_payload.artifact_name || github.event.inputs.artifact_name }}
@@ -51,8 +51,8 @@ jobs:
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
           commit-message: "[INFRA] Update bpmn-visualization version to ${{ env.VERSION }}"
-          committer: "process-analytics-bot <62586190+process-analytics-bot@users.noreply.github.com>"
-          author: "process-analytics-bot <62586190+process-analytics-bot@users.noreply.github.com>"
+          committer: "${{ vars.PA_BOT_NAME }} <${{ vars.PA_BOT_EMAIL }}>"
+          author: "${{ vars.PA_BOT_NAME }} <${{ vars.PA_BOT_EMAIL }}>"
           branch: "infra/update_bpmn_visualization_to_${{ env.VERSION }}"
           delete-branch: true
           base: "master"
