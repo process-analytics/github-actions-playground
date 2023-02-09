@@ -50,13 +50,13 @@ jobs:
         uses: peter-evans/create-pull-request@v4.2.3
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
-          commit-message: "[INFRA] Update bpmn-visualization version to ${{ env.VERSION }}"
+          commit-message: "chore(deps): update bpmn-visualization version to ${{ env.VERSION }}"
           committer: "${{ vars.PA_BOT_NAME }} <${{ vars.PA_BOT_EMAIL }}>"
           author: "${{ vars.PA_BOT_NAME }} <${{ vars.PA_BOT_EMAIL }}>"
           branch: "infra/update_bpmn_visualization_to_${{ env.VERSION }}"
           delete-branch: true
           base: "master"
-          title: "[INFRA] Update bpmn-visualization version to ${{ env.VERSION }}"
+          title: "chore(deps): update bpmn-visualization version to ${{ env.VERSION }}"
           body: "https://cdn.statically.io/gh/process-analytics/bpmn-visualization-examples/infra/update_bpmn_visualization_to_${{ env.VERSION }}/examples/index.html"
           labels: "enhancement"
           team-reviewers: pa-collaborators

@@ -40,13 +40,13 @@ jobs:
         uses: peter-evans/create-pull-request@v4.2.3
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
-          commit-message: "[INFRA] Bump bpmn-visualization from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
+          commit-message: "chore(deps): bump bpmn-visualization from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
           committer: "${{ vars.PA_BOT_NAME }} <${{ vars.PA_BOT_EMAIL }}>"
           author: "${{ vars.PA_BOT_NAME }} <${{ vars.PA_BOT_EMAIL }}>"
           branch: "infra/bump_bpmn_visualization_from_${{ env.OLD_VERSION }}_to_${{ env.VERSION }}"
           delete-branch: true
           base: "master"
-          title: "[INFRA] Bump bpmn-visualization from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
+          title: "chore(deps): bump bpmn-visualization from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
           body: "Perform what we have to do to update bpmn-visualization-js in the bpmn-visualization-R package. bpmn-visualization is updated from https://cdn.jsdelivr.net/npm/bpmn-visualization@${{ env.VERSION }}/dist/bpmn-visualization.min.js."
           labels: "dependencies"
           team-reviewers: pa-collaborators
