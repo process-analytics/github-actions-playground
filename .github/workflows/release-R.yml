@@ -55,11 +55,11 @@ jobs:
         run: |
           git add README.md
           git add DESCRIPTION
-          git commit -m "[RELEASE] Set the release version to ${{ steps.release_version.outputs.version }}"
+          git commit -m "chore(release): set the release version to ${{ steps.release_version.outputs.version }}"
 
       - name: Tag ${{ steps.release_version.outputs.version }}
         run: |
-          git tag -a ${{ steps.release_version.outputs.version_tag }} -m "[RELEASE] ${{ steps.release_version.outputs.version }}"
+          git tag -a ${{ steps.release_version.outputs.version_tag }} -m "chore(release): ${{ steps.release_version.outputs.version }}"
 
       - name: Update with the development version
         run: |-
@@ -68,7 +68,7 @@ jobs:
       - name: Commit with the development version
         run: |
           git add DESCRIPTION
-          git commit -m "[RELEASE] Set the development version to ${{ steps.release_version.outputs.version }}.9000"
+          git commit -m "chore(release): set the development version to ${{ steps.release_version.outputs.version }}.9000"
 
       - name: Push commits and tags
         run: |
