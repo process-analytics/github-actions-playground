@@ -35,7 +35,8 @@ jobs:
           git config --local user.name "${{ vars.PA_BOT_NAME }}"
           git config pull.rebase true
       - name: Checkout master
-        run: git checkout master && git pull --tags
+#        run: git checkout master && git pull --tags
+        run: git pull --tags
       - name: Bump Version
         run: |
           npm version ${{ github.event.inputs.type }} --message "chore(release): %s"
