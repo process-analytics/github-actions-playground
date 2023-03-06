@@ -35,15 +35,12 @@ jobs:
           git config --local user.name "${{ vars.PA_BOT_NAME }}"
           git config pull.rebase true
       - name: Checkout master
-#        run: git checkout master && git pull --tags
-        run: git pull --tags
+        run: git checkout master && git pull --tags
       - name: Bump Version
         run: |
           npm version ${{ github.event.inputs.type }} --message "chore(release): %s"
-      - name: Verify commit
-        run: git log -1
-#      - name: Push Version
-#        run: git push && git push --tags
+      - name: Push Version
+        run: git push && git push --tags
 
       - name: Branch Protection Bot - Reenable "include administrators" branch protection
         uses: benjefferies/branch-protection-bot@1.0.7
