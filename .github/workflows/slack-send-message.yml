@@ -11,7 +11,7 @@ on:
         required: true
 
 jobs:
-  build:
+  send:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: Send message to Slack
