@@ -4,14 +4,14 @@ on:
     inputs:
       channel-or-user:
         description: 'Send a message to a channel or a user (prefer usage of id instead of name).'
-        # C042KNPSN7N is a test channel
-        # CSF7TG6N5 is the production channel
-        default: 'C042KNPSN7N'
+        # C02J5M4JMK7 is a test channel
+        # vars.SLACK_CHANNEL_ID_NOTIFICATIONS is the production channel
+        default: 'C02J5M4JMK7'
         type: string
         required: true
 
 jobs:
-  build:
+  send:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: Send message to Slack
