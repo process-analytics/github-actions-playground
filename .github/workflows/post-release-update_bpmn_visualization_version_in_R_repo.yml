@@ -37,7 +37,7 @@ jobs:
         run: ls -R
         working-directory: inst/htmlwidgets
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4.2.3
+        uses: peter-evans/create-pull-request@v4.2.4
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
           commit-message: "chore(deps): bump bpmn-visualization from ${{ env.OLD_VERSION }} to ${{ env.VERSION }}"
