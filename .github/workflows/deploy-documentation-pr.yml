@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - '.github/workflows/generate-documentation-api.yml'
+      - '.github/workflows/deploy-documentation-pr.yml'
       - 'src/**/*.ts'
       - 'package.json'
       - 'package-lock.json'
@@ -14,7 +14,7 @@ on:
     branches:
       - master
     paths:
-      - '.github/workflows/generate-documentation-api.yml'
+      - '.github/workflows/deploy-documentation-pr.yml'
       - 'src/**/*.ts'
       - 'package.json'
       - 'package-lock.json'
@@ -43,6 +43,9 @@ jobs:
         with:
           name: documentation-api-${{github.sha}}
           path: build/docs/api
+
+  push_to_surge:
+
 
   push_doc_api_to_gh_pages:
     # only when 'on push to master'
