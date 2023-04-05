@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - '.github/actions/build-documentation'
+      - '.github/actions/build-documentation/**/*'
       - '.github/workflows/deploy-documentation-pr.yml'
       - 'public/docs/**/*'
       - 'src/**/*.ts'
