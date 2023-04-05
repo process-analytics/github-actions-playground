@@ -25,7 +25,7 @@ jobs:
       - name: Build docs
         run: npm run api-doc
       - name: Copy static pages
-        run: cp -r public/docs/ build/docs/
+        run: cp -r public/docs build
       - name: Upload
         uses: actions/upload-artifact@v3
         with:
