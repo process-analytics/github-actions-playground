@@ -1,0 +1,52 @@
+name: Deploy the documentation on GitHub Pages
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/actions/build-documentation/**/*'
+      - '.github/workflows/deploy-documentation-pr.yml'
+      - 'public/docs/**/*'
+      - 'src/**/*.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'typedoc.json'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build documentation
+        uses: ./.github/actions/build-documentation
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: build/docs
+
+  deploy:
+    needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      contents: read
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

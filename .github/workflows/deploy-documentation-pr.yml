@@ -1,0 +1,27 @@
+name: Generate Documentation API
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '.github/actions/build-documentation/**/*'
+      - '.github/workflows/deploy-documentation-pr.yml'
+      - 'public/docs/**/*'
+      - 'src/**/*.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'typedoc.json'
+
+jobs:
+  docs:
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build documentation
+        uses: ./.github/actions/build-documentation
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation-${{github.sha}}
+          path: build/docs

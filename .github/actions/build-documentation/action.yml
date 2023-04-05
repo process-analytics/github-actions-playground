@@ -1,0 +1,20 @@
+name: 'Build the documentation'
+description: 'Build static and API documentation.'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v3
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
+    - name: Build docs
+      shell: bash
+      run: npm run api-doc
+    - name: Copy static pages
+      shell: bash
+      run: cp -r public/docs build
