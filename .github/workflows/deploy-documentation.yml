@@ -7,7 +7,7 @@ on:
       - master
     paths:
       - '.github/actions/build-documentation/**/*'
-      - '.github/workflows/deploy-documentation-pr.yml'
+      - '.github/workflows/deploy-documentation.yml'
       - 'public/docs/**/*'
       - 'src/**/*.ts'
       - 'package.json'
