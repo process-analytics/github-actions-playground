@@ -26,7 +26,7 @@ permissions:
   contents: write
 
 jobs:
-  generate_doc_api:
+  docs:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - uses: actions/checkout@v3
@@ -38,31 +38,10 @@ jobs:
         run: npm ci
       - name: Build docs
         run: npm run api-doc
+      - name: Copy index.html
+        run: cp public/docs/ build/docs
       - name: Upload
         uses: actions/upload-artifact@v3
         with:
-          name: documentation-api-${{github.sha}}
-          path: build/docs/api
-
-  push_to_surge:
-
-
-  push_doc_api_to_gh_pages:
-    # only when 'on push to master'
-    if: github.event_name == 'push' &&  github.event.ref == 'refs/heads/master'
-    runs-on: ${{ vars.RUNNER_UBUNTU }}
-    needs: generate_doc_api
-    steps:
-      - name: Download
-        uses: actions/download-artifact@v3
-        with:
-          name: documentation-api-${{github.sha}}
-      - name: Push to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          destination_dir: ./api/
-          keep_files: true
-          user_name: ${{ vars.PA_BOT_NAME }}
-          user_email: ${{ vars.PA_BOT_EMAIL }}
+          name: documentation-${{github.sha}}
+          path: build/docs
