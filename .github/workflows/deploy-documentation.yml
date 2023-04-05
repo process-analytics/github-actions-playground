@@ -1,19 +1,16 @@
-name: Deploy the demo on GitHub Pages
+name: Deploy the documentation on GitHub Pages
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push event but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches:
+      - master
     paths:
-      - '.github/actions/build/**/*'
-      - '.github/workflows/deploy-documentation.yml'
-      - 'src/**/*'
-      - '.nvmrc'
-      - 'index.html'
+      - '.github/workflows/deploy-documentation-pr.yml'
+      - 'src/**/*.ts'
       - 'package.json'
       - 'package-lock.json'
-      - 'tsconfig.json'
+      - 'typedoc.json'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -28,12 +25,12 @@ jobs:
   # At a minimum this job should upload artifacts using actions/upload-pages-artifact
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v3
-
+# TODO use action to build the documentation
       - name: Build
         uses: ./.github/actions/build
 
