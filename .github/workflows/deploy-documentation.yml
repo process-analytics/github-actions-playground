@@ -19,49 +19,31 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Build job
-  # At a minimum this job should upload artifacts using actions/upload-pages-artifact
   build:
-    # The type of runner that the job will run on
     runs-on: ${{ vars.RUNNER_UBUNTU }}
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v3
-# TODO use action to build the documentation
-      - name: Build
-        uses: ./.github/actions/build
-
-      - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
+      - name: Build documentation
+        uses: ./.github/actions/build-documentation
+      - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          # Path of the directory containing the static assets.
-          path: ./dist
-          # Duration after which artifact will expire in days.
-          # retention-days:
+          path: build/docs
 
-
-  # Deploy job
   deploy:
-    # Add a dependency to the build job
     needs: build
-
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
       contents: read
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
-
     # Deploy to the github-pages environment
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    # Specify runner + deployment step
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
