@@ -6,7 +6,9 @@ on:
     branches:
       - master
     paths:
+      - '.github/actions/build-documentation'
       - '.github/workflows/deploy-documentation-pr.yml'
+      - 'public/docs/**/*'
       - 'src/**/*.ts'
       - 'package.json'
       - 'package-lock.json'
