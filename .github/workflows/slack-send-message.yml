@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - name: Send message to Slack
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: ${{ github.event.inputs.channel-or-user }}
           payload: |
