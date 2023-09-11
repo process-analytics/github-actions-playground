@@ -14,7 +14,7 @@ jobs:
     env:
       VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Get the old version of bpmn-visualization
         id: lookupOldBPMNVisuVersion
         uses: mikefarah/yq@v4.35.1
