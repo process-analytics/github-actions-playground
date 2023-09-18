@@ -14,14 +14,6 @@ jobs:
       - run: |
           echo "New version type: ${{ github.event.inputs.type }}"
 
-      - name: Branch Protection Bot - Temporarily disable "include administrators" branch protection
-        uses: benjefferies/branch-protection-bot@1.0.9
-        if: always()
-        with:
-          access_token: ${{ secrets.GH_RELEASE_TOKEN }}
-          enforce_admins: false
-          branch: master
-
       - name: Setup checkout
         uses: actions/checkout@v4
         with:
@@ -73,11 +65,3 @@ jobs:
       - name: Push commits and tags
         run: |
           git push && git push --tags
-
-      - name: Branch Protection Bot - Reenable "include administrators" branch protection
-        uses: benjefferies/branch-protection-bot@1.0.9
-        if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
-        with:
-          access_token: ${{ secrets.GH_RELEASE_TOKEN }}
-          enforce_admins: true
-          branch: master
