@@ -43,6 +43,13 @@ The event is received by the repository which triggers workflows (simulate what 
 - [bpmn-visualization-examples repository](.github/workflows/post-release-update_bpmn_visualization_version_in_Examples_repo.yml): download the artifact attached to the previous workflow run, then create a Pull Request
 - [bpmn-visualization-R repository](.github/workflows/post-release-update_bpmn_visualization_version_in_R_repo.yml): update bpmn-visualization assets an create a Pull Request
 
+
+### bpmn-visualization-examples
+
+When a tag is pushed in this repository, a new GitHub draft release is created as it is done in bpmn-visualization-examples.
+See the related [worfklow](.github/workflows/post-release-create-gh-release_Examples_repo.yml).
+
+
 ### bpmnVisualizationR
 
 The [Release of bpmnVisualizationR package](.github/workflows/release-R.yml) workflow update the `README.md` file and the `DESCRIPTION` file, commit the modification, and pushes branch/tag on a branch with restricted rules (used in [bpmn-visualization-R](https://github.com/process-analytics/bpmn-visualization-R)).
