@@ -1,4 +1,4 @@
-name: Create GH release (examples repo)
+name: Create GitHub release (examples repo)
 
 on:
   push:
