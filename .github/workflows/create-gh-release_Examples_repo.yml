@@ -5,10 +5,8 @@ on:
     tags:
       - v*
 
-
-
 jobs:
-  build:
+  create_release:
     runs-on: ubuntu-22.04
     permissions:
       contents: write # create the GH release
@@ -20,6 +18,9 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
+          body: |
+            Examples for [bpmn-visualization@${{ env.RELEASE_VERSION }}](https://github.com/process-analytics/bpmn-visualization-js/releases/tag/v${{ env.RELEASE_VERSION }}).
+            Live examples are available for [${{ env.RELEASE_VERSION }}](https://cdn.statically.io/gh/process-analytics/bpmn-visualization-examples/v${{ env.RELEASE_VERSION }}/examples/index.html).
           draft: true
           generateReleaseNotes: true
           name: ${{ env.RELEASE_VERSION }}
