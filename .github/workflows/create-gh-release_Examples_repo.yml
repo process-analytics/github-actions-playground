@@ -1,0 +1,25 @@
+name: Create GH release (examples repo)
+
+on:
+  push:
+    tags:
+      - v*
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write # create the GH release
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set env
+        run: |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          draft: true
+          generateReleaseNotes: true
+          name: ${{ env.RELEASE_VERSION }}
