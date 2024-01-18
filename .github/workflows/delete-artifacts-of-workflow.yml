@@ -35,7 +35,8 @@ jobs:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     needs: create_artifacts
     permissions: 
-      write-all  
+      # write-all # work!
+      contents: write
     steps:
       - uses: geekyeggo/delete-artifact@v4
         name: Clean up temp stored artifacts
