@@ -36,7 +36,7 @@ jobs:
     needs: create_artifacts
     permissions: 
       # write-all # work!
-      contents: write
+      actions: write
     steps:
       - uses: geekyeggo/delete-artifact@v4
         name: Clean up temp stored artifacts
