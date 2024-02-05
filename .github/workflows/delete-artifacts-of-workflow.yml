@@ -1,0 +1,41 @@
+name: Delete artifacts of workflow run
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  create_artifacts:
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    steps:
+      - name: Build fake artifact
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          mkdir site
+          echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/file1.html
+          echo "This is a another preview site for <b>PR #${PR_NUMBER}</b>" > site/file2.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifact-1
+          path: site/file1.html
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifact-2
+          path: site/file2.html
+          if-no-files-found: error
+
+
+  delete:  
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    needs: create_artifacts
+    permissions: 
+      # to delete artifacts
+      actions: write
+    steps:
+      - uses: geekyeggo/delete-artifact@v4
+        name: Clean up temp stored artifacts
+        with:
+            name: '*'
