@@ -5,9 +5,6 @@ on:
     branches:
       - master
 
-#permissions:
-  #pull-requests: write
-
 jobs:
   create_artifacts:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
