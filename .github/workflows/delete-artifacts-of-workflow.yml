@@ -1,9 +1,12 @@
 name: Delete artifacts of workflow run
 
 on:
-  pull_request:
-    branches:
-      - master
+  workflow_dispatch:
+    inputs:
+      pr-number:
+        description: 'Simulate a PR number, to use in content of the temp artifacts'
+        required: true
+        default: '648'
 
 jobs:
   create_artifacts:
@@ -11,7 +14,7 @@ jobs:
     steps:
       - name: Build fake artifact
         env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ inputs.pr-number }}
         run: |
           mkdir site
           echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/file1.html
