@@ -32,7 +32,7 @@ jobs:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     needs: create_artifacts
     permissions: 
-      # write-all # work!
+      # to delete artifacts
       actions: write
     steps:
       - uses: geekyeggo/delete-artifact@v4
