@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Get the old version of bpmn-visualization
         id: lookupOldBPMNVisuVersion
-        uses: mikefarah/yq@v4.40.5
+        uses: mikefarah/yq@v4.40.7
         with:
           cmd: yq '.dependencies[] | select(.name == "bpmn-visualization") | .version' inst/htmlwidgets/bpmnVisualizationR.yaml
       - run: echo "OLD_VERSION=${{ steps.lookupOldBPMNVisuVersion.outputs.result }}" >> $GITHUB_ENV
