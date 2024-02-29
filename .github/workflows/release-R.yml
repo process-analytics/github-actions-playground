@@ -30,7 +30,7 @@ jobs:
 
       - name: Generate new version
         id: release_version
-        uses: zwaldowski/semver-release-action@v3
+        uses: zwaldowski/semver-release-action@v4
         with:
           dry_run: true
           bump: ${{ inputs.type }}
