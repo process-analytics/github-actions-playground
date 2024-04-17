@@ -26,6 +26,25 @@ jobs:
           echo "workflow_run: ${{toJSON(github.event.workflow_run)}}"
           echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
 
+      # https://github.com/orgs/community/discussions/25220#discussioncomment-8697399
+      - name: Find associated pull request
+        id: pr
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        with:
+          script: |
+            const response = await github.rest.search.issuesAndPullRequests({
+              q: 'repo:${{ github.repository }} is:pr sha:${{ github.event.workflow_run.head_sha }}',
+              per_page: 1,
+            })
+            const items = response.data.items
+            if (items.length < 1) {
+              console.error('No PRs found')
+              return
+            }
+            const pullRequestNumber = items[0].number
+            console.info("Pull request number is", pullRequestNumber)
+            return pullRequestNumber
+
       - name: deploy to Surge
         uses: afc163/surge-preview@v1
         with:
