@@ -27,26 +27,28 @@ jobs:
           echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
 
       # https://github.com/orgs/community/discussions/25220#discussioncomment-8697399
-      - name: Find associated pull request
-        id: pr
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
-        with:
-          script: |
-            const response = await github.rest.search.issuesAndPullRequests({
-              q: 'repo:${{ github.repository }} is:pr sha:${{ github.event.workflow_run.head_sha }}',
-              per_page: 1,
-            })
-            const items = response.data.items
-            if (items.length < 1) {
-              console.error('No PRs found')
-              return
-            }
-            const pullRequestNumber = items[0].number
-            console.info("Pull request number is", pullRequestNumber)
-            return pullRequestNumber
+#      - name: Find associated pull request
+#        id: pr
+#        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+#        with:
+#          script: |
+#            const response = await github.rest.search.issuesAndPullRequests({
+#              q: 'repo:${{ github.repository }} is:pr sha:${{ github.event.workflow_run.head_sha }}',
+#              per_page: 1,
+#            })
+#            const items = response.data.items
+#            if (items.length < 1) {
+#              console.error('No PRs found')
+#              return
+#            }
+#            const pullRequestNumber = items[0].number
+#            console.info("Pull request number is", pullRequestNumber)
+#            return pullRequestNumber
 
       - name: deploy to Surge
-        uses: afc163/surge-preview@v1
+        # experiment a custom action that supports workflow_run, using the GH API as the commented step above
+#        uses: afc163/surge-preview@v1
+        uses: benjaminParisel/surge-preview@feat/adding_pr_number_parameter
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
