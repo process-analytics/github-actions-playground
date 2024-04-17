@@ -6,6 +6,9 @@ on:
     types:
       - completed
 
+permissions:
+  pull-requests: write # surge-preview creates or updates PR comments about the deployment status
+
 jobs:
   upload-preview:
     runs-on: ubuntu-22.04
