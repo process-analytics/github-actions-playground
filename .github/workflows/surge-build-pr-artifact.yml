@@ -2,7 +2,6 @@ name: Surge PR Preview - Build Stage
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   build-preview:
@@ -14,10 +13,12 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: build dist
+      - name: Build fake demo
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          npm install
-          npm run site:build
+          mkdir site
+            echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/index.html
       - name: upload dist artifact
         uses: actions/upload-artifact@v4
         with:
