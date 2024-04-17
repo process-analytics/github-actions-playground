@@ -3,10 +3,10 @@ name: Surge PR Preview - Build Stage
 on:
   pull_request:
     paths:
-      - '.github/worflows/surge-build-artifact.yml'
+      - '.github/worflows/surge-build-pr-artifact.yml'
       - '.github/worflows/surge-upload.yml'
       - 'public/docs/index.html'
-      
+
 jobs:
   build-preview:
     runs-on: ubuntu-22.04
