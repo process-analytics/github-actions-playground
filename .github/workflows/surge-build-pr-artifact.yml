@@ -1,0 +1,25 @@
+name: Surge PR Preview - Build Stage
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build-preview:
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
+
+    steps:
+      - name: checkout PR
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: build dist
+        run: |
+          npm install
+          npm run site:build
+      - name: upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-build-dist
+          path: public/
