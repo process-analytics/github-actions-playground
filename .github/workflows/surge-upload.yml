@@ -10,7 +10,7 @@ permissions:
   pull-requests: write # surge-preview creates or updates PR comments about the deployment status
 
 jobs:
-  upload-preview:
+  deploy:
     runs-on: ubuntu-22.04
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
 
