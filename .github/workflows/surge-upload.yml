@@ -20,7 +20,7 @@ jobs:
           path: site/
       - name: Debug step
         run: |
-          echo "workflow_run: ${{github.event.workflow_run}}"
+          echo "workflow_run: ${{toJSON(github.event.workflow_run)}}"
           echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
 
       - name: deploy to Surge
