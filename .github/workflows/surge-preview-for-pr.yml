@@ -8,7 +8,7 @@ on:
       - master
 
 permissions:
-  pull-requests: write
+  pull-requests: write # surge-preview creates or updates PR comments about the deployment status
 
 jobs:
   demo_preview:  # the id is used by surge to generate the surge url
