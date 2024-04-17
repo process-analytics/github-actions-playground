@@ -6,6 +6,9 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - master
+    paths:
+      - '.github/workflows/surge-preview-for-pr.yml'
+      - 'public/surge/**/*'
 
 permissions:
   pull-requests: write
@@ -30,7 +33,8 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           mkdir site
-          echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/index.html
+          cp -r public/surge/ site/
+          sed -i "s/@PR_NUMBER@/${PR_NUMBER}/g" site/index.html
       - name: Publish Demo preview
         if: steps.surge-preview-tools.outputs.can-run-surge-command == 'true'
         id: publish_demo_preview
