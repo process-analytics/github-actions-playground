@@ -20,7 +20,8 @@ jobs:
           path: site/
       - name: Debug step
         run: |
-          echo "${{github.event.payload.workflow_run}}"
+          echo "workflow_run: ${{github.event.workflow_run}}"
+          echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
 
       - name: deploy to Surge
         uses: afc163/surge-preview@v1
