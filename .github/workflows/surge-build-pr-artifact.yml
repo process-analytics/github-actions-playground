@@ -2,7 +2,11 @@ name: Surge PR Preview - Build Stage
 
 on:
   pull_request:
-
+    paths:
+      - '.github/worflows/surge-build-artifact.yml'
+      - '.github/worflows/surge-upload.yml'
+      - 'public/docs/index.html'
+      
 jobs:
   build-preview:
     runs-on: ubuntu-22.04
@@ -18,9 +22,9 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           mkdir site
-            echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/index.html
+          cp -r public/docs/index.html ./site
       - name: upload dist artifact
         uses: actions/upload-artifact@v4
         with:
           name: pr-build-dist
-          path: public/
+          path: site/
