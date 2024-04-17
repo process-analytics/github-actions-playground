@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-preview:
-    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    runs-on: ubuntu-22.04
 
     steps:
       - name: checkout PR
