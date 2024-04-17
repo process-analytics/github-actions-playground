@@ -18,6 +18,9 @@ jobs:
           workflow: ${{ github.event.workflow_run.workflow_id }}
           name: pr-build-dist
           path: site/
+      - name: Debug step
+        run: |
+          echo "${{github.event.payload.workflow_run}}"
 
       - name: deploy to Surge
         uses: afc163/surge-preview@v1
