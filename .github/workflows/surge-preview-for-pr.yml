@@ -34,7 +34,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           mkdir site
-          cp -r public/surge/ site/
+          cp -r public/surge/* site/
           sed -i "s/@PR_NUMBER@/${PR_NUMBER}/g" site/index.html
       - name: Publish Demo preview
         if: steps.surge-preview-tools.outputs.can-run-surge-command == 'true'
