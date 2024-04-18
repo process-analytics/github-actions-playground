@@ -1,4 +1,4 @@
-name: Surge PR Preview - Upload Stage
+name: Surge PR Preview - Deploy Stage
 
 on:
   workflow_run:
@@ -19,7 +19,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v3
         with:
           workflow: ${{ github.event.workflow_run.workflow_id }}
-          name: pr-build-dist
+          name: pr-build-dist  # must be kept in sync with the artifact name downloaded in the build stage
           path: site/
       - name: Debug step
         run: |
@@ -45,8 +45,9 @@ jobs:
 #            console.info("Pull request number is", pullRequestNumber)
 #            return pullRequestNumber
 
-      - name: deploy to Surge
+      - name: Manage Surge deployment
         # experiment a custom action that supports workflow_run, using the GH API as the commented step above
+        # TODO can we also manage the teardown of the deployment in case of workflow_run?
 #        uses: afc163/surge-preview@v1
         uses: benjaminParisel/surge-preview@feat/adding_pr_number_parameter
         with:
