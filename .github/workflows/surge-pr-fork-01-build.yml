@@ -8,6 +8,7 @@ on:
       - 'public/surge/**/*'
 
 jobs:
+  # TMP add a comment to trigger the wf in PR
   build-preview:
     runs-on: ubuntu-22.04
 
