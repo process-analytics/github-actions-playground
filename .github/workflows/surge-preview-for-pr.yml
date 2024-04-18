@@ -6,13 +6,16 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - master
+    paths:
+      - '.github/workflows/surge-preview-for-pr.yml'
+      - 'public/surge/**/*'
 
 permissions:
   pull-requests: write # surge-preview creates or updates PR comments about the deployment status
 
 jobs:
   demo_preview:  # the id is used by surge to generate the surge url
-    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    runs-on: ${{ vars.RUNNER_UBUNTU || 'ubuntu-20.04' }}
     steps:
       - uses: bonitasoft/actions/packages/surge-preview-tools@v2
         id: surge-preview-tools
@@ -24,13 +27,15 @@ jobs:
           echo "domain-exist: ${{ steps.surge-preview-tools.outputs.domain-exist }}" 
           echo "preview-url: ${{ steps.surge-preview-tools.outputs.preview-url }}" 
           echo "surge-token-valid: ${{ steps.surge-preview-tools.outputs.surge-token-valid }}"
+      - uses: actions/checkout@v4
       - name: Build fake demo
         if: ${{ github.event.action != 'closed' }}
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           mkdir site
-          echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/index.html
+          cp -r public/surge/* site/
+          sed -i "s/@PR_NUMBER@/${PR_NUMBER}/g" site/index.html
       - name: Publish Demo preview
         if: steps.surge-preview-tools.outputs.can-run-surge-command == 'true'
         id: publish_demo_preview
