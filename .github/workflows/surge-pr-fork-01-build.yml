@@ -2,6 +2,7 @@ name: Surge PR Preview - Build Stage
 
 on:
   pull_request:
+    # keep in sync with the teardown stage
     paths:
       - '.github/workflows/surge-pr-fork-01-build.yml'
       - '.github/workflows/surge-pr-fork-02-deploy.yml'
