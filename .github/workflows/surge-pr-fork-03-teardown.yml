@@ -1,0 +1,45 @@
+name: Surge Preview for Pull Request
+
+on:
+  pull_request_target:
+    # To manage 'surge-preview' action teardown, add default event types + closed event type
+    types: [closed]
+    branches:
+      - master
+    # keep in sync with the build stage
+    paths:
+      - '.github/workflows/surge-pr-fork-01-build.yml'
+      - '.github/workflows/surge-pr-fork-02-deploy.yml'
+      - 'public/surge/**/*'
+
+
+permissions:
+  pull-requests: write # surge-preview creates or updates PR comments about the deployment status
+
+jobs:
+  demo_preview: # MUST be kept in sync with the job id of the deploy stage (used in the deployment URL)
+    runs-on: ${{ vars.RUNNER_UBUNTU || 'ubuntu-20.04' }}
+    steps:
+      - uses: bonitasoft/actions/packages/surge-preview-tools@v2
+        id: surge-preview-tools
+        with:
+          surge-token: ${{ secrets.SURGE_TOKEN }}
+
+      - name: Echo surge preview tools output
+        run: |
+          echo "can-run-surge-command: ${{ steps.surge-preview-tools.outputs.can-run-surge-command }}"
+          echo "domain-exist: ${{ steps.surge-preview-tools.outputs.domain-exist }}" 
+          echo "preview-url: ${{ steps.surge-preview-tools.outputs.preview-url }}" 
+          echo "surge-token-valid: ${{ steps.surge-preview-tools.outputs.surge-token-valid }}"
+
+      - name: Teardown demo preview
+        if: steps.surge-preview-tools.outputs.can-run-surge-command == 'true'
+        id: publish_demo_preview
+        uses: afc163/surge-preview@v1
+        with:
+          surge_token: ${{ secrets.SURGE_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          failOnError: true
+          teardown: true
+          build: |
+            echo 

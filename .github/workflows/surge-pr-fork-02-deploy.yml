@@ -10,7 +10,7 @@ permissions:
   pull-requests: write # surge-preview creates or updates PR comments about the deployment status
 
 jobs:
-  deploy:
+  deploy: # MUST be kept in sync with the job id of the teardown stage (used in the deployment URL)
     runs-on: ubuntu-22.04
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
 
@@ -55,3 +55,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           build: echo done
           dist: site
+          failOnError: true
