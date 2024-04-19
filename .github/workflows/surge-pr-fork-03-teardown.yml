@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   deploy: # MUST be kept in sync with the job id of the deploy stage (used in the deployment URL)
-    runs-on: ${{ vars.RUNNER_UBUNTU || 'ubuntu-20.04' }}
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - uses: bonitasoft/actions/packages/surge-preview-tools@v2
         id: surge-preview-tools
