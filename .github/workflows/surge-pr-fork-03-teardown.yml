@@ -2,7 +2,7 @@ name: Surge Preview for Pull Request
 
 on:
   pull_request_target:
-    # To manage 'surge-preview' action teardown, add default event types + closed event type
+    # To manage 'surge-preview' action teardown on PR closed
     types: [closed]
     branches:
       - master
