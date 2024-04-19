@@ -1,4 +1,4 @@
-name: Surge Preview for Pull Request
+name: Surge PR Preview - Teardown Stage
 
 on:
   pull_request_target:
