@@ -29,6 +29,7 @@ jobs:
           echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
 
       # https://github.com/orgs/community/discussions/25220#discussioncomment-8697399
+      # This is what surge-preview uses to find the related PR number when the workflow is triggered by a "worflow_run" event
 #      - name: Find associated pull request
 #        id: pr
 #        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
@@ -48,10 +49,7 @@ jobs:
 #            return pullRequestNumber
 
       - name: Manage Surge deployment
-        # experiment a custom action that supports workflow_run, using the GH API as the commented step above
-        # TODO can we also manage the teardown of the deployment in case of workflow_run?
-#        uses: afc163/surge-preview@v1
-        uses: benjaminParisel/surge-preview@feat/adding_pr_number_parameter
+        uses: afc163/surge-preview@v1
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
