@@ -17,6 +17,11 @@ updates:
       - skip-changelog
     reviewers:
       - process-analytics/pa-collaborators
+    groups:
+       typescript:
+          patterns:
+            - "typedoc"
+            - "typescript"
 
   - package-ecosystem: "github-actions"
     # Workflow files stored in the default location of `.github/workflows`
