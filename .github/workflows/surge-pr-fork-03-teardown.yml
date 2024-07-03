@@ -42,4 +42,4 @@ jobs:
           failOnError: true
           teardown: true
           build: |
-            echo 
+            performing teardown 
