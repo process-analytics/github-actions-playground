@@ -29,6 +29,14 @@ jobs:
           run_id: ${{ github.event.workflow_run.id }}
           name: pr-build-dist  # must be kept in sync with the artifact name downloaded in the build stage
           path: site/
+      - name: Debug step
+        run: |
+          echo "workflow_run: ${{toJSON(github.event.workflow_run)}}"
+          echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
+
+# the following commands used for debug generates an error when run in bash script
+#           echo "workflow_run: ${{toJSON(github.event.workflow_run)}}"
+
 
       # https://github.com/orgs/community/discussions/25220#discussioncomment-8697399
       # This is what surge-preview uses to find the related PR number when the workflow is triggered by a "workflow_run" event
