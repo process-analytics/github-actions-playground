@@ -17,19 +17,22 @@ jobs:
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
 
     steps:
+      - name: Debug step
+        run: |
+          echo "workflow_run.workflow_id: ${{github.event.workflow_run.workflow_id}}"
+          echo "workflow_run.id: ${{github.event.workflow_run.id}}"
+          echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
+          echo "Full workflow_run: ${{toJSON(github.event.workflow_run)}}"
       - name: download dist artifact
         uses: dawidd6/action-download-artifact@v6
         with:
           workflow: ${{ github.event.workflow_run.workflow_id }}
+          run_id: ${{ github.event.workflow_run.id }}
           name: pr-build-dist  # must be kept in sync with the artifact name downloaded in the build stage
           path: site/
-      - name: Debug step
-        run: |
-          echo "workflow_run: ${{toJSON(github.event.workflow_run)}}"
-          echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
 
       # https://github.com/orgs/community/discussions/25220#discussioncomment-8697399
-      # This is what surge-preview uses to find the related PR number when the workflow is triggered by a "worflow_run" event
+      # This is what surge-preview uses to find the related PR number when the workflow is triggered by a "workflow_run" event
 #      - name: Find associated pull request
 #        id: pr
 #        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
@@ -56,3 +59,4 @@ jobs:
           build: echo done
           dist: site
           failOnError: true
+          teardown: false # the teardown is managed in another workflow
