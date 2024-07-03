@@ -22,7 +22,6 @@ jobs:
           echo "workflow_run.workflow_id: ${{github.event.workflow_run.workflow_id}}"
           echo "workflow_run.id: ${{github.event.workflow_run.id}}"
           echo "workflow_run.head_sha: ${{github.event.workflow_run.head_sha}}"
-          echo "Full workflow_run: ${{toJSON(github.event.workflow_run)}}"
       - name: download dist artifact
         uses: dawidd6/action-download-artifact@v6
         with:
