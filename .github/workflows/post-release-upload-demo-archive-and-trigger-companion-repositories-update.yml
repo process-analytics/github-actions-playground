@@ -1,6 +1,8 @@
 name: Upload Demo Archive & Trigger Companion Repositories Update
 
 on:
+  repository_dispatch:
+    types: [ new_version_available_on_npm ]
   workflow_dispatch:
     inputs:
       version:
@@ -10,8 +12,12 @@ on:
 jobs:
   upload_demo_archive:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
+    env:
+      VERSION: ${{ github.event.client_payload.version || inputs.version }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: v${{ env.VERSION }}
       - name: Setup node
         run: echo "Done"
       - name: Install dependencies
@@ -32,4 +38,4 @@ jobs:
           BUILD_DEMO_WORKFLOW_ID: "post-release-upload-demo-archive-and-trigger-companion-repositories-update.yml"
           ARTIFACT_NAME: '${{ env.ARTIFACT_NAME }}'
           TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
-          VERSION: ${{ inputs.version }}
+          VERSION: ${{ env.VERSION }}

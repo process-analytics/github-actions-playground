@@ -12,7 +12,7 @@ jobs:
   updateVersion:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     env:
-      VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
+      VERSION: ${{ github.event.client_payload.version || inputs.version }}
     steps:
       - uses: actions/checkout@v4
       - name: Get the old version of bpmn-visualization

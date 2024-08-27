@@ -1,0 +1,22 @@
+# in bpmn-visualization, the repository_dispatch event is sent after the npm publish is done
+# here, to ease the testing, this is done in a dedicated workflow triggered manually
+name: Simulate the availability of a new version of an npm package
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+
+jobs:
+  notify:
+    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    permissions:
+      contents: write # to dispatch event
+    steps:
+      - name: Send Repository Dispatch event
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          # use the default GITHUB_TOKEN, this is possible because we are dispatching the same repository
+          event-type: new_version_available_on_npm
+          client-payload: "{ version: ${{ inputs.version }} }"
