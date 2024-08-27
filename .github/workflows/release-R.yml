@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - run: |
-          echo "New version type: ${{ github.event.inputs.type }}"
+          echo "New version type: ${{ inputs.type }}"
 
       - name: Setup checkout
         uses: actions/checkout@v4

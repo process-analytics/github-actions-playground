@@ -24,10 +24,10 @@ jobs:
   updateVersion:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     env:
-      VERSION: ${{ github.event.client_payload.version || github.event.inputs.version }}
-      ARTIFACT_NAME: ${{ github.event.client_payload.artifact_name || github.event.inputs.artifact_name }}
-      BUILD_DEMO_WORKFLOW_ID: ${{ github.event.client_payload.build_demo_workflow_id || github.event.inputs.build_demo_workflow_id }}
-      BUILD_DEMO_REPO: ${{ github.event.client_payload.build_demo_repo || github.event.inputs.build_demo_repo }}
+      VERSION: ${{ github.event.client_payload.version || inputs.version }}
+      ARTIFACT_NAME: ${{ github.event.client_payload.artifact_name || inputs.artifact_name }}
+      BUILD_DEMO_WORKFLOW_ID: ${{ github.event.client_payload.build_demo_workflow_id || inputs.build_demo_workflow_id }}
+      BUILD_DEMO_REPO: ${{ github.event.client_payload.build_demo_repo || inputs.build_demo_repo }}
     steps:
       - uses: actions/checkout@v4
       - name: Update examples

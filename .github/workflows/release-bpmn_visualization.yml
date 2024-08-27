@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
     steps:
       - run: |
-          echo "New version type: ${{ github.event.inputs.type }}"
+          echo "New version type: ${{ inputs.type }}"
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -30,6 +30,6 @@ jobs:
         run: git checkout master && git pull --tags
       - name: Bump Version
         run: |
-          npm version ${{ github.event.inputs.type }} --message "chore(release): %s"
+          npm version ${{ inputs.type }} --message "chore(release): %s"
       - name: Push Version
         run: git push && git push --tags
