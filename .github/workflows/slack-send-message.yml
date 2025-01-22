@@ -26,10 +26,22 @@ jobs:
             channel: ${{ env.SLACK_CHANNEL }}
             text: "This is a test from the ${{github.repository}} repository"
             blocks:
+              - type: "header"
+                text:
+                  type: "plain_text"
+                  text: ":mega: This is a test from the ${{github.repository}} repository"
+                  emoji: true
+              - type: "divider"
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: ":mega: This is a test from the ${{github.repository}} repository"
+                  text: "- available <https://github.com/${{github.repository}}/releases|Releases> :heavy_check_mark: \n - Check packages published on <https://www.npmjs.com/package/bpmn-visualization|NPM> :heavy_check_mark:"
+              - type: "divider"
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "See the next steps <https://github.com/${{github.repository}}/blob/master/docs/contributors/maintainers.md#github-issues-milestones-and-projects-update|here> :arrow_left:"
+
 #            {
 #              "blocks": [
 #                {
