@@ -13,12 +13,18 @@ on:
 jobs:
   send:
     runs-on: ${{ vars.RUNNER_UBUNTU }}
+    env:
+      SLACK_CHANNEL: ${{ inputs.channel-or-user }} // sanitize user inputs
     steps:
       - name: Send message to Slack
         uses: slackapi/slack-github-action@v2.0.0
         with:
-          channel-id: ${{ github.event.inputs.channel-or-user }}
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
+            channel: ${{ env.SLACK_CHANNEL }}
+            text: "This is a test from the ${{github.repository}} repository"
+            blocks:
             {
               "blocks": [
                 {
@@ -51,5 +57,3 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
