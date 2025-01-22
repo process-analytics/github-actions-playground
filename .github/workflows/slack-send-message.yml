@@ -30,7 +30,6 @@ jobs:
                 text:
                   type: "mrkdwn"
                   text: ":mega: This is a test from the ${{github.repository}} repository"
-                  emoji: true
 #            {
 #              "blocks": [
 #                {
