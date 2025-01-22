@@ -25,12 +25,12 @@ jobs:
           payload: |
             channel: ${{ env.SLACK_CHANNEL }}
             text: "This is a test from the ${{github.repository}} repository"
-#            blocks:
-#              - type: "section"
-#                text:
-#                  type: "mrkdwn"
-#                  text: ":mega: This is a test from the ${{github.repository}} repository"
-#                  emoji: true
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: ":mega: This is a test from the ${{github.repository}} repository"
+                  emoji: true
 #            {
 #              "blocks": [
 #                {
