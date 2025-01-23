@@ -35,7 +35,7 @@ jobs:
       - name: Delete old Demo
         run: rm -rf README.md
       - name: Download Demo ${{ env.VERSION }}
-        uses: dawidd6/action-download-artifact@v7
+        uses: dawidd6/action-download-artifact@v8
         with:
           github_token: ${{ secrets.GH_RELEASE_TOKEN }}
           repo: ${{ env.BUILD_DEMO_REPO }}
