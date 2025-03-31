@@ -17,7 +17,7 @@
     "url": "https://github.com/process-analytics/github-actions-playground/issues"
   },
   "devDependencies": {
-    "typedoc": "~0.28.0",
+    "typedoc": "~0.28.1",
     "typescript": "5.8.2"
   }
 }
