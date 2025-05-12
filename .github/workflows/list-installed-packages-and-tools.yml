@@ -12,7 +12,12 @@ on:
 
 jobs:
   windows_env:
-    runs-on: ${{ vars.RUNNER_WINDOWS }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # we want to run the full build on all os: don't cancel running jobs even if one fails
+      fail-fast: false
+      matrix:
+        os: [windows-2022, windows-2025]
     steps:
       # The 1st powershell run is very slow, use this one to warm the process
       # Next powershell calls will execute right away
@@ -32,7 +37,12 @@ jobs:
         run: Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
 
   ubuntu_env:
-    runs-on: ${{ vars.RUNNER_UBUNTU }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # we want to run the full build on all os: don't cancel running jobs even if one fails
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
     steps:
       - name: Check Chrome
         run: apt show google-chrome-stable
