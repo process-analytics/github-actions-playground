@@ -27,7 +27,7 @@ jobs:
           echo "domain-exist: ${{ steps.surge-preview-tools.outputs.domain-exist }}" 
           echo "preview-url: ${{ steps.surge-preview-tools.outputs.preview-url }}" 
           echo "surge-token-valid: ${{ steps.surge-preview-tools.outputs.surge-token-valid }}"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build fake demo
         if: ${{ github.event.action != 'closed' }}
         env:
