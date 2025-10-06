@@ -15,7 +15,7 @@ jobs:
       contents: write # to dispatch event
     steps:
       - name: Send Repository Dispatch event
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           # use the default GITHUB_TOKEN, this is possible because we are dispatching the same repository
           event-type: new_version_available_on_npm
