@@ -24,7 +24,7 @@ jobs:
           sed -i "s/@PR_NUMBER@/${PR_NUMBER}/g" site/index.html
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: pr-build-dist # must be kept in sync with the artifact name downloaded in the deploy stage
           path: site/
