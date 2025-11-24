@@ -4,7 +4,7 @@ description: 'Build static and API documentation.'
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v6
+    # The checkout is done in the workflow using this action
     - name: Setup node
       uses: actions/setup-node@v6
       with:
