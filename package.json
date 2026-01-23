@@ -1,6 +1,6 @@
 {
   "name": "github-actions-playground",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Repository for GH Actions tests",
   "main": "index.js",
   "scripts": {
