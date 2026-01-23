@@ -27,6 +27,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
       - name: Upload fake files to simulate built examples
         uses: actions/upload-artifact@v6
         with:
@@ -45,7 +48,7 @@ jobs:
     steps:
       - name: Set env
         run: |
-          echo "RELEASE_VERSION=${{ needs.compute_environment_variables.outputs.version }}" >> $GITHUB_ENV
+          echo "VERSION=${{ needs.compute_environment_variables.outputs.version }}" >> $GITHUB_ENV
           echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
 
       - name: Download examples artifact
@@ -63,10 +66,10 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           body: |
-            Examples for [bpmn-visualization@${{ env.RELEASE_VERSION }}](https://github.com/process-analytics/bpmn-visualization-js/releases/tag/${{ env.TAG }}).
-            Live examples are available for [${{ env.RELEASE_VERSION }}](https://cdn.statically.io/gh/process-analytics/bpmn-visualization-examples/${{ env.TAG }}/examples/index.html).
+            Examples for [bpmn-visualization@${{ env.VERSION }}](https://github.com/process-analytics/bpmn-visualization-js/releases/tag/${{ env.TAG }}).
+            Live examples are available for [${{ env.VERSION }}](https://cdn.statically.io/gh/process-analytics/bpmn-visualization-examples/${{ env.TAG }}/examples/index.html).
           draft: true # Generate here in draft to not mess with the release-drafter workflow, this is not required in the targeted repository
           generateReleaseNotes: true
-          name: ${{ env.RELEASE_VERSION }}
+          name: ${{ env.VERSION }}
           artifacts: |
             maxgraph_${{ env.VERSION }}_examples.zip
