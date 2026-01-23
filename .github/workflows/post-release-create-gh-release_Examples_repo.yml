@@ -1,3 +1,6 @@
+# This workflow includes attachments specific after a new version tag is pushed in the main repository.
+# On 2026-01-23, this is not something that exists in the actual examples repository, but it is prepared for future use.
+# This is also done to validate the implementation proposed in https://github.com/maxGraph/maxGraph/pull/996 which could serve as a model for other repositories.
 name: Create GitHub release (examples repo)
 
 on:
@@ -6,15 +9,56 @@ on:
       - v*
 
 jobs:
+  compute_environment_variables:
+    runs-on: ubuntu-24.04
+    permissions: { }
+    outputs:
+      version: ${{ steps.set_version.outputs.version }}
+    steps:
+      - name: Set version
+        id: set_version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+  build_examples:
+    needs: compute_environment_variables
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Upload fake files to simulate built examples
+        uses: actions/upload-artifact@v6
+        with:
+          name: 'maxgraph_${{ needs.compute_environment_variables.outputs.version }}_examples.zip'
+          path: |
+            DESCRIPTION
+            LICENSE
+            tsconfig.json
+
+
   create_release:
+    needs: [ compute_environment_variables, build_examples ]
     runs-on: ubuntu-24.04
     permissions:
       contents: write # create the GH release
     steps:
       - name: Set env
         run: |
-          echo "RELEASE_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=${{ needs.compute_environment_variables.outputs.version }}" >> $GITHUB_ENV
           echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+
+      - name: Download examples artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: maxgraph_${{ env.VERSION }}_examples.zip
+          path: artifacts/examples
+
+      - name: Create zip files for release
+        run: |
+          cd artifacts/examples
+          zip -r ../../maxgraph_${{ env.VERSION }}_examples.zip .
+
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
@@ -24,3 +68,5 @@ jobs:
           draft: true # Generate here in draft to not mess with the release-drafter workflow, this is not required in the targeted repository
           generateReleaseNotes: true
           name: ${{ env.RELEASE_VERSION }}
+          artifacts: |
+            maxgraph_${{ env.VERSION }}_examples.zip
