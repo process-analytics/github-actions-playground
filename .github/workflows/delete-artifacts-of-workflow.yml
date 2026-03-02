@@ -19,12 +19,12 @@ jobs:
           mkdir site
           echo "This is a preview site for <b>PR #${PR_NUMBER}</b>" > site/file1.html
           echo "This is a another preview site for <b>PR #${PR_NUMBER}</b>" > site/file2.html
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: artifact-1
           path: site/file1.html
           if-no-files-found: error
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: artifact-2
           path: site/file2.html
