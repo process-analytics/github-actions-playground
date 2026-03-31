@@ -28,6 +28,8 @@ jobs:
       - uses: actions/checkout@v6
       - name: Build documentation
         uses: ./.github/actions/build-documentation
+        with:
+          context_label: master branch
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v4
         with:
