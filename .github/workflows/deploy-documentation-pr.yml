@@ -21,7 +21,7 @@ jobs:
       - name: Build documentation
         uses: ./.github/actions/build-documentation
         with:
-          context_label: PR #${{ github.event.pull_request.number }}
+          context_label: PR ${{ github.event.pull_request.number }}
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
