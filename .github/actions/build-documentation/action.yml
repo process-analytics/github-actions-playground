@@ -1,6 +1,11 @@
 name: 'Build the documentation'
 description: 'Build static and API documentation.'
 
+inputs:
+  context_label:
+    description: 'Label describing the build context (e.g., "master branch" or "PR #123")'
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -18,3 +23,8 @@ runs:
     - name: Copy static pages
       shell: bash
       run: cp -r public/docs build
+    - name: Apply template placeholders
+      shell: bash
+      run: |
+        sed -i "s/@CONTEXT@/${{ inputs.context_label }}/g" build/docs/index.html
+        sed -i "s/@DATE@/$(date -u +%Y-%m-%dT%H:%M:%SZ)/g" build/docs/index.html
