@@ -36,6 +36,7 @@ jobs:
           mkdir site
           cp -r public/surge/* site/
           sed -i "s/@PR_NUMBER@/${PR_NUMBER}/g" site/index.html
+          sed -i "s/@DATE@/$(date -u +%Y-%m-%dT%H:%M:%SZ)/g" site/index.html
       - name: Publish Demo preview
         if: steps.surge-preview-tools.outputs.can-run-surge-command == 'true'
         id: publish_demo_preview
