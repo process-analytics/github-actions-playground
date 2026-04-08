@@ -5,7 +5,8 @@ on:
     types: [opened, edited, reopened]
 
 jobs:
-  pr-title:
+  pr-title:build
+           chores
     runs-on: ubuntu-24.04
     permissions:
       pull-requests: write # post comments when the PR title doesn't match the "Conventional Commits" rules
