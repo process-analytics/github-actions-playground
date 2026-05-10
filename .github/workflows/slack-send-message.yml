@@ -17,7 +17,7 @@ jobs:
       SLACK_CHANNEL: ${{ inputs.channel-or-user }} # sanitize user inputs
     steps:
       - name: Send message to Slack
-        uses: slackapi/slack-github-action@v3.0.2
+        uses: slackapi/slack-github-action@v3.0.3
         with:
           errors: true
           method: chat.postMessage
